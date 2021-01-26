@@ -29,6 +29,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public class SignInFragment extends Fragment {
 
@@ -37,13 +41,29 @@ public class SignInFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @BindView(R.id.tv_noAcount)
+    TextView mDonHaveAccount;
 
-    private TextView mDonHaveAccount, mFogot;
-    private EditText mEmail, mPassword;
-    private Button mSignin;
-    private FrameLayout parentframeLayout;
-    private ProgressBar pbSignIn;
-    private ImageButton mBackArrow;
+    @BindView(R.id.tv_forgot)
+    TextView mFogot;
+
+    @BindView(R.id.edt_email)
+    EditText mEmail;
+
+    @BindView(R.id.edt_password)
+    EditText mPassword;
+
+    @BindView(R.id.btn_signIn)
+    Button mSignin;
+
+   FrameLayout parentframeLayout;
+
+    @BindView(R.id.pb_signIn)
+    ProgressBar pbSignIn;
+
+    @BindView(R.id.btnImg_back_arrow)
+    ImageButton mBackArrow;
+    private Unbinder unbinder;
     private FirebaseAuth firebaseAuth;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -53,16 +73,8 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
-        //textview
-        mDonHaveAccount = view.findViewById(R.id.tv_noAcount);
-        mFogot = view.findViewById(R.id.tv_forgot);
-        //edittext
-        mEmail = view.findViewById(R.id.edt_email);
-        mPassword = view.findViewById(R.id.edt_password);
-        mSignin = view.findViewById(R.id.btn_signIn);
+       unbinder=ButterKnife.bind(this,view);
         parentframeLayout = getActivity().findViewById(R.id.frame_register);
-        pbSignIn = view.findViewById(R.id.pb_signIn);
-        mBackArrow = view.findViewById(R.id.btnImg_back_arrow);
         //fire
         firebaseAuth = FirebaseAuth.getInstance();
         return view;
