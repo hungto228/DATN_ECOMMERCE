@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 
+import butterknife.BindView;
+
 
 public class SignInFragment extends Fragment {
 
@@ -37,13 +39,30 @@ public class SignInFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @BindView(R.id.tv_noAcount)
+    private TextView mDonHaveAccount;
 
-    private TextView mDonHaveAccount, mFogot;
-    private EditText mEmail, mPassword;
+    @BindView(R.id.tv_forgot)
+    private TextView mFogot;
+
+    @BindView(R.id.edt_email)
+    private EditText mEmail;
+
+    @BindView(R.id.edt_password)
+    private EditText mPassword;
+
+    @BindView(R.id.btn_signIn)
     private Button mSignin;
+
+    @BindView(R.id.frame_register)
     private FrameLayout parentframeLayout;
+
+    @BindView(R.id.pb_signIn)
     private ProgressBar pbSignIn;
+
+    @BindView(R.id.btnImg_back_arrow)
     private ImageButton mBackArrow;
+
     private FirebaseAuth firebaseAuth;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -53,16 +72,6 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
-        //textview
-        mDonHaveAccount = view.findViewById(R.id.tv_noAcount);
-        mFogot = view.findViewById(R.id.tv_forgot);
-        //edittext
-        mEmail = view.findViewById(R.id.edt_email);
-        mPassword = view.findViewById(R.id.edt_password);
-        mSignin = view.findViewById(R.id.btn_signIn);
-        parentframeLayout = getActivity().findViewById(R.id.frame_register);
-        pbSignIn = view.findViewById(R.id.pb_signIn);
-        mBackArrow = view.findViewById(R.id.btnImg_back_arrow);
         //fire
         firebaseAuth = FirebaseAuth.getInstance();
         return view;

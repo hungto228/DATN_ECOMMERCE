@@ -1,6 +1,5 @@
 package com.hungto.datn_phantom.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -36,6 +35,8 @@ import com.hungto.datn_phantom.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+
 
 public class SignUpFragment extends Fragment {
 
@@ -44,13 +45,34 @@ public class SignUpFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
-    private EditText mEmailEdt, mFullnanmeEdt, mPasswordEdt, mConfimPasswordEdt;
-    private Button mSignUpBtn;
-    private ImageButton mBackImgBtn;
+    @BindView(R.id.tv_haveAcount)
     private TextView mRealyHaveAccount;
+
+    @BindView(R.id.edt_email)
+    private EditText mEmailEdt;
+
+    @BindView(R.id.edt_fullname)
+    private EditText mFullnanmeEdt;
+
+    @BindView(R.id.edt_password)
+    private EditText mPasswordEdt;
+
+    @BindView(R.id.edt_conflim)
+    private EditText mConfimPasswordEdt;
+
+    @BindView(R.id.btn_signUp)
+    private Button mSignUpBtn;
+
+    @BindView(R.id.btnImg_back_arrow)
+    private ImageButton mBackImgBtn;
+
+    @BindView(R.id.frame_register)
     private FrameLayout frameLayout;
+
+    @BindView(R.id.pb_signUp)
     private ProgressBar pbSignUp;
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -60,19 +82,6 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-        //textView
-        mRealyHaveAccount = view.findViewById(R.id.tv_haveAcount);
-        frameLayout = getActivity().findViewById(R.id.frame_register);
-        //progressbar
-        pbSignUp = view.findViewById(R.id.pb_signUp);
-        //edittext view
-        mEmailEdt = view.findViewById(R.id.edt_email);
-        mFullnanmeEdt = view.findViewById(R.id.edt_fullname);
-        mPasswordEdt = view.findViewById(R.id.edt_password);
-        mConfimPasswordEdt = view.findViewById(R.id.edt_comflim);
-        //button
-        mSignUpBtn = view.findViewById(R.id.btn_signUp);
-        mBackImgBtn = view.findViewById(R.id.btnImg_back_arrow);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         return view;

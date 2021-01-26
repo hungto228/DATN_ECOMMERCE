@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DATN_PHANTOM">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".view.regiterActivity.RegiterActivity"
+        <activity android:name=".MainActivity"></activity>
+        <activity
+            android:name=".view.regiterActivity.RegiterActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
-        <activity android:name=".view.splashActivity.SplashScreen"
+        <activity
+            android:name=".view.splashActivity.SplashScreen"
 
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -23,6 +24,7 @@
             </intent-filter>
         </activity>
     </application>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
