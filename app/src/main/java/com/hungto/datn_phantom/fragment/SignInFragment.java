@@ -31,6 +31,10 @@ import com.hungto.datn_phantom.R;
 
 import butterknife.BindView;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+
 
 public class SignInFragment extends Fragment {
 
@@ -40,28 +44,29 @@ public class SignInFragment extends Fragment {
     }
 
     @BindView(R.id.tv_noAcount)
-    private TextView mDonHaveAccount;
+
+    TextView mDonHaveAccount;
 
     @BindView(R.id.tv_forgot)
-    private TextView mFogot;
+    TextView mFogot;
 
     @BindView(R.id.edt_email)
-    private EditText mEmail;
+    EditText mEmail;
 
     @BindView(R.id.edt_password)
-    private EditText mPassword;
+    EditText mPassword;
 
     @BindView(R.id.btn_signIn)
-    private Button mSignin;
+    Button mSignin;
 
-    @BindView(R.id.frame_register)
-    private FrameLayout parentframeLayout;
+   FrameLayout parentframeLayout;
 
     @BindView(R.id.pb_signIn)
-    private ProgressBar pbSignIn;
+    ProgressBar pbSignIn;
 
     @BindView(R.id.btnImg_back_arrow)
-    private ImageButton mBackArrow;
+    ImageButton mBackArrow;
+    private Unbinder unbinder;
 
     private FirebaseAuth firebaseAuth;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -72,6 +77,10 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+
+       unbinder=ButterKnife.bind(this,view);
+        parentframeLayout = getActivity().findViewById(R.id.frame_register);
+
         //fire
         firebaseAuth = FirebaseAuth.getInstance();
         return view;

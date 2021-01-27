@@ -37,6 +37,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+
 
 public class SignUpFragment extends Fragment {
 
@@ -49,31 +53,33 @@ public class SignUpFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
     @BindView(R.id.tv_haveAcount)
-    private TextView mRealyHaveAccount;
+
+    TextView mRealyHaveAccount;
 
     @BindView(R.id.edt_email)
-    private EditText mEmailEdt;
+    EditText mEmailEdt;
 
     @BindView(R.id.edt_fullname)
-    private EditText mFullnanmeEdt;
+    EditText mFullnanmeEdt;
 
     @BindView(R.id.edt_password)
-    private EditText mPasswordEdt;
+    EditText mPasswordEdt;
 
     @BindView(R.id.edt_conflim)
-    private EditText mConfimPasswordEdt;
+    EditText mConfimPasswordEdt;
 
     @BindView(R.id.btn_signUp)
-    private Button mSignUpBtn;
+    Button mSignUpBtn;
 
     @BindView(R.id.btnImg_back_arrow)
-    private ImageButton mBackImgBtn;
+    ImageButton mBackImgBtn;
 
-    @BindView(R.id.frame_register)
-    private FrameLayout frameLayout;
+    FrameLayout frameLayout;
 
     @BindView(R.id.pb_signUp)
-    private ProgressBar pbSignUp;
+    ProgressBar pbSignUp;
+    Unbinder unbinder;
+
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -82,6 +88,10 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
+
+        unbinder = ButterKnife.bind(this,view);
+        frameLayout=getActivity().findViewById(R.id.frame_register);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         return view;
