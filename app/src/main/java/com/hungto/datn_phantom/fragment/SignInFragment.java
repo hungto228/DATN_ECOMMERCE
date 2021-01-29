@@ -59,7 +59,7 @@ public class SignInFragment extends Fragment {
     @BindView(R.id.btn_signIn)
     Button mSignin;
 
-   FrameLayout parentframeLayout;
+    FrameLayout parentframeLayout;
 
     @BindView(R.id.pb_signIn)
     ProgressBar pbSignIn;
@@ -78,7 +78,9 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
-       unbinder=ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
+
+
         parentframeLayout = getActivity().findViewById(R.id.frame_register);
 
         //fire
@@ -93,6 +95,12 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setFragmentSignUp(new SignUpFragment());
+            }
+        });
+        mFogot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragmentSignUp(new ResetPassWordFragment());
             }
         });
         mEmail.addTextChangedListener(new TextWatcher() {
