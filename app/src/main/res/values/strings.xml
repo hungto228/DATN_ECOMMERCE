@@ -1,6 +1,28 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DATN_PHANTOM</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <!--    TODO:Fragment-->
+    <!--    escaping-->
+    <!--    & with &amp;-->
+    <!--    > with &gt;-->
+    <!--    < with &lt;-->
+    <!--    " with &quot;, &ldquo; or &rdquo;-->
+    <!--    ' with &apos;, &lsquo; or &rsquo;-->
+    <!--    } with &#125;-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="forgotPassword">For got pasword</string>
+    <string name="forgotPassword">Forgot pasword</string>
+    <string name="noHaveAccount" >Don&lt;t have account? Sign Up</string>
+    <string name="haveAccount">Arealy have an acount? Sign In</string>
+    <string name="emailId">Email ID</string>
+    <string name="passWord">PassWord</string>
+    <string name="signIn">SignIn</string>
+    <string name="fullName">Full Name</string>
+    <string name="passWord2">PassWord (8 Character) </string>
+    <string name="confirmPassword">Confirm PassWord (8 Character) </string>
+    <string name="dontWorry">Don&lt;t worry we just need your resgiterd email adress and it&lt;s done!</string>
+    <string name="checkMail"> Check your inbox after click the button above.</string>
+    <string name="resetPassword">Reset PassWord</string>
+    <string name="goback" >  &lt;&lt;&lt; Goback </string>
+    <string name="recoveryEmail">Recovery email send successfully! Check your Inbox</string>
+    <!--TODO:toast,validate-->
+
 </resources>
