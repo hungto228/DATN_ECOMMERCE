@@ -36,8 +36,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
 
 
 public class SignUpFragment extends Fragment {
@@ -51,6 +53,7 @@ public class SignUpFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
     @BindView(R.id.tv_haveAcount)
+
     TextView mRealyHaveAccount;
 
     @BindView(R.id.edt_email)
@@ -77,6 +80,7 @@ public class SignUpFragment extends Fragment {
     ProgressBar pbSignUp;
     Unbinder unbinder;
 
+
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     @Override
@@ -84,8 +88,10 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
+
         unbinder = ButterKnife.bind(this,view);
         frameLayout=getActivity().findViewById(R.id.frame_register);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         return view;
