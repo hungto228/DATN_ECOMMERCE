@@ -32,6 +32,7 @@ import butterknife.Unbinder;
 
 import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.onResetPasswordFragment;
 
+
 public class SignInFragment extends Fragment {
 
     public SignInFragment() {
