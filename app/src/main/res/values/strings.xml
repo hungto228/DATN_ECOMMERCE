@@ -10,7 +10,7 @@
     <!--    } with &#125;-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="forgotPassword">Forgot pasword</string>
-    <string name="noHaveAccount" >Don&lt;t have account? Sign Up</string>
+    <string name="noHaveAccount">Don&lt;t have account? Sign Up</string>
     <string name="haveAccount">Arealy have an acount? Sign In</string>
     <string name="emailId">Email ID</string>
     <string name="passWord">PassWord</string>
@@ -21,8 +21,29 @@
     <string name="dontWorry">Don&lt;t worry we just need your resgiterd email adress and it&lt;s done!</string>
     <string name="checkMail"> Check your inbox after click the button above.</string>
     <string name="resetPassword">Reset PassWord</string>
-    <string name="goback" >  &lt;&lt;&lt; Goback </string>
+    <string name="goback">  &lt;&lt;&lt; Goback </string>
     <string name="recoveryEmail">Recovery email send successfully! Check your Inbox</string>
+
+    <!--    <nav-->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Not Sign In</string>
+    <string name="nav_header_subtitle">Email Adress</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_search_icon">Search</string>
+    <string name="action_notification_icon">Notification</string>
+    <string name="action_cart_icon">Cart</string>
+
+    <string name="menu_order">My Order</string>
+    <string name="menu_rewards">My Rewards</string>
+    <string name="menu_cart">My Cart</string>
+    <string name="menu_wishlist">My WishList</string>
+    <string name="menu_account">My Account</string>
+    <string name="menu_home">My Mail</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_communicate">Communicate</string>
+    <string name="menu_share">Share</string>
     <!--TODO:toast,validate-->
 
 </resources>

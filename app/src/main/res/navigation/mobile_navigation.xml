@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_order">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.hungto.datn_phantom.fragment.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_order"
+        android:name="com.hungto.datn_phantom.fragment.OrderFragment"
+        android:label="@string/menu_order"
+        tools:layout="@layout/fragment_order" />
+
+    <fragment
+        android:id="@+id/nav_reward"
+        android:name="com.hungto.datn_phantom.fragment.RewardFragment"
+        android:label="@string/menu_rewards"
+        tools:layout="@layout/fragment_reward" />
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.hungto.datn_phantom.fragment.CartFragment"
+        android:label="@string/menu_cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
+        android:id="@+id/nav_wishlist"
+        android:name="com.hungto.datn_phantom.fragment.WithlistFragment"
+        android:label="@string/menu_wishlist"
+        tools:layout="@layout/fragment_withlist" />
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="com.hungto.datn_phantom.fragment.AccountFragment"
+        android:label="@string/menu_account"
+        tools:layout="@layout/fragment_account" />
+
+
+</navigation>
