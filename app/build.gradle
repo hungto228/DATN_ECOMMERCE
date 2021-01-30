@@ -33,6 +33,10 @@ apply plugin: 'com.jakewharton.butterknife'
 dependencies {
     //butterknife
     implementation 'com.jakewharton:butterknife:10.2.3'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.16'
