@@ -16,35 +16,29 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
-
 import butterknife.BindView;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-
+import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.onResetPasswordFragment;
 
 public class SignInFragment extends Fragment {
-
 
     public SignInFragment() {
         // Required empty public constructor
     }
 
     @BindView(R.id.tv_noAcount)
-
     TextView mDonHaveAccount;
 
     @BindView(R.id.tv_forgot)
@@ -79,11 +73,8 @@ public class SignInFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
         unbinder = ButterKnife.bind(this, view);
-
-
         parentframeLayout = getActivity().findViewById(R.id.frame_register);
-
-        //fire
+        //fire base
         firebaseAuth = FirebaseAuth.getInstance();
         return view;
     }
@@ -100,6 +91,7 @@ public class SignInFragment extends Fragment {
         mFogot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onResetPasswordFragment=true;
                 setFragmentSignUp(new ResetPassWordFragment());
             }
         });
@@ -175,7 +167,6 @@ public class SignInFragment extends Fragment {
     private void checkMailAndPassWord() {
         if (mEmail.getText().toString().matches(emailPattern)) {
             if (mPassword.getText().length() >= 8) {
-
                 pbSignIn.setVisibility(View.VISIBLE);
                 mSignin.setEnabled(false);
                 mSignin.setTextColor(Color.argb(50, 255, 255, 255));
