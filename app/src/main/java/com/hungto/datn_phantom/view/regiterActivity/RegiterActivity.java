@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.view.regiterActivity;
 
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +19,11 @@ import butterknife.ButterKnife;
 
 public class RegiterActivity extends AppCompatActivity {
 
+
     @BindView(R.id.frame_register)
     FrameLayout frameLayoutRegiter;
+
+    public static boolean onResetPasswordFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +31,28 @@ public class RegiterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_regiter);
         ButterKnife.bind(this);
 
-        setFragment(new SignInFragment());
+        setDefaultFragment(new SignInFragment());
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (onResetPasswordFragment) {
+            onResetPasswordFragment=false;
+            setFragment(new SignInFragment());
+            return false;
+        }
+        return super.onKeyDown(keyCode,event);
+    }
+
+    private void setDefaultFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(frameLayoutRegiter.getId(), fragment);
+        fragmentTransaction.commit();
+
+    }
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_left, R.anim.slideout_from_left);
         fragmentTransaction.replace(frameLayoutRegiter.getId(), fragment);
         fragmentTransaction.commit();
 

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.transition.TransitionManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.transition.TransitionManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -52,7 +53,8 @@ public class ResetPassWordFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
 
-    private ViewGroup emailContainer;
+    @BindView(R.id.view_group_container)
+     ViewGroup emailContainer;
 
     @BindView(R.id.img_iconmail)
     ImageView imgEmail;
@@ -105,13 +107,11 @@ public class ResetPassWordFragment extends Fragment {
         });
 
         mReset.setOnClickListener(new View.OnClickListener() {
-            //transition when is sending mail
-//          TransitionManager.beginDelayedTransition(emailContainer);
-//            imgEmail.s
-
             @Override
-
             public void onClick(View v) {
+                TransitionManager.beginDelayedTransition(emailContainer);
+                imgEmail.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 mReset.setEnabled(false);
                 mReset.setTextColor(Color.argb(50, 255, 255, 255));
                 firebaseAuth.sendPasswordResetEmail(mEmail.getText().toString())
@@ -119,11 +119,21 @@ public class ResetPassWordFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    imgEmail.setVisibility(View.VISIBLE);
+                                    imgEmail.setImageResource(R.drawable.ic_email_screen);
+                                    mEmailTv.setVisibility(View.VISIBLE);
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(getActivity(), "Send mail is successful", Toast.LENGTH_SHORT).show();
                                 } else {
                                     String error = task.getException().getMessage();
-                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                    mEmailTv.setText(error);
+                                    mEmailTv.setTextColor(getResources().getColor(R.color.colorBtnRed));
+                                    mEmailTv.setVisibility(View.VISIBLE);
+                                    TransitionManager.beginDelayedTransition(emailContainer);
+                                    imgEmail.setVisibility(View.VISIBLE);
+                                  //  Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                                 }
+                                progressBar.setVisibility(View.GONE);
                                 mReset.setEnabled(true);
                                 mReset.setTextColor(Color.rgb(255, 255, 255));
                             }

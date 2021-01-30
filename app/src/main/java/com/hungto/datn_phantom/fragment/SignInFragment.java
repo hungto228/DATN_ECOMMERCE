@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.onResetPasswordFragment;
 
 
 public class SignInFragment extends Fragment {
@@ -100,6 +101,7 @@ public class SignInFragment extends Fragment {
         mFogot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onResetPasswordFragment=true;
                 setFragmentSignUp(new ResetPassWordFragment());
             }
         });
