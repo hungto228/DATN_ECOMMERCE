@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        //     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
