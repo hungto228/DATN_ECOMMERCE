@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
 
     <ImageView
         android:id="@+id/img_categoryIcon"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="62dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_home_black" />
@@ -21,7 +21,7 @@
         android:id="@+id/tv_categoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="4dp"
         android:text="TextView"
 
         app:layout_constraintStart_toStartOf="parent"
