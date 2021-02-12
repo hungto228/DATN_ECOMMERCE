@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DATN_PHANTOM</string>
+    <string name="hello_blank_fragment">Quên Mật Khẩu</string>
+    <string name="forgotPassword">Quên Mật Khẩu</string>
+    <string name="noHaveAccount">Chưa có tài khoản ? Đăng ký</string>
+    <string name="haveAccount">Đã có tài khoản ? Đăng Nhập</string>
+    <string name="emailId">Địa chỉ Email.</string>
+    <string name="passWord">Mật khẩu.</string>
+    <string name="signIn">Đăng Nhập</string>
+    <string name="fullName">Họ Và Tên</string>
+    <string name="passWord2">Mật Khẩu ( 8 ký tự).</string>
+    <string name="confirmPassword">Nhập lại mật khẩu ( 8 ký tự)</string>
+    <string name="dontWorry">Đừng lo lắng chúng tôi chỉ cần Email của bạn</string>
+    <string name="checkMail">Kiểm tra hộp thư của bạn khi nhấn vào nút trên.</string>
+    <string name="resetPassword">Đặt lại mật khẩu</string>
+    <string name="goback">"  &lt;&lt;&lt; Trở lại"</string>
+    <string name="recoveryEmail">Gửi email khôi phục thành công! Kiểm tra hộp thư của bạn.</string>
+    <string name="title_activity_main">Trang chủ Main</string>
+    <string name="navigation_drawer_open">Mở phím điều hướng</string>
+    <string name="navigation_drawer_close">Đóng phím điều hướng</string>
+    <string name="nav_header_title">Chưa đăng nhập.</string>
+    <string name="nav_header_subtitle">Địa chỉ Email</string>
+    <string name="nav_header_desc">Đầu phím điều hướng</string>
+    <string name="action_search_icon">Tìm kiếm</string>
+    <string name="action_notification_icon">Thông Báo</string>
+    <string name="action_cart_icon">Giỏ hàng</string>
+    <string name="menu_order">Đơn hàng của tôi</string>
+    <string name="menu_rewards">Phần hưởng của tôi</string>
+    <string name="menu_cart">Giỏ hàng của tôi</string>
+    <string name="menu_wishlist">Danh sách của tôi</string>
+    <string name="menu_account">Tài khoản của tôi</string>
+    <string name="menu_home">Email của tôi</string>
+    <string name="menu_slideshow">Trình chiếu</string>
+    <string name="menu_communicate">Giao tiếp</string>
+    <string name="menu_share">Chia sẻ</string>
+</resources>
