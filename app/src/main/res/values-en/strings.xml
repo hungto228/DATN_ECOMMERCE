@@ -34,4 +34,6 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_communicate">Communicate</string>
     <string name="menu_share">Share</string>
+    <string name="deal_of_day">Deal Of The Day!</string>
+    <string name="view_all">View All !</string>
 </resources>
