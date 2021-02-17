@@ -34,4 +34,6 @@
     <string name="menu_slideshow">Trình chiếu</string>
     <string name="menu_communicate">Giao tiếp</string>
     <string name="menu_share">Chia sẻ</string>
+    <string name="deal_of_day">Giao dịch trong ngày !</string>
+    <string name="view_all">Xem tất cả!</string>
 </resources>
