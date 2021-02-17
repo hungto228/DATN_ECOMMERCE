@@ -36,6 +36,7 @@ import butterknife.Unbinder;
 public class ResetPassWordFragment extends Fragment {
 
     private FrameLayout parentFrameLayout;
+
     @BindView(R.id.pb_resetPassword)
     ProgressBar progressBar;
 
@@ -62,11 +63,9 @@ public class ResetPassWordFragment extends Fragment {
     @BindView(R.id.tv_informail)
     TextView mEmailTv;
 
-
     public ResetPassWordFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -151,7 +150,6 @@ public class ResetPassWordFragment extends Fragment {
             mReset.setEnabled(false);
             mReset.setTextColor(Color.argb(50, 255, 255, 255));
         }
-
     }
 
     private void setFragmentReset(Fragment fragmentsignup) {

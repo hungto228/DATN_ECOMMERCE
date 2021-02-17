@@ -32,6 +32,7 @@ public class RegiterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setDefaultFragment(new SignInFragment());
+
     }
 
     @Override
@@ -43,6 +44,7 @@ public class RegiterActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode,event);
     }
+
 
     private void setDefaultFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
