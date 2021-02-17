@@ -14,12 +14,20 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
+import com.hungto.datn_phantom.adapter.GridProductViewAdapter;
+import com.hungto.datn_phantom.adapter.HomePageAdapter;
+import com.hungto.datn_phantom.adapter.HorizontalProductScrollAdapter;
 import com.hungto.datn_phantom.adapter.SliderAdapter;
 import com.hungto.datn_phantom.model.CategoryModel;
+import com.hungto.datn_phantom.model.HomePageModel;
+import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
 
 import java.util.ArrayList;
@@ -43,7 +51,7 @@ public class HomeFragment extends Fragment {
     ViewPager banner;
     SliderAdapter sliderAdapter;
     private List<SliderModel> sliderModelList;
-    private int currentPage;
+    private int currentPage = 2;
     private Timer timer;
     final private long DELAY_TIME = 3000;
     final private long PERIOD_TIME = 3000;
@@ -52,15 +60,35 @@ public class HomeFragment extends Fragment {
     ImageView imgStrips;
     @BindView(R.id.constrantlayout)
     ConstraintLayout stripAdsContainer;
+    //horizontal product layout
+    @BindView(R.id.tv_dealOfTheDay)
+    TextView horizontalLayoutTitle;
+
+    @BindView(R.id.btn_viewAll)
+    Button viewAllBtn;
+    @BindView(R.id.recyclerViewHorizontal)
+    RecyclerView horizontalScrollRecyclerview;
+
+    // gridview Product layout
+    @BindView(R.id.tv_productTitle)
+    TextView mTitleProduct;
+    @BindView(R.id.btn_viewAllGridview)
+    Button mViewAll;
+    @BindView(R.id.gridview_product)
+    GridView gridView;
+    //recyclerview
+    @BindView(R.id.recyclerviewTesting)
+    RecyclerView recyclerViewTesing;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, root);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
+        linearLayoutManagerCategory.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManagerCategory);
         List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
         categoryModels.add(new CategoryModel("link", "Home"));
         categoryModels.add(new CategoryModel("link", "Electrolics"));
@@ -75,10 +103,10 @@ public class HomeFragment extends Fragment {
         categoryAdapter.notifyDataSetChanged();
         //banner
         sliderModelList = new ArrayList<SliderModel>();
-        sliderModelList.add(new SliderModel(R.drawable.ic_email_screen,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.drawable.banner_slider,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_email_red,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_email_screen,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.ic_email_screen, "#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.banner_slider, "#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.ic_email_red, "#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.ic_email_screen, "#077AE4"));
 
         sliderAdapter = new SliderAdapter(sliderModelList);
         banner.setAdapter(sliderAdapter);
@@ -111,7 +139,7 @@ public class HomeFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 pageLooper();
                 stopBannerSlideShow();
-                if(event.getAction()==MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     startBannerSlideShow();
                 }
                 return false;
@@ -121,6 +149,46 @@ public class HomeFragment extends Fragment {
         // Strip ads
         imgStrips.setImageResource(R.drawable.banner_slider);
         stripAdsContainer.setBackgroundColor(Color.parseColor("#000000"));
+
+        //horizontal product layout
+        List<HorizontalProductScrollModel> horizontalProductScrollModels = new ArrayList<HorizontalProductScrollModel>();
+//        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+//        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+//        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+       horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+      horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+       horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        HorizontalProductScrollAdapter horizontalProductScrollAdapter = new HorizontalProductScrollAdapter(horizontalProductScrollModels);
+
+        LinearLayoutManager linearLayoutManagerProduct = new LinearLayoutManager(getContext());
+        linearLayoutManagerProduct.setOrientation(LinearLayoutManager.HORIZONTAL);
+        horizontalScrollRecyclerview.setLayoutManager(linearLayoutManagerProduct);
+
+        horizontalScrollRecyclerview.setAdapter(horizontalProductScrollAdapter);
+        horizontalProductScrollAdapter.notifyDataSetChanged();
+
+        //gridView layout
+        gridView.setAdapter(new GridProductViewAdapter(horizontalProductScrollModels));
+
+        //recyclerview testting
+        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+        testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewTesing.setLayoutManager(testingLayoutManager);
+
+        List<HomePageModel> homePageModelList = new ArrayList<>();
+        homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ffffff"));
+        homePageModelList.add(new HomePageModel(0, sliderModelList));
+        homePageModelList.add(new HomePageModel(0, sliderModelList));
+        homePageModelList.add(new HomePageModel(1, R.drawable.banner_slider, "#ffff00"));
+        homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ff0000"));
+        homePageModelList.add(new HomePageModel(0, sliderModelList));
+
+
+        HomePageAdapter homePageAdapter = new HomePageAdapter(homePageModelList);
+        recyclerViewTesing.setAdapter(homePageAdapter);
+        homePageAdapter.notifyDataSetChanged();
+
         return root;
     }
 
@@ -154,9 +222,10 @@ public class HomeFragment extends Fragment {
             public void run() {
                 handler.post(update);
             }
-        },DELAY_TIME,PERIOD_TIME);
+        }, DELAY_TIME, PERIOD_TIME);
     }
-    private void stopBannerSlideShow(){
+
+    private void stopBannerSlideShow() {
         timer.cancel();
     }
 }
