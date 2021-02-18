@@ -78,8 +78,8 @@ public class SignUpFragment extends Fragment {
 
     @BindView(R.id.pb_signUp)
     ProgressBar pbSignUp;
+    //butter knife
     Unbinder unbinder;
-
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -175,7 +175,6 @@ public class SignUpFragment extends Fragment {
             public void onClick(View v) {
                 //TODO:sign up firebase
                 checkEmailAndPassword();
-
             }
         });
         mBackImgBtn.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +184,6 @@ public class SignUpFragment extends Fragment {
             }
         });
     }
-
 
     private void getFragmentSignIn(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();

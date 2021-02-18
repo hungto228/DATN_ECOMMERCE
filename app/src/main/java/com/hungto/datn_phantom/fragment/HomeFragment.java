@@ -22,11 +22,13 @@ import android.widget.TextView;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.GridProductViewAdapter;
+
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
 import com.hungto.datn_phantom.adapter.HorizontalProductScrollAdapter;
 import com.hungto.datn_phantom.adapter.SliderAdapter;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
+op
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
 
@@ -76,9 +78,11 @@ public class HomeFragment extends Fragment {
     Button mViewAll;
     @BindView(R.id.gridview_product)
     GridView gridView;
+
     //recyclerview
     @BindView(R.id.recyclerviewTesting)
     RecyclerView recyclerViewTesing;
+
 
 
     @Override
@@ -152,13 +156,15 @@ public class HomeFragment extends Fragment {
 
         //horizontal product layout
         List<HorizontalProductScrollModel> horizontalProductScrollModels = new ArrayList<HorizontalProductScrollModel>();
-//        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-       horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+
         horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-      horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-       horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
+
         HorizontalProductScrollAdapter horizontalProductScrollAdapter = new HorizontalProductScrollAdapter(horizontalProductScrollModels);
 
         LinearLayoutManager linearLayoutManagerProduct = new LinearLayoutManager(getContext());
@@ -170,6 +176,7 @@ public class HomeFragment extends Fragment {
 
         //gridView layout
         gridView.setAdapter(new GridProductViewAdapter(horizontalProductScrollModels));
+
 
         //recyclerview testting
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
