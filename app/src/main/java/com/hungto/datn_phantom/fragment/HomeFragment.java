@@ -179,7 +179,11 @@ public class HomeFragment extends Fragment {
         List<HomePageModel> homePageModelList = new ArrayList<>();
         homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ffffff"));
         homePageModelList.add(new HomePageModel(0, sliderModelList));
-        homePageModelList.add(new HomePageModel(0, sliderModelList));
+        homePageModelList.add(new HomePageModel(2, "Deal of the day", horizontalProductScrollModels));
+        homePageModelList.add(new HomePageModel(3, "Deal of the day", horizontalProductScrollModels));
+        homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ffffff"));
+        homePageModelList.add(new HomePageModel(2, "Deal of the day", horizontalProductScrollModels));
+        homePageModelList.add(new HomePageModel(3, "Deal of the day", horizontalProductScrollModels));
         homePageModelList.add(new HomePageModel(1, R.drawable.banner_slider, "#ffff00"));
         homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ff0000"));
         homePageModelList.add(new HomePageModel(0, sliderModelList));
