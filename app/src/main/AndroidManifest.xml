@@ -14,14 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DATN_PHANTOM">
         <activity
+            android:name=".view.category.CategoryActivity"
+            android:theme="@style/Theme.DATN_PHANTOM.NoActionBar"></activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.DATN_PHANTOM.NoActionBar"></activity>
+            android:theme="@style/Theme.DATN_PHANTOM.NoActionBar" />
         <activity
             android:name=".view.regiterActivity.RegiterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".view.splashActivity.SplashScreen"
             android:screenOrientation="portrait"

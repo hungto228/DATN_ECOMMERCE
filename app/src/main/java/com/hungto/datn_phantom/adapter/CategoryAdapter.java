@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.CategoryModel;
+import com.hungto.datn_phantom.view.category.CategoryActivity;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         String icon = categoryModels.get(position).getCategoryIconLink();
         String name = categoryModels.get(position).getCategoryName();
-        holder.setCategoryName(name);
+        holder.setCategoryName(name,position);
 
     }
 
@@ -66,8 +68,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         }
 
-        private void setCategoryName(String name) {
+        private void setCategoryName(String name,final int position) {
             mCategoryName.setText(name);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(position!=0) {
+
+                        Intent intentCategory = new Intent(itemView.getContext(), CategoryActivity.class);
+                        intentCategory.putExtra("CategoryName", name);
+                        itemView.getContext().startActivity(intentCategory);
+                    }
+                }
+            });
         }
 
     }

@@ -1,31 +1,20 @@
-package com.hungto.datn_phantom.fragment;
+package com.hungto.datn_phantom.view.category;
 
-import android.graphics.Color;
-import android.os.Bundle;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
-import com.hungto.datn_phantom.adapter.GridProductViewAdapter;
-
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
 import com.hungto.datn_phantom.adapter.HorizontalProductScrollAdapter;
-import com.hungto.datn_phantom.adapter.SliderAdapter;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
@@ -33,37 +22,31 @@ import com.hungto.datn_phantom.model.SliderModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-
-public class HomeFragment extends Fragment {
+public class CategoryActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerViewCategory)
     RecyclerView recyclerViewCategory;
+
     private CategoryAdapter categoryAdapter;
-    Unbinder unbinder;
 
-
-    //recyclerviewHomepage
-    @BindView(R.id.recyclerViewHomePage)
-    RecyclerView recyclerViewHomePage;
-
+    @BindView(R.id.toolbarCtegory)
+    Toolbar toolbar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        unbinder = ButterKnife.bind(this, root);
-        LinearLayoutManager linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
-        linearLayoutManagerCategory.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerViewCategory.setLayoutManager(linearLayoutManagerCategory);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_category);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        String title = getIntent().getStringExtra("CategoryName");
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
-     //   categoryModels.add(new CategoryModel("link", "Home"));
+      //  categoryModels.add(new CategoryModel("link", "Home"));
         categoryModels.add(new CategoryModel("link", "Electrolics"));
         categoryModels.add(new CategoryModel("link", "Appliances"));
         categoryModels.add(new CategoryModel("link", "Furniture"));
@@ -97,9 +80,9 @@ public class HomeFragment extends Fragment {
 
 
         //recyclerview homePage
-        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerViewHomePage.setLayoutManager(testingLayoutManager);
+        recyclerViewCategory.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
         homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ffffff"));
@@ -115,9 +98,28 @@ public class HomeFragment extends Fragment {
 
 
         HomePageAdapter homePageAdapter = new HomePageAdapter(homePageModelList);
-        recyclerViewHomePage.setAdapter(homePageAdapter);
+        recyclerViewCategory.setAdapter(homePageAdapter);
         homePageAdapter.notifyDataSetChanged();
+    }
 
-        return root;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_icon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.main_search_icon) {
+            Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == android.R.id.home) {
+
+            finish();
+            Toast.makeText(this, "back", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
