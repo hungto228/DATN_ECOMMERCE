@@ -46,6 +46,8 @@
     <string name="menu_share">Share</string>
     <string name="deal_of_day">Deal of the Day!</string>
     <string name="view_all">View All</string>
+    <string name="check_price">Check price after coupen redemption</string>
+    <string name="redeem">Redeem</string>
     <!--TODO:toast,validate-->
 
 </resources>
