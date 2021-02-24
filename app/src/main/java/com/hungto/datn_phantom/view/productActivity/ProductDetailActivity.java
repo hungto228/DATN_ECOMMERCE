@@ -16,6 +16,7 @@ import android.view.View;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.hungto.datn_phantom.R;
+import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
 
 import java.util.ArrayList;
@@ -39,6 +40,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.floating_addTo_withlist)
     FloatingActionButton mAddToWithList;
+
+    //product_description_layout
+    @BindView(R.id.tabLayout_product_detail)
+    TabLayout tabDetailProduct;
+
+    @BindView(R.id.viewpage_product_detail)
+    ViewPager mViewPageDetailProduct;
 
 
     @Override
@@ -69,6 +77,24 @@ public class ProductDetailActivity extends AppCompatActivity {
                     ALREALY_ADD_TO_WITHLIST = true;
                     mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
                 }
+            }
+        });
+        mViewPageDetailProduct.setAdapter(new ProductDetailAdapter(getSupportFragmentManager(), tabDetailProduct.getTabCount()));
+        mViewPageDetailProduct.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabDetailProduct));
+        tabDetailProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPageDetailProduct.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 

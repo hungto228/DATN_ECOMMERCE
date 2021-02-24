@@ -38,4 +38,7 @@
     <string name="view_all">Xem tất cả!</string>
     <string name="check_price">"Kiểm tra giá sau khi đổi phiếu giảm giá "</string>
     <string name="redeem">"Quy đổi "</string>
+    <string name="description">"Mô tả "</string>
+    <string name="specifications">"Thông số kỹ thuật "</string>
+    <string name="other_detail">"Những chi tiết khác "</string>
 </resources>
