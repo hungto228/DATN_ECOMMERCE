@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_product_detail"
+    android:elevation="3dp"
+    android:layout_marginTop="8dp"
+    android:paddingBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_productTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product detail"
+        android:background="#d4d4d4"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_productBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="TextViewaffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffff
+        fffffffffffffffffadfdaffffffdfadddddddddd
+        ddddddddddddddddddddddddddddddddddddddddd
+        ddffffffffffffffffffffffffdfdsfsdddddddddf
+        ffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffsddddddddddd
+        ddddddddddddddddddddddddddddddddddddddddddddd"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_productTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>
