@@ -31,7 +31,9 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
 
     @Override
     public int getItemViewType(int position) {
-        switch (position) {
+
+        switch (productSpecificationModelList.get(position).getType()) {
+
             case 0:
                 return ProductSpecificationModel.SPECIFICATION_TITLE;
             case 1:
