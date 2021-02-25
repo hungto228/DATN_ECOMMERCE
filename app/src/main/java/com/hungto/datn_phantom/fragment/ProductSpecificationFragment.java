@@ -48,12 +48,11 @@ public class ProductSpecificationFragment extends Fragment {
         List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
 
         productSpecificationModelList.add(new ProductSpecificationModel(0,"Dispaly"));
+        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "2gb"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Dispaly"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Dispaly"));
+        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "6gb"));
+        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "8gb"));
+        productSpecificationModelList.add(new ProductSpecificationModel(0,"moble"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
         ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(productSpecificationModelList);
