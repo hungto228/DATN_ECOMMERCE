@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpecificationAdapter.ViewHolder> {
+public class ProductSpecificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ProductSpecificationModel> productSpecificationModelList;
 
@@ -31,7 +31,7 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
 
     @Override
     public int getItemViewType(int position) {
-        switch (position) {
+        switch (productSpecificationModelList.get(position).getType()) {
             case 0:
                 return ProductSpecificationModel.SPECIFICATION_TITLE;
             case 1:
@@ -39,49 +39,53 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
             default:
                 return -1;
         }
+//        if(position==0){
+//            return ProductSpecificationModel.SPECIFICATION_TITLE;
+//        }else {
+//            return ProductSpecificationModel.SPECIFICATION_BODY;
+//        }
     }
 
     @NonNull
     @Override
-    public ProductSpecificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View   view=null;
+        RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {
             case ProductSpecificationModel.SPECIFICATION_TITLE:
-                TextView title = new TextView(parent.getContext());
-                title.setTypeface(null, Typeface.BOLD);
-                title.setTextColor(Color.parseColor("#000000"));
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(setDp(16, parent.getContext())
-                        , setDp(16, parent.getContext())
-                        , setDp(16, parent.getContext())
-                        , setDp(8, parent.getContext()));
-                title.setLayoutParams(layoutParams);
-                return new ViewHolder(title);
+                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_specification_item_title, parent, false);
+                viewHolder=new ViewHolderOne(view);
+                return viewHolder;
             case ProductSpecificationModel.SPECIFICATION_BODY:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_specification_item, parent, false);
-                return new ViewHolder(view);
+                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_specification_item, parent, false);
+                 viewHolder=new ViewHolder(view);
+                return viewHolder;
             default:
-                return null;
+                return viewHolder;
 
         }
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductSpecificationAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         switch (productSpecificationModelList.get(position).getType()) {
             case ProductSpecificationModel.SPECIFICATION_TITLE:
-                holder.setTitle(productSpecificationModelList.get(position).getTitle());
+                ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
+                String title = productSpecificationModelList.get(position).getTitle();
+                viewHolderOne.setTitle(title);
                 break;
             case ProductSpecificationModel.SPECIFICATION_BODY:
+                ViewHolder viewHolder = (ViewHolder) holder;
                 String featureTitle = productSpecificationModelList.get(position).getFeatureName();
                 String featureDetail = productSpecificationModelList.get(position).getFeatureValues();
-                holder.setFeatures(featureTitle, featureDetail);
+                viewHolder.setFeatures(featureTitle, featureDetail);
                 break;
             default:
                 return;
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -93,29 +97,35 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        //        @BindView(R.id.tv_featureName)
-        private TextView mFeatureName;
-
+        //    @BindView(R.id.tv_featureName)
+        TextView mFeatureName;
         //    @BindView(R.id.tv_featureValues)
-        private TextView mFeatureValues;
-
-        private TextView title;
+        TextView mFeatureValues;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-//            ButterKnife.bind(this, itemView);
             mFeatureName = itemView.findViewById(R.id.tv_featureName);
             mFeatureValues = itemView.findViewById(R.id.tv_featureValues);
         }
 
-        private void setTitle(String titleText) {
-            title = (TextView) itemView;
-            title.setText(titleText);
-        }
-
         private void setFeatures(String featureTitle, String featureDetail) {
+
             mFeatureName.setText(featureTitle);
             mFeatureValues.setText(featureDetail);
+        }
+    }
+
+    public class ViewHolderOne extends RecyclerView.ViewHolder {
+        TextView title;
+
+        public ViewHolderOne(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.tv_specification_title);
+        }
+
+        private void setTitle(String titleText) {
+
+            title.setText(titleText);
         }
     }
 
