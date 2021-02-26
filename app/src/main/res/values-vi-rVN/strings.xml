@@ -41,4 +41,5 @@
     <string name="description">"Mô tả "</string>
     <string name="specifications">"Thông số kỹ thuật "</string>
     <string name="other_detail">"Những chi tiết khác "</string>
+    <string name="cart_continue">Tiếp tục</string>
 </resources>

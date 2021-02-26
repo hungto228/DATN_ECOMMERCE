@@ -41,4 +41,5 @@
     <string name="description">Descriptions</string>
     <string name="specifications">Specifications</string>
     <string name="other_detail">Other details</string>
+    <string name="cart_continue">Contunue</string>
 </resources>
