@@ -1,6 +1,7 @@
 package com.hungto.datn_phantom.adapter;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.List;
 
@@ -65,6 +67,14 @@ public class GridProductViewAdapter extends BaseAdapter {
             //ButterKnife.bind(this, view);
             view.setElevation(0);
             view.setBackgroundColor(Color.parseColor("#ffffff"));
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productDetailIntent=new Intent(parent.getContext(), ProductDetailActivity.class);
+                    parent.getContext().startActivity(productDetailIntent);
+                }
+            });
             productImg.setImageResource(horizontalProductScrollModelList.get(position).getProductImg());
             productTitle.setText(horizontalProductScrollModelList.get(position).getProductTitle());
             productDesc.setText(horizontalProductScrollModelList.get(position).getProductDescription());
