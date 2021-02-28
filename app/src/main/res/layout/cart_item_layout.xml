@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
-        android:id="@+id/tv_product_image"
+        android:id="@+id/img_product"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
@@ -28,7 +28,7 @@
         android:text="Pixel 2(Black)"
         android:textSize="16sp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/tv_product_image"
+        app:layout_constraintStart_toEndOf="@+id/img_product"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_free_coupon" />
 
     <TextView
-        android:id="@+id/cutted_price"
+        android:id="@+id/tv_cutted_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -79,13 +79,13 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@+id/cutted_price"
-        app:layout_constraintEnd_toEndOf="@+id/cutted_price"
-        app:layout_constraintStart_toStartOf="@+id/cutted_price"
-        app:layout_constraintTop_toTopOf="@+id/cutted_price" />
+        app:layout_constraintBottom_toBottomOf="@+id/tv_cutted_price"
+        app:layout_constraintEnd_toEndOf="@+id/tv_cutted_price"
+        app:layout_constraintStart_toStartOf="@+id/tv_cutted_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_cutted_price" />
 
     <TextView
-        android:id="@+id/offers_applied"
+        android:id="@+id/tv_offers_applied"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -104,10 +104,10 @@
         android:textColor="@color/colorBtnRed"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offers_applied" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_offers_applied" />
 
     <TextView
-        android:id="@+id/product_quantity"
+        android:id="@+id/tv_product_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -119,7 +119,7 @@
         android:drawableEnd="@drawable/ic_drop_down"
         android:drawablePadding="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_coupons_applied"
-        app:layout_constraintStart_toEndOf="@+id/tv_product_image"
+        app:layout_constraintStart_toEndOf="@+id/img_product"
         app:layout_constraintTop_toBottomOf="@+id/price_cut_divider" />
 
     <LinearLayout
