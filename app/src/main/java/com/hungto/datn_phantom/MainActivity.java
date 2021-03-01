@@ -1,10 +1,13 @@
 package com.hungto.datn_phantom;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FrameLayout frameLayout;
     private ImageView actionBarLogo;
     private int currentFragment = -1;
-
+    private Window window;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     private void gotoFragment(String title, Fragment fragment, int fragmentNo) {
         actionBarLogo.setVisibility(View.GONE);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -189,6 +193,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setFragment(Fragment fragment, int fragmentNo) {
 
         if (fragmentNo != currentFragment) {
+            if (fragmentNo == REWARDS_FRAGMENT) {
+                window.setStatusBarColor(Color.parseColor("#5b04b1"));
+                toolbar.setBackgroundColor(Color.parseColor("#5b04b1"));
+            } else {
+                window.setStatusBarColor(getResources().getColor(R.color.colorBtnRed));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorBtnRed));
+            }
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
