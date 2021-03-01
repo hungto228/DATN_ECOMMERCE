@@ -52,6 +52,7 @@
     <string name="specifications">Specifications</string>
     <string name="other_detail">Other details</string>
     <string name="cart_continue">Continue</string>
+    <string name="new_adress_or_add">Change or Add New Address</string>
     <!--TODO:toast,validate-->
 
 </resources>

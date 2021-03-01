@@ -78,7 +78,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:text="Change or Add New Address"
         android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
