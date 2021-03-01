@@ -148,6 +148,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void myCart() {
+        actionBarLogo.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle(R.string.menu_cart);
         invalidateOptionsMenu();
         setFragment(new CartFragment(), CART_FRAGMENT);
         navigationView.getMenu().getItem(3).setChecked(true);
