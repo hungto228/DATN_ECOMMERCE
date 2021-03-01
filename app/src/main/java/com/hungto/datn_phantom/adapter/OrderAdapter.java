@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.OrderItemModel;
+import com.hungto.datn_phantom.view.orderActivity.OrderDetailActivity;
 
 import java.util.List;
 
@@ -37,11 +39,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
-        int resource=orderItemModelList.get(position).getProductImage();
-        String title=orderItemModelList.get(position).getMProductTitle();
-        String deliveryDate=orderItemModelList.get(position).getMDeliveryStatus();
-        int rating=orderItemModelList.get(position).getRating();
-        holder.setDataOrder(resource,title,deliveryDate,rating);
+        int resource = orderItemModelList.get(position).getProductImage();
+        String title = orderItemModelList.get(position).getMProductTitle();
+        String deliveryDate = orderItemModelList.get(position).getMDeliveryStatus();
+        int rating = orderItemModelList.get(position).getRating();
+        holder.setDataOrder(resource, title, deliveryDate, rating);
     }
 
     @Override
@@ -65,9 +67,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent orderDetailIntent = new Intent(itemView.getContext(), OrderDetailActivity.class);
+                    itemView.getContext().startActivity(orderDetailIntent);
+                }
+            });
         }
 
-        private void setDataOrder(int resource, String title, String deliveryDate,int rating) {
+        private void setDataOrder(int resource, String title, String deliveryDate, int rating) {
             productImage.setImageResource(resource);
             mProductTitle.setText(title);
             if (deliveryDate.equals("Canceled")) {
@@ -79,7 +88,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             //rating layout
             setRating(rating);
             for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
-                final int starPosition=i;
+                final int starPosition = i;
                 linearLayoutRateNow.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -89,11 +98,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             }
 
         }
+
         private void setRating(int starPosition) {
             for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
-                ImageView mStartBtn=(ImageView)linearLayoutRateNow.getChildAt(i);
+                ImageView mStartBtn = (ImageView) linearLayoutRateNow.getChildAt(i);
                 mStartBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
-                if(i<=starPosition){
+                if (i <= starPosition) {
                     mStartBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
                 }
 
