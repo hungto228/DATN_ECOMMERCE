@@ -140,21 +140,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == R.id.main_cart_icon) {
             //TODO:cart
-            myCart();
+            gotoFragment("My Cart", new CartFragment(), CART_FRAGMENT);
             Toast.makeText(this, "cart", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void myCart() {
-        actionBarLogo.setVisibility(View.GONE);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle(R.string.menu_cart);
-        invalidateOptionsMenu();
-        setFragment(new CartFragment(), CART_FRAGMENT);
-        navigationView.getMenu().getItem(3).setChecked(true);
-    }
+
 
     private void gotoFragment(String title, Fragment fragment, int fragmentNo) {
         actionBarLogo.setVisibility(View.GONE);

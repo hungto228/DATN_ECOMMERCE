@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
-    android:background="@color/colorAccent"
+    android:background="@color/white"
     android:elevation="3dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -51,9 +51,9 @@
         android:layout_marginStart="8dp"
         android:text="Delivered on Mon,15th Jan 2019"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/order_indicator"
-        app:layout_constraintStart_toEndOf="@+id/order_indicator"
-        app:layout_constraintTop_toTopOf="@+id/order_indicator" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_order_indicator"
+        app:layout_constraintStart_toEndOf="@+id/img_order_indicator"
+        app:layout_constraintTop_toTopOf="@+id/img_order_indicator" />
 
     <TextView
         android:id="@+id/textView20"
