@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.hungto.datn_phantom.fragment.AccountFragment;
 import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.fragment.HomeFragment;
+import com.hungto.datn_phantom.fragment.OrderDetailFragment;
 import com.hungto.datn_phantom.fragment.OrderFragment;
 import com.hungto.datn_phantom.fragment.RewardFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
@@ -171,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setFragment(new HomeFragment(), HOME_FRAGMENT);
         } else if (id == R.id.nav_order) {
             gotoFragment("My Orders", new OrderFragment(), ORDERS_FRAGMENT);
+//            gotoFragment("My Orders", new OrderDetailFragment(), ORDERS_FRAGMENT);
         } else if (id == R.id.nav_reward) {
             gotoFragment("My Rewards", new RewardFragment(), REWARDS_FRAGMENT);
         } else if (id == R.id.nav_cart) {
