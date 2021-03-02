@@ -6,12 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -20,6 +22,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
+import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +56,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     //rating layout
     @BindView(R.id.linearLayout_rate_now_container)
     LinearLayout linearLayoutRateNow;
+
+    @BindView(R.id.buy_now_btn)
+    Button mBuyNowBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +111,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         //rating layout
         for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
-            final int starPosition=i;
+            final int starPosition = i;
             linearLayoutRateNow.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -115,13 +121,22 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         }
 
+        mBuyNowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private void setRating(int starPosition) {
         for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
-            ImageView mStartBtn=(ImageView)linearLayoutRateNow.getChildAt(i);
+            ImageView mStartBtn = (ImageView) linearLayoutRateNow.getChildAt(i);
             mStartBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
-            if(i<=starPosition){
+            if (i <= starPosition) {
                 mStartBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
             }
 
