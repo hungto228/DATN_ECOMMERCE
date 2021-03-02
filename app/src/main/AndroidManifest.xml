@@ -15,8 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DATN_PHANTOM">
-        <activity android:name=".view.delivery.DeliveryActivity"
+        <activity
+            android:name=".view.addAdressActivity.AddAddressAvtivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+        <activity
+            android:name=".view.delivery.DeliveryActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".view.orderActivity.OrderDetailActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

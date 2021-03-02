@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CartAdapter;
 import com.hungto.datn_phantom.model.CartItemModel;
+import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class CartFragment extends Fragment {
         mCartContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), DeliveryActivity.class);
+                Intent intent = new Intent(getContext(), AddAddressAvtivity.class);
                 getActivity().startActivity(intent);
             }
         });
