@@ -42,6 +42,9 @@
     <string name="specifications">"Thông số kỹ thuật "</string>
     <string name="other_detail">"Những chi tiết khác "</string>
     <string name="cart_continue">Tiếp tục</string>
+
+    <string name="new_adress_or_add">Thay đổi hoặc thêm địa chỉ mới</string>
+
     <string name="current_order_status">Trạng thái đơn hàng của bạn</string>
     <string name="out_delivery">Ra ngoài để giao hàng.</string>
     <string name="sign_out">Đăng Xuất</string>
