@@ -40,7 +40,7 @@ public class GridProductViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return horizontalProductScrollModelList.size();
     }
 
     @Override
@@ -59,10 +59,10 @@ public class GridProductViewAdapter extends BaseAdapter {
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hoziontal_scroll_item, null);
-            ImageView productImg=view.findViewById(R.id.img_product);
-            TextView productTitle=view.findViewById(R.id.tv_productTitle);
-            TextView productDesc=view.findViewById(R.id.tv_productDesc);
-            TextView productPrice=view.findViewById(R.id.tv_productPrice);
+            ImageView productImg = view.findViewById(R.id.img_product);
+            TextView productTitle = view.findViewById(R.id.tv_productTitle);
+            TextView productDesc = view.findViewById(R.id.tv_productDesc);
+            TextView productPrice = view.findViewById(R.id.tv_productPrice);
 
             //ButterKnife.bind(this, view);
             view.setElevation(0);
@@ -71,7 +71,7 @@ public class GridProductViewAdapter extends BaseAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent productDetailIntent=new Intent(parent.getContext(), ProductDetailActivity.class);
+                    Intent productDetailIntent = new Intent(parent.getContext(), ProductDetailActivity.class);
                     parent.getContext().startActivity(productDetailIntent);
                 }
             });

@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.WishlistModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.List;
 
@@ -22,9 +24,11 @@ import butterknife.ButterKnife;
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHolder> {
 
     List<WishlistModel> wishlistModelList;
+    private Boolean wishList;
 
-    public WishListAdapter(List<WishlistModel> wishlistModelList) {
+    public WishListAdapter(List<WishlistModel> wishlistModelList, Boolean wishList) {
         this.wishlistModelList = wishlistModelList;
+        this.wishList = wishList;
     }
 
     @NonNull
@@ -105,10 +109,25 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             mProductPrice.setText("Rs." + price + "/-");
             mCuttedPrice.setText("Rs." + cuttedPriceValue + "/-");
             mPaymentMethod.setText(payMethod);
+
+            if (wishList) {
+                mDeleteBtn.setVisibility(View.VISIBLE);
+            } else {
+                mDeleteBtn.setVisibility(View.GONE);
+            }
             mDeleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                }
+            });
+            //product detail
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(itemView.getContext(), ProductDetailActivity.class);
+                    itemView.getContext().startActivity(intent);
+             //       Toast.makeText(itemView.getContext(), "item view", Toast.LENGTH_SHORT).show();
                 }
             });
         }
