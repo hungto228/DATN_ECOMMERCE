@@ -16,8 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DATN_PHANTOM">
         <activity
-            android:name=".view.addAdressActivity.AddAddressAvtivity"
+            android:name=".view.addAdressActivity.AddressActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+        <activity
+            android:name=".view.addAdressActivity.AddAddressAvtivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".view.delivery.DeliveryActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

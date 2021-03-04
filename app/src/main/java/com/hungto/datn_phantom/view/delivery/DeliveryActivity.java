@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CartAdapter;
 import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.model.CartItemModel;
+import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_change_or_add_address)
     Button mChangeOrAddAdressBtn;
+    public static  final int SELECT_ADDRESS=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,15 @@ public class DeliveryActivity extends AppCompatActivity {
         recyclerViewDelivery.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         mChangeOrAddAdressBtn.setVisibility(View.VISIBLE);
+        mChangeOrAddAdressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeliveryActivity.this, AddressActivity.class);
+                //put extra cross addressActivity
+                intent.putExtra("MODE",SELECT_ADDRESS);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -71,5 +83,10 @@ public class DeliveryActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

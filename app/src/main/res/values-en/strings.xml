@@ -48,5 +48,7 @@
     <string name="current_order_status">Your Current Order Status</string>
     <string name="out_delivery">Out For Delivery</string>
     <string name="sign_out">Sign Out</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
 
 </resources>

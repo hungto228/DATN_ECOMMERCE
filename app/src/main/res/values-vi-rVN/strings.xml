@@ -48,4 +48,6 @@
     <string name="current_order_status">Trạng thái đơn hàng của bạn</string>
     <string name="out_delivery">Ra ngoài để giao hàng.</string>
     <string name="sign_out">Đăng Xuất</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="remove">Loại bỏ</string>
 </resources>
