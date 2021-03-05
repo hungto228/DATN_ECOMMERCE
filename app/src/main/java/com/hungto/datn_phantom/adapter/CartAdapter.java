@@ -1,6 +1,7 @@
 package com.hungto.datn_phantom.adapter;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter {
 
     List<CartItemModel> cartItemModelList;
-
+    Context  context;
     public CartAdapter(List<CartItemModel> cartItemModelList) {
         this.cartItemModelList = cartItemModelList;
     }
@@ -169,7 +170,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     okBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mProductQuality.setText( "sl:"+quantityNo.getText());
+                            mProductQuality.setText( context.getResources().getString(R.string.sl)+quantityNo.getText());
                             quantityDialog.dismiss();
                         }
                     });

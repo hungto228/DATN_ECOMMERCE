@@ -40,7 +40,7 @@ public class RewardFragment extends Fragment {
         rewardModelList.add(new RewardModel("cashback", "till 2nd,June 2020", "get 20% cashback on any product above"));
         rewardModelList.add(new RewardModel("cashback1", "till 2nd,June 2020", "get 23% cashback"));
         rewardModelList.add(new RewardModel("cashback2", "till 2nd,June 2020", "get 30% cashback"));
-        RewardAdapter rewardAdapter = new RewardAdapter(rewardModelList);
+        RewardAdapter rewardAdapter = new RewardAdapter(rewardModelList, false);
         recyclerViewReward.setAdapter(rewardAdapter);
         rewardAdapter.notifyDataSetChanged();
         //final TextView textView = root.findViewById(R.id.text_reward);

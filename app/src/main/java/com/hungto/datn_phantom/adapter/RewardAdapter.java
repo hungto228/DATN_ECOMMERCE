@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.RewardModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +21,25 @@ import butterknife.ButterKnife;
 public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder> {
 
     List<RewardModel> rewardModelList = new ArrayList<>();
+    private Boolean useMiniLayout = false;
 
-    public RewardAdapter(List<RewardModel> rewardModelList) {
+    public RewardAdapter(List<RewardModel> rewardModelList ,Boolean useMiniLayout) {
         this.rewardModelList = rewardModelList;
+        this.useMiniLayout = useMiniLayout;
     }
 
     @NonNull
     @Override
     public RewardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.reward_item_layout, parent, false);
+        View root;
+        if (useMiniLayout) {
+
+            root = LayoutInflater.from(parent.getContext()).inflate(R.layout.mini_rewards_item_layout, parent, false);
+        } else {
+            root = LayoutInflater.from(parent.getContext()).inflate(R.layout.reward_item_layout, parent, false);
+        }
         return new ViewHolder(root);
+
     }
 
     @Override
@@ -64,6 +74,17 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             mCouponTitle.setText(title);
             mCouponValidity.setText(date);
             mCouponBody.setText(body);
+            if(useMiniLayout){
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProductDetailActivity.couponTitle.setText(title);
+                        ProductDetailActivity.couponExpiryDate.setText(date);
+                        ProductDetailActivity.couponTBody.setText(body);
+                        ProductDetailActivity.showDialogRecyclerView();
+                    }
+                });
+            }
         }
     }
 
