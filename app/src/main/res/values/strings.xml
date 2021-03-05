@@ -14,7 +14,7 @@
     <string name="haveAccount">Already have an acount? Sign In</string>
     <string name="emailId">Email ID</string>
     <string name="passWord">PassWord</string>
-    <string name="signIn">SignIn</string>
+    <string name="sign_in">Sign In</string>
     <string name="fullName">Full Name</string>
     <string name="passWord2">PassWord (8 Character) </string>
     <string name="confirmPassword">"PassWord (8 Character) "</string>
@@ -60,6 +60,10 @@
     <string name="sign_out">Sign Out</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="step_away">You are just few steps away from your cart</string>
+    <string name="quanlity">Quantity</string>
+    <string name="sl">Qty</string>
 
     <!--TODO:toast,validate-->
 

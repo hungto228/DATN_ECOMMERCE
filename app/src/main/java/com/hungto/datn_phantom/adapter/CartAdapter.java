@@ -1,8 +1,11 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -146,6 +149,33 @@ public class CartAdapter extends RecyclerView.Adapter {
             } else {
                 mOfferApplies.setVisibility(View.INVISIBLE);
             }
+            mProductQuality.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog quantityDialog = new Dialog(itemView.getContext());
+                    quantityDialog.setContentView(R.layout.dialog_quantity);
+                    quantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    quantityDialog.setCancelable(false);
+                    final EditText quantityNo =quantityDialog.findViewById(R.id.edt_quantiy);
+                    Button cancelBtn = quantityDialog.findViewById(R.id.btn_cancel);
+                    Button okBtn = quantityDialog.findViewById(R.id.btn_ok);
+                    cancelBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            quantityDialog.dismiss();
+                        }
+                    });
+                    //getResources().getString(R.string.sl)
+                    okBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mProductQuality.setText( "sl:"+quantityNo.getText());
+                            quantityDialog.dismiss();
+                        }
+                    });
+                    quantityDialog.show();
+                }
+            });
 
         }
     }

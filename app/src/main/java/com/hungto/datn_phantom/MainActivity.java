@@ -1,13 +1,17 @@
 package com.hungto.datn_phantom;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,6 +25,7 @@ import com.hungto.datn_phantom.fragment.HomeFragment;
 import com.hungto.datn_phantom.fragment.OrderFragment;
 import com.hungto.datn_phantom.fragment.RewardFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
+import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
@@ -33,6 +38,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.setSignUpFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -141,8 +148,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.main_cart_icon) {
+            final Dialog signInDialog = new Dialog(MainActivity.this);
+            signInDialog.setContentView(R.layout.dialog_sign_in);
+            signInDialog.setCancelable(true);
+            signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Button dialogSignInBtn = signInDialog.findViewById(R.id.btn_dialog_sign_in);
+            Button dialogSignUpBtn = signInDialog.findViewById(R.id.btn_dialog_sign_up);
+            final Intent registerIntent = new Intent(MainActivity.this, RegiterActivity.class);
+            dialogSignInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signInDialog.dismiss();
+                    setSignUpFragment =false;
+                    startActivity(registerIntent);
+                }
+            });
+            dialogSignUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signInDialog.dismiss();
+                    setSignUpFragment =true;
+                    startActivity(registerIntent);
+                }
+            });
+            signInDialog.show();
             //TODO:cart
-            gotoFragment("My Cart", new CartFragment(), CART_FRAGMENT);
+          //  gotoFragment("My Cart", new CartFragment(), CART_FRAGMENT);
             Toast.makeText(this, "cart", Toast.LENGTH_SHORT).show();
             return true;
         }

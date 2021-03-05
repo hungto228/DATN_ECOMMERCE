@@ -7,7 +7,7 @@
     <string name="haveAccount">Đã có tài khoản ? Đăng Nhập</string>
     <string name="emailId">Địa chỉ Email.</string>
     <string name="passWord">Mật khẩu.</string>
-    <string name="signIn">Đăng Nhập</string>
+    <string name="sign_in">Đăng Nhập</string>
     <string name="fullName">Họ Và Tên</string>
     <string name="passWord2">Mật Khẩu ( 8 ký tự).</string>
     <string name="confirmPassword">Nhập lại mật khẩu ( 8 ký tự)</string>
@@ -50,4 +50,8 @@
     <string name="sign_out">Đăng Xuất</string>
     <string name="edit">Chỉnh sửa</string>
     <string name="remove">Loại bỏ</string>
+    <string name="sign_up">Đăng Ký</string>
+    <string name="step_away">Bạn chỉ còn vài bước nữa là đến giỏ hàng của mình</string>
+    <string name="quanlity">Số lượng</string>
+    <string name="sl">Sl</string>
 </resources>
