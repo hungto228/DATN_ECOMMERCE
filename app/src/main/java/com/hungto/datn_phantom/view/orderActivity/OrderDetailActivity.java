@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Order details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBarLogo.setVisibility(View.INVISIBLE);
     }
 
     @Override

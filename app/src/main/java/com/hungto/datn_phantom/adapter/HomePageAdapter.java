@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
 import com.hungto.datn_phantom.view.viewAllActivity.ViewAllActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,8 +37,11 @@ import butterknife.ButterKnife;
 public class HomePageAdapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
 
+    private RecyclerView.RecycledViewPool recycledViewPool;
+
     public HomePageAdapter(List<HomePageModel> homePageModelList) {
         this.homePageModelList = homePageModelList;
+        recycledViewPool = new RecyclerView.RecycledViewPool();
     }
 
     @Override
@@ -60,6 +65,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         return homePageModelList.size();
     }
 
+    //TODO: oncreator
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -114,10 +120,11 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         @BindView(R.id.viewpage_bannerSlider)
         ViewPager banner;
         SliderAdapter sliderAdapter;
-        private int currentPage = 2;
+        private int currentPage ;
         private Timer timer;
         final private long DELAY_TIME = 3000;
         final private long PERIOD_TIME = 3000;
+        private List<SliderModel> arrangedList;
 
         public BannerSliderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +135,21 @@ public class HomePageAdapter extends RecyclerView.Adapter {
 
         //banner
         private void setBannerSliderViewpage(final List<SliderModel> sliderModelList) {
+            currentPage = 2;
+            if (timer != null) {
+                timer.cancel();
+            }
+            arrangedList = new ArrayList<>();
+
+            for(int x=0;x<sliderModelList.size();x++){
+                arrangedList.add(x,sliderModelList.get(x));
+
+            }
+            arrangedList.add(0,sliderModelList.get(sliderModelList.size()-2));
+            arrangedList.add(1,sliderModelList.get(sliderModelList.size()-1));
+            arrangedList.add(sliderModelList.get(0));
+            arrangedList.add(sliderModelList.get(1));
+
             sliderAdapter = new SliderAdapter(sliderModelList);
             banner.setAdapter(sliderAdapter);
             banner.setClipToPadding(false);
@@ -153,14 +175,14 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 }
             };
             banner.addOnPageChangeListener(onPageChangeListener);
-            startBannerSlideShow(sliderModelList);
+            startBannerSlideShow(arrangedList);
             banner.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    pageLooper(sliderModelList);
+                    pageLooper(arrangedList);
                     stopBannerSlideShow();
                     if (event.getAction() == MotionEvent.ACTION_UP) {
-                        startBannerSlideShow(sliderModelList);
+                        startBannerSlideShow(arrangedList);
                     }
                     return false;
                 }
@@ -238,6 +260,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         public HorizontalProductLayoutViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            horizontalScrollRecyclerview.setRecycledViewPool(recycledViewPool);
         }
 
         private void setHorizontalProductLayout(List<HorizontalProductScrollModel> horizontalProductScrollModelList, String title) {

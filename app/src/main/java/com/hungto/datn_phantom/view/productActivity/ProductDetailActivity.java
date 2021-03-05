@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
@@ -29,6 +30,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.hungto.datn_phantom.MainActivity.showCart;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -158,6 +161,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         } else if (id == R.id.main_search_icon) {
             return true;
         } else if (id == R.id.main_cart_icon) {
+            Intent intent=new Intent(ProductDetailActivity.this, MainActivity.class);
+            showCart=true;
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
