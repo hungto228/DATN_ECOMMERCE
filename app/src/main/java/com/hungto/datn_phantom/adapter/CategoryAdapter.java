@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.view.category.CategoryActivity;
@@ -43,6 +45,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         String icon = categoryModels.get(position).getCategoryIconLink();
         String name = categoryModels.get(position).getCategoryName();
         holder.setCategoryName(name,position);
+        holder.setCategoryIcon(icon);
 
     }
 
@@ -64,7 +67,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        private void setCategoryIcon() {
+        private void setCategoryIcon(String iconUrl) {
+            if(!iconUrl.equals("null")){
+                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(mCategoryIcon);
+            }
 
         }
 

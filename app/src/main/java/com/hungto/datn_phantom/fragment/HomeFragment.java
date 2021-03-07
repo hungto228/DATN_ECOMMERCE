@@ -3,6 +3,7 @@ package com.hungto.datn_phantom.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +19,13 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.GridProductViewAdapter;
@@ -53,6 +60,9 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.recyclerViewHomePage)
     RecyclerView recyclerViewHomePage;
 
+    List<CategoryModel> categoryModels;
+    //firebaseStore
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,18 +72,36 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
         linearLayoutManagerCategory.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewCategory.setLayoutManager(linearLayoutManagerCategory);
-        List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
-     //   categoryModels.add(new CategoryModel("link", "Home"));
-        categoryModels.add(new CategoryModel("link", "Electrolics"));
-        categoryModels.add(new CategoryModel("link", "Appliances"));
-        categoryModels.add(new CategoryModel("link", "Furniture"));
-        categoryModels.add(new CategoryModel("link", "Fashions"));
-        categoryModels.add(new CategoryModel("link", "Toys"));
-        categoryModels.add(new CategoryModel("link", "Wall Arts"));
-        categoryModels.add(new CategoryModel("link", "Shoes"));
+        categoryModels = new ArrayList<CategoryModel>();
+
         categoryAdapter = new CategoryAdapter(categoryModels);
         recyclerViewCategory.setAdapter(categoryAdapter);
-        categoryAdapter.notifyDataSetChanged();
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("CATEGORIES").orderBy("index").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                categoryModels.add(new CategoryModel(documentSnapshot.get("icon").toString(), documentSnapshot.get("categoryName").toString()));
+                                categoryAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        //   categoryModels.add(new CategoryModel("link", "Home"));
+//        categoryModels.add(new CategoryModel("link", "Electrolics"));
+//        categoryModels.add(new CategoryModel("link", "Appliances"));
+//        categoryModels.add(new CategoryModel("link", "Furniture"));
+//        categoryModels.add(new CategoryModel("link", "Fashions"));
+//        categoryModels.add(new CategoryModel("link", "Toys"));
+//        categoryModels.add(new CategoryModel("link", "Wall Arts"));
+//        categoryModels.add(new CategoryModel("link", "Shoes"));
+
         //banner
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
         sliderModelList.add(new SliderModel(R.drawable.ic_email_screen, "#077AE4"));
