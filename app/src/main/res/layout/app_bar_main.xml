@@ -18,6 +18,7 @@
             android:background="@color/colorPrimary"
             app:popupTheme="@style/Theme.DATN_PHANTOM.PopupOverlay" >
             <ImageView
+                android:id="@+id/actionbar_logo"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:src="@drawable/foodytext"

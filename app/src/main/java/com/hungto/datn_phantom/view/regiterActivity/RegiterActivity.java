@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.fragment.SignInFragment;
+import com.hungto.datn_phantom.fragment.SignUpFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,15 +25,18 @@ public class RegiterActivity extends AppCompatActivity {
     FrameLayout frameLayoutRegiter;
 
     public static boolean onResetPasswordFragment = false;
-
+    public static boolean setSignUpFragment = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiter);
         ButterKnife.bind(this);
-
-        setDefaultFragment(new SignInFragment());
-
+        if (setSignUpFragment) {
+            setSignUpFragment=false;
+            setDefaultFragment(new SignUpFragment());
+        } else {
+            setDefaultFragment(new SignInFragment());
+        }
     }
 
     @Override

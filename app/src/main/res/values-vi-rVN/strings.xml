@@ -7,7 +7,7 @@
     <string name="haveAccount">Đã có tài khoản ? Đăng Nhập</string>
     <string name="emailId">Địa chỉ Email.</string>
     <string name="passWord">Mật khẩu.</string>
-    <string name="signIn">Đăng Nhập</string>
+    <string name="sign_in">Đăng Nhập</string>
     <string name="fullName">Họ Và Tên</string>
     <string name="passWord2">Mật Khẩu ( 8 ký tự).</string>
     <string name="confirmPassword">Nhập lại mật khẩu ( 8 ký tự)</string>
@@ -36,4 +36,22 @@
     <string name="menu_share">Chia sẻ</string>
     <string name="deal_of_day">Giao dịch trong ngày !</string>
     <string name="view_all">Xem tất cả!</string>
+    <string name="check_price">"Kiểm tra giá sau khi đổi phiếu giảm giá "</string>
+    <string name="redeem">"Quy đổi "</string>
+    <string name="description">"Mô tả "</string>
+    <string name="specifications">"Thông số kỹ thuật "</string>
+    <string name="other_detail">"Những chi tiết khác "</string>
+    <string name="cart_continue">Tiếp tục</string>
+
+    <string name="new_adress_or_add">Thay đổi hoặc thêm địa chỉ mới</string>
+
+    <string name="current_order_status">Trạng thái đơn hàng của bạn</string>
+    <string name="out_delivery">Ra ngoài để giao hàng.</string>
+    <string name="sign_out">Đăng Xuất</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="remove">Loại bỏ</string>
+    <string name="sign_up">Đăng Ký</string>
+    <string name="step_away">Bạn chỉ còn vài bước nữa là đến giỏ hàng của mình</string>
+    <string name="quanlity">Số lượng</string>
+    <string name="sl">Sl</string>
 </resources>

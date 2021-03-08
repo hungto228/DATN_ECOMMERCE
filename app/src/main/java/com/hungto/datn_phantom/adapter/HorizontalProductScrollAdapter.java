@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.List;
 
@@ -72,6 +74,13 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productDetailIntent=new Intent(itemView.getContext(), ProductDetailActivity.class);
+                    itemView.getContext().startActivity(productDetailIntent);
+                }
+            });
         }
 
         private void setProductImg(int resource) {

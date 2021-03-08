@@ -7,7 +7,7 @@
     <string name="haveAccount">Already have an acount? Sign In</string>
     <string name="emailId">Email ID</string>
     <string name="passWord">PassWord</string>
-    <string name="signIn">SignIn</string>
+    <string name="sign_in">SignIn</string>
     <string name="fullName">Full Name</string>
     <string name="passWord2">"PassWord (8 Character) "</string>
     <string name="confirmPassword">"PassWord (8 Character) "</string>
@@ -36,4 +36,23 @@
     <string name="menu_share">Share</string>
     <string name="deal_of_day">Deal Of The Day!</string>
     <string name="view_all">View All !</string>
+    <string name="check_price">Check price after coupen redemption</string>
+    <string name="redeem">Redeem</string>
+    <string name="description">Descriptions</string>
+    <string name="specifications">Specifications</string>
+    <string name="other_detail">Other details</string>
+    <string name="cart_continue">Contunue</string>
+
+    <string name="new_adress_or_add">Change or Add New Address</string>
+
+    <string name="current_order_status">Your Current Order Status</string>
+    <string name="out_delivery">Out For Delivery</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="step_away">You are just few steps away from your cart</string>
+    <string name="quanlity">Quantity</string>
+    <string name="sl">Qty</string>
+
 </resources>
