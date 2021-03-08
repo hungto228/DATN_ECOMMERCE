@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.SliderModel;
 
@@ -37,7 +39,7 @@ public class SliderAdapter extends PagerAdapter {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.slider_layout, container, false);
         ButterKnife.bind(this, view);
         bannerContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModels.get(position).getBackgroundColor())));
-        banner.setImageResource(sliderModels.get(position).getBanner());
+        Glide.with(container.getContext()).load(sliderModels.get(position).getBanner()).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(banner);
         container.addView(view, 0);
         return view;
     }

@@ -59,24 +59,6 @@ public class CategoryActivity extends AppCompatActivity {
         categoryAdapter.notifyDataSetChanged();
         //banner
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
-        sliderModelList.add(new SliderModel(R.drawable.ic_email_screen, "#077AE4"));
-        sliderModelList.add(new SliderModel(R.drawable.banner_slider, "#077AE4"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_email_red, "#077AE4"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_email_screen, "#077AE4"));
-
-
-        //horizontal product layout
-        List<HorizontalProductScrollModel> horizontalProductScrollModels = new ArrayList<HorizontalProductScrollModel>();
-
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-        horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-
-        HorizontalProductScrollAdapter horizontalProductScrollAdapter = new HorizontalProductScrollAdapter(horizontalProductScrollModels);
 
 
         //recyclerview homePage
@@ -85,16 +67,7 @@ public class CategoryActivity extends AppCompatActivity {
         recyclerViewCategory.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
-        homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ffffff"));
-        homePageModelList.add(new HomePageModel(0, sliderModelList));
-        homePageModelList.add(new HomePageModel(2, "Deal of the day", horizontalProductScrollModels));
-        homePageModelList.add(new HomePageModel(3, "Deal of the day", horizontalProductScrollModels));
-        homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ffffff"));
-        homePageModelList.add(new HomePageModel(2, "Deal of the day", horizontalProductScrollModels));
-        homePageModelList.add(new HomePageModel(3, "Deal of the day", horizontalProductScrollModels));
-        homePageModelList.add(new HomePageModel(1, R.drawable.banner_slider, "#ffff00"));
-        homePageModelList.add(new HomePageModel(1, R.drawable.ic_add_black, "#ff0000"));
-        homePageModelList.add(new HomePageModel(0, sliderModelList));
+
 
 
         HomePageAdapter homePageAdapter = new HomePageAdapter(homePageModelList);

@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/img_banner"
         android:layout_width="match_parent"
-        android:layout_height="161dp"
+        android:layout_height="match_parent"
         android:scaleType="fitCenter"
         android:src="@drawable/banner_slider"
         app:layout_constraintBottom_toBottomOf="parent"

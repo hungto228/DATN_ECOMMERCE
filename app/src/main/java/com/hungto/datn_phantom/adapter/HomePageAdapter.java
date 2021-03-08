@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
@@ -20,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
@@ -38,11 +42,12 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
 
     private RecyclerView.RecycledViewPool recycledViewPool;
-
+    private int lastposition=-1;
     public HomePageAdapter(List<HomePageModel> homePageModelList) {
         this.homePageModelList = homePageModelList;
         recycledViewPool = new RecyclerView.RecycledViewPool();
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -85,6 +90,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             default:
                 return null;
         }
+
     }
 
     @Override
@@ -95,7 +101,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 ((BannerSliderViewHolder) holder).setBannerSliderViewpage(sliderModelList);
                 break;
             case HomePageModel.STRIP_ADS_BANNER:
-                int resource = homePageModelList.get(position).getResource();
+                String resource = homePageModelList.get(position).getResource();
                 String color = homePageModelList.get(position).getBackGroundColor();
                 ((StripAdsBannerViewHolder) holder).setStripAd(resource, color);
                 break;
@@ -112,6 +118,11 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             default:
                 return;
         }
+        if(lastposition < position){
+            Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.fade_in);
+            holder.itemView.setAnimation(animation);
+            lastposition = position;
+        }
     }
 
     //TODO:banner Sliderview Holder
@@ -120,7 +131,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         @BindView(R.id.viewpage_bannerSlider)
         ViewPager banner;
         SliderAdapter sliderAdapter;
-        private int currentPage ;
+        private int currentPage;
         private Timer timer;
         final private long DELAY_TIME = 3000;
         final private long PERIOD_TIME = 3000;
@@ -141,12 +152,12 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             }
             arrangedList = new ArrayList<>();
 
-            for(int x=0;x<sliderModelList.size();x++){
-                arrangedList.add(x,sliderModelList.get(x));
+            for (int x = 0; x < sliderModelList.size(); x++) {
+                arrangedList.add(x, sliderModelList.get(x));
 
             }
-            arrangedList.add(0,sliderModelList.get(sliderModelList.size()-2));
-            arrangedList.add(1,sliderModelList.get(sliderModelList.size()-1));
+            arrangedList.add(0, sliderModelList.get(sliderModelList.size() - 2));
+            arrangedList.add(1, sliderModelList.get(sliderModelList.size() - 1));
             arrangedList.add(sliderModelList.get(0));
             arrangedList.add(sliderModelList.get(1));
 
@@ -239,10 +250,11 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
-        private void setStripAd(int resource, String color) {
+        private void setStripAd(String resource, String color) {
             // Strip ads
-            imgStrips.setImageResource(resource);
-            stripAdsContainer.setBackgroundColor(Color.parseColor(color));
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(imgStrips);
+
+         //   stripAdsContainer.setBackgroundColor(Color.parseColor(color));
         }
     }
 

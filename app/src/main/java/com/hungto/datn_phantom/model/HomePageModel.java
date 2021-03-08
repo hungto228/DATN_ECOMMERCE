@@ -22,10 +22,10 @@ public class HomePageModel {
     }
 
     //Strip ads
-    private int resource;
+    private String resource;
     private String backGroundColor;
 
-    public HomePageModel(int type, int resource, String backGroundColor) {
+    public HomePageModel(int type, String resource, String backGroundColor) {
         this.type = type;
         this.resource = resource;
         this.backGroundColor = backGroundColor;
