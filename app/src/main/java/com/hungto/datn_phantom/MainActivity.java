@@ -46,8 +46,8 @@ import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.setSi
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.img_no_internet)
-    ImageView noInternetConnectionImg;
+//    @BindView(R.id.img_no_internet)
+//    ImageView noInternetConnectionImg;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
@@ -91,26 +91,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
 
-        ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-        if (networkInfo!=null && networkInfo.isConnected()==true) {
-            noInternetConnectionImg.setVisibility(View.GONE);
-            if (showCart) {
-                drawer.setDrawerLockMode(1);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                gotoFragment("My Cart", new CartFragment(), -2);
-            } else {
-                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                drawer.addDrawerListener(toggle);
-                toggle.syncState();
-
-                setFragment(new HomeFragment(), HOME_FRAGMENT);
-            }
+        if (showCart) {
+            drawer.setDrawerLockMode(1);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            gotoFragment("My Cart", new CartFragment(), -2);
         } else {
-            Glide.with(this).load(R.drawable.nointernet).into(noInternetConnectionImg);
-            noInternetConnectionImg.setVisibility(View.VISIBLE);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
         }
+
 
     }
 

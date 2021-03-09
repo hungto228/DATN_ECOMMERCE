@@ -1,6 +1,9 @@
 package com.hungto.datn_phantom.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -68,6 +72,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.recyclerViewHomePage)
     RecyclerView recyclerViewHomePage;
     private HomePageAdapter homePageAdapter;
+    @BindView(R.id.img_no_internet)
+   ImageView noInternetConnectionImg;
 
     //firebaseStore
     FirebaseFirestore firebaseFirestore;
@@ -77,32 +83,42 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, root);
-        swipeRefreshLayout.setColorSchemeColors(getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary));
-        LinearLayoutManager linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
-        linearLayoutManagerCategory.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerViewCategory.setLayoutManager(linearLayoutManagerCategory);
-        categoryModels = new ArrayList<CategoryModel>();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected() == true) {
+            noInternetConnectionImg.setVisibility(View.GONE);
+            swipeRefreshLayout.setColorSchemeColors(getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary));
+            LinearLayoutManager linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
+            linearLayoutManagerCategory.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerViewCategory.setLayoutManager(linearLayoutManagerCategory);
+            categoryModels = new ArrayList<CategoryModel>();
 
-        categoryAdapter = new CategoryAdapter(categoryModels);
-        recyclerViewCategory.setAdapter(categoryAdapter);
-        if (categoryModels.size() == 0) {
-            loadCategory(categoryAdapter, getContext());
+            categoryAdapter = new CategoryAdapter(categoryModels);
+            recyclerViewCategory.setAdapter(categoryAdapter);
+            if (categoryModels.size() == 0) {
+                loadCategory(categoryAdapter, getContext());
+            } else {
+                categoryAdapter.notifyDataSetChanged();
+            }
+            firebaseFirestore = FirebaseFirestore.getInstance();
+            //recyclerview homePage
+            LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+            testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerViewHomePage.setLayoutManager(testingLayoutManager);
+            homePageAdapter = new HomePageAdapter(homePageModelList);
+            recyclerViewHomePage.setAdapter(homePageAdapter);
+            //load fragment
+            if (homePageModelList.size() == 0) {
+                loadFragment(homePageAdapter, getContext());
+            } else {
+                homePageAdapter.notifyDataSetChanged();
+            }
         } else {
-            categoryAdapter.notifyDataSetChanged();
+            Glide.with(this).load(R.drawable.nointernet).into(noInternetConnectionImg);
+            noInternetConnectionImg.setVisibility(View.VISIBLE);
         }
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        //recyclerview homePage
-        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
-        testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerViewHomePage.setLayoutManager(testingLayoutManager);
-        homePageAdapter = new HomePageAdapter(homePageModelList);
-        recyclerViewHomePage.setAdapter(homePageAdapter);
-        //load fragment
-        if (homePageModelList.size() == 0) {
-            loadFragment(homePageAdapter, getContext());
-        } else {
-            homePageAdapter.notifyDataSetChanged();
-        }
+
+
         return root;
     }
 }

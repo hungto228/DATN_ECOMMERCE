@@ -341,7 +341,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 Glide.with(itemView.getContext()).load(horizontalProductScrollModels.get(x).getProductImg()).apply(new RequestOptions().placeholder(R.drawable.ic_add_black)).into(productImage);
                 productTitle.setText(horizontalProductScrollModels.get(x).getProductTitle());
                 productDescription.setText(horizontalProductScrollModels.get(x).getProductDescription());
-                productPrice.setText("Rs." + horizontalProductScrollModels.get(x).getProductPrice() + "/-");
+                productPrice.setText(  horizontalProductScrollModels.get(x).getProductPrice() + "/-");
                 gridView.getChildAt(x).setBackgroundColor(Color.parseColor("#ffffff"));
                 if (!title.equals("")) {
                     gridView.getChildAt(x).setOnClickListener(new View.OnClickListener() {
@@ -353,18 +353,20 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                     });
                 }
             }
-            if (!title.equals("")) {
+           // if (!title.equals("")) {
                 mViewAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ViewAllActivity.horizontalProductScrollModelList = horizontalProductScrollModels;
                         Intent intent = new Intent(itemView.getContext(), ViewAllActivity.class);
                         //putextra to view all activity
                         intent.putExtra("LAYOUT_CODE", 1);
+                        intent.putExtra("title",title);
                         itemView.getContext().startActivity(intent);
 
                     }
                 });
-            }
+         //   }
         }
     }
 }

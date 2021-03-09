@@ -38,6 +38,8 @@ public class ViewAllActivity extends AppCompatActivity {
     @BindView(R.id.gridViewViewAll)
     GridView gridViewAll;
 
+    public static List<HorizontalProductScrollModel>horizontalProductScrollModelList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,8 @@ public class ViewAllActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle(R.string.deal_of_day);
+      //  getSupportActionBar().setTitle(R.string.deal_of_day);
+        getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBarLogo.setVisibility(View.INVISIBLE);
 
@@ -57,26 +60,18 @@ public class ViewAllActivity extends AppCompatActivity {
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
             recyclerViewAll.setLayoutManager(linearLayoutManager);
             List<WishlistModel> wishlistModelList = new ArrayList<>();
-//            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 145, "rs 49999", "rs59999", "cash on delivery"));
-//            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 2, "4", 15, "rs 49999", "rs59999", "cash on delivery"));
-//            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 95, "rs 49999", "rs59999", "cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 145, "rs 49999", "rs59999", "cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 2, "4", 15, "rs 49999", "rs59999", "cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 95, "rs 49999", "rs59999", "cash on delivery"));
             WishListAdapter wishListAdapter = new WishListAdapter(wishlistModelList, true);
             recyclerViewAll.setAdapter(wishListAdapter);
             wishListAdapter.notifyDataSetChanged();
         }else if(layout_code==1) {
             gridViewAll.setVisibility(View.VISIBLE);
-            List<HorizontalProductScrollModel> horizontalProductScrollModels = new ArrayList<HorizontalProductScrollModel>();
-
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
-//            horizontalProductScrollModels.add(new HorizontalProductScrollModel(R.drawable.ic_favorite_pink, "RedMi 5a", "nothing", "1000"));
 
 
-            GridProductViewAdapter gridProductViewAdapter = new GridProductViewAdapter(horizontalProductScrollModels);
+
+            GridProductViewAdapter gridProductViewAdapter = new GridProductViewAdapter(horizontalProductScrollModelList);
             gridViewAll.setAdapter(gridProductViewAdapter);
         }
 
