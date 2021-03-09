@@ -54,5 +54,6 @@
     <string name="step_away">You are just few steps away from your cart</string>
     <string name="quanlity">Quantity</string>
     <string name="sl">Qty</string>
+    <string name="vnd">$</string>
 
 </resources>

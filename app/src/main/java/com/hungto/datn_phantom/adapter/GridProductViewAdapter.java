@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
@@ -75,7 +77,8 @@ public class GridProductViewAdapter extends BaseAdapter {
                     parent.getContext().startActivity(productDetailIntent);
                 }
             });
-            productImg.setImageResource(horizontalProductScrollModelList.get(position).getProductImg());
+            //  productImg.setImageResource(horizontalProductScrollModelList.get(position).getProductImg());
+            Glide.with(parent.getContext()).load(horizontalProductScrollModelList.get(position).getProductImg()).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
             productTitle.setText(horizontalProductScrollModelList.get(position).getProductTitle());
             productDesc.setText(horizontalProductScrollModelList.get(position).getProductDescription());
             productPrice.setText(horizontalProductScrollModelList.get(position).getProductPrice());

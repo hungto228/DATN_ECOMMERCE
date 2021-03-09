@@ -41,7 +41,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull WishListAdapter.ViewHolder holder, int position) {
 
-        int resource = wishlistModelList.get(position).getMProductImage();
+        String resource = wishlistModelList.get(position).getMProductImage();
         String title = wishlistModelList.get(position).getMProductTitle();
         long freeCoupon = wishlistModelList.get(position).getFreeCoupons();
         String rating = wishlistModelList.get(position).getMRating();
@@ -88,8 +88,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        private void setDataWithlist(int resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, String payMethod) {
-            productImage.setImageResource(resource);
+        private void setDataWithlist(String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, String payMethod) {
+            productImage.setImageResource(Integer.parseInt(resource));
             mProductTitle.setText(title);
             if (freeCouponsNo != 0) {
                 couponIconImage.setVisibility(View.VISIBLE);

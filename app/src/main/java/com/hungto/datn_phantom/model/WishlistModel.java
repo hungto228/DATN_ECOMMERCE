@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class WishlistModel {
 
-    private int mProductImage;
+    private String mProductImage;
     private String mProductTitle;
     private long freeCoupons;
     private String mRating;
@@ -17,7 +17,7 @@ public class WishlistModel {
   //  private boolean COD;
     private String mPaymentMenthod;
 
-    public WishlistModel(int mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, String mPaymentMenthod) {
+    public WishlistModel(String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, String mPaymentMenthod) {
         this.mProductImage = mProductImage;
         this.mProductTitle = mProductTitle;
         this.freeCoupons = freeCoupons;
