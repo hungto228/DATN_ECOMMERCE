@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import butterknife.Unbinder;
 
 
 public class ResetPassWordFragment extends Fragment {
-
+    public static final String TAG = "tagResetPassFragment";
     private FrameLayout parentFrameLayout;
 
     @BindView(R.id.pb_resetPassword)
@@ -70,6 +71,7 @@ public class ResetPassWordFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reset_password, container, false);
         parentFrameLayout = getActivity().findViewById(R.id.frame_register);

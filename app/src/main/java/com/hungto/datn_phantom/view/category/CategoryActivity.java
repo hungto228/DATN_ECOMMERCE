@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hungto.datn_phantom.R;
@@ -27,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoryActivity extends AppCompatActivity {
-
+    public static final String TAG = "tagCategoryActivity";
     @BindView(R.id.recyclerViewCategory)
     RecyclerView recyclerViewCategory;
 
@@ -35,16 +38,21 @@ public class CategoryActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbarCtegory)
     Toolbar toolbar;
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        Log.d(TAG, "onCreate: ");
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         String title = getIntent().getStringExtra("CategoryName");
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
       //  categoryModels.add(new CategoryModel("link", "Home"));
         categoryModels.add(new CategoryModel("link", "Electrolics"));

@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DeliveryActivity extends AppCompatActivity {
+    public static final String TAG = "tagDeliveryActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -36,14 +40,19 @@ public class DeliveryActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_change_or_add_address)
     Button mChangeOrAddAdressBtn;
-    public static  final int SELECT_ADDRESS=0;
+    public static final int SELECT_ADDRESS = 0;
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
+        Log.d(TAG, "onCreate: ");
         actionBarLogo = findViewById(R.id.actionbar_logo);
         ButterKnife.bind(this);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Delivery");
@@ -69,7 +78,7 @@ public class DeliveryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DeliveryActivity.this, AddressActivity.class);
                 //put extra cross addressActivity
-                intent.putExtra("MODE",SELECT_ADDRESS);
+                intent.putExtra("MODE", SELECT_ADDRESS);
                 startActivity(intent);
             }
         });

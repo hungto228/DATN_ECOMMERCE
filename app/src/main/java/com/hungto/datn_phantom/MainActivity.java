@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -45,7 +46,7 @@ import butterknife.ButterKnife;
 import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.setSignUpFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    public static final String TAG = "tagMainActivity";
 //    @BindView(R.id.img_no_internet)
 //    ImageView noInternetConnectionImg;
     @BindView(R.id.nav_view)
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: ");
         actionBarLogo = findViewById(R.id.actionbar_logo);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

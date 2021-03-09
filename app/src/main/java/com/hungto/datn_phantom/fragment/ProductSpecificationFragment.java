@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductSpecificationAdapter;
@@ -23,7 +25,7 @@ import butterknife.Unbinder;
 
 
 public class ProductSpecificationFragment extends Fragment {
-
+    public static final String TAG = "tagProductSpecFragment";
     @BindView(R.id.recyclerViewSpecification)
     RecyclerView recyclerViewSpecification;
 
@@ -37,10 +39,11 @@ public class ProductSpecificationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_specification, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        getActivity().getWindow().setStatusBarColor(getActivity().getColor(R.color.colorPrimary));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewSpecification.setLayoutManager(linearLayoutManager);

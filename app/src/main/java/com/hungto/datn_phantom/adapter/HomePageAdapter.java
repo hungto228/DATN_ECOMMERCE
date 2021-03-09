@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomePageAdapter extends RecyclerView.Adapter {
+    public static final String TAG = "tagHomePageAdapter";
     private List<HomePageModel> homePageModelList;
 
     private RecyclerView.RecycledViewPool recycledViewPool;
@@ -78,6 +80,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         switch (viewType) {
             case HomePageModel.BANNER_SLIDER:
                 View bannerSlider = LayoutInflater.from(parent.getContext()).inflate(R.layout.sliding_ads_layout, parent, false);

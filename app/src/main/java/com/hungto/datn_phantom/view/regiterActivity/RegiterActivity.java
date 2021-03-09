@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.view.regiterActivity;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 
 
 public class RegiterActivity extends AppCompatActivity {
-
+    public static final String TAG = "tagResgiterActivity";
 
     @BindView(R.id.frame_register)
     FrameLayout frameLayoutRegiter;
@@ -30,6 +31,7 @@ public class RegiterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiter);
+        Log.d(TAG, "onCreate: ");
         ButterKnife.bind(this);
         if (setSignUpFragment) {
             setSignUpFragment=false;

@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -26,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ViewAllActivity extends AppCompatActivity {
-
+    public static final String TAG = "tagViewAllActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -37,6 +40,7 @@ public class ViewAllActivity extends AppCompatActivity {
     RecyclerView recyclerViewAll;
     @BindView(R.id.gridViewViewAll)
     GridView gridViewAll;
+    private Window window;
 
     public static List<HorizontalProductScrollModel>horizontalProductScrollModelList;
 
@@ -44,14 +48,18 @@ public class ViewAllActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all);
+        Log.d(TAG, "onCreate: ");
         actionBarLogo = findViewById(R.id.actionbar_logo);
         ButterKnife.bind(this);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
       //  getSupportActionBar().setTitle(R.string.deal_of_day);
         getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBarLogo.setVisibility(View.INVISIBLE);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         int layout_code=getIntent().getIntExtra("LAYOUT_CODE",-1);
         if( layout_code==0) {

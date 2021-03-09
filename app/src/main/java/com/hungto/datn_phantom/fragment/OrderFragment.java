@@ -1,6 +1,7 @@
 package com.hungto.datn_phantom.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ import butterknife.Unbinder;
 
 
 public class OrderFragment extends Fragment {
-
+    public static final String TAG = "tagOrderFragment";
     public OrderFragment() {
     }
 
@@ -38,6 +39,7 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         View root = inflater.inflate(R.layout.fragment_order, container, false);
         unbinder= ButterKnife.bind(this,root);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

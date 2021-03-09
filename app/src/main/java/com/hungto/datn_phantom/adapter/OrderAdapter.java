@@ -3,6 +3,7 @@ package com.hungto.datn_phantom.adapter;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-
+    public static final String TAG = "tagOrderAdapter";
     List<OrderItemModel> orderItemModelList;
 
     public OrderAdapter(List<OrderItemModel> orderItemModelList) {
@@ -33,6 +34,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @NonNull
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item_layout, parent, false);
         return new ViewHolder(view);
     }

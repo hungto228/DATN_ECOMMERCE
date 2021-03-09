@@ -2,6 +2,7 @@ package com.hungto.datn_phantom.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CartAdapter extends RecyclerView.Adapter {
-
+    public static final String TAG = "tagCartAdapter";
     List<CartItemModel> cartItemModelList;
     Context  context;
     public CartAdapter(List<CartItemModel> cartItemModelList) {
@@ -45,6 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View view = null;
         RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {

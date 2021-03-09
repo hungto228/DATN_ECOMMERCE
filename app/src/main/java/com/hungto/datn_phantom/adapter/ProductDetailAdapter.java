@@ -1,5 +1,7 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +11,7 @@ import com.hungto.datn_phantom.fragment.ProductDescriptionFragment;
 import com.hungto.datn_phantom.fragment.ProductSpecificationFragment;
 
 public class ProductDetailAdapter extends FragmentPagerAdapter {
+    public static final String TAG = "tagProductDetailAdapter";
     private int totalTabs;
 
     public ProductDetailAdapter(@NonNull FragmentManager fm, int totalTabs) {
@@ -19,6 +22,7 @@ public class ProductDetailAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        Log.d(TAG, "getItem: ");
         switch (position) {
             case 0:
                 ProductDescriptionFragment productDescriptionFragment=new ProductDescriptionFragment();

@@ -3,6 +3,7 @@ package com.hungto.datn_phantom.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpecificationAdapter.ViewHolder> {
+    public static final String TAG = "tagProductsSpeciAdapter";
 
     private List<ProductSpecificationModel> productSpecificationModelList;
 
@@ -46,6 +48,7 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
     @NonNull
     @Override
     public ProductSpecificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         switch (viewType) {
             case ProductSpecificationModel.SPECIFICATION_TITLE:
                 TextView title = new TextView(parent.getContext());

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.onRes
 
 
 public class SignInFragment extends Fragment {
-
+    public static final String TAG = "tagSignInFragment";
     public SignInFragment() {
         // Required empty public constructor
     }
@@ -70,6 +71,7 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
 

@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,7 +11,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import java.util.List;
 
 public class Product_Images_Adapter extends PagerAdapter {
-
+    public static final String TAG = "tagProductImageAdapter";
     ImageView productImg;
 
     List<Integer> mProductImageList;
@@ -22,6 +23,7 @@ public class Product_Images_Adapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        Log.d(TAG, "instantiateItem: ");
         productImg = new ImageView(container.getContext());
         productImg.setImageResource(mProductImageList.get(position));
         container.addView(productImg, 0);

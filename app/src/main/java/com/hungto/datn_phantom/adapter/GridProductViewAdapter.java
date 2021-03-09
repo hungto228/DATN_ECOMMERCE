@@ -3,6 +3,7 @@ package com.hungto.datn_phantom.adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GridProductViewAdapter extends BaseAdapter {
+    public static final String TAG = "tagGridProductAdapter";
 //    @BindView(R.id.img_product)
 //    ImageView productImg;
 //
@@ -57,7 +59,7 @@ public class GridProductViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        Log.d(TAG, "getView: ");
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hoziontal_scroll_item, null);

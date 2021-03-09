@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.SystemClock;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,7 +14,7 @@ import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
 
 
 public class SplashScreen extends AppCompatActivity {
-
+    public static final String TAG = "tagSplashActivity";
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -21,6 +22,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        Log.d(TAG, "onCreate: ");
         firebaseAuth=FirebaseAuth.getInstance();
         //sleep 3 seconds
         SystemClock.sleep(1000);

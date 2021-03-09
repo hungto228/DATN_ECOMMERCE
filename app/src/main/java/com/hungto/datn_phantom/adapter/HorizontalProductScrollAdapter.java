@@ -2,6 +2,7 @@ package com.hungto.datn_phantom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<HorizontalProductScrollAdapter.ViewHolder> {
+    public static final String TAG = "tagHoriProductAdapter";
     Context context;
     private List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
@@ -34,6 +36,7 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
     @NonNull
     @Override
     public HorizontalProductScrollAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hoziontal_scroll_item, parent, false);
         return new ViewHolder(view);
     }

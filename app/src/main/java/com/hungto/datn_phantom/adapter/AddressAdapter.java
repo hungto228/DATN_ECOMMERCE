@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import static com.hungto.datn_phantom.view.addAdressActivity.AddressActivity.ref
 
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
-
+    public static final String TAG = "tagAddressAdapter";
     private DeliveryActivity deliveryActivity;
     private AccountFragment accountFragment;
     private AddressActivity addressActivity;
@@ -42,6 +43,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     @NonNull
     @Override
     public AddressAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.address_item_layout, parent, false);
         return new ViewHolder(view);
     }

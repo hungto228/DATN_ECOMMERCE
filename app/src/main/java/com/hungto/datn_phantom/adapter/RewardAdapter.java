@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder> {
-
+    public static final String TAG = "tagRewardAdapter";
     List<RewardModel> rewardModelList = new ArrayList<>();
     private Boolean useMiniLayout = false;
 
@@ -31,6 +32,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
     @NonNull
     @Override
     public RewardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View root;
         if (useMiniLayout) {
 

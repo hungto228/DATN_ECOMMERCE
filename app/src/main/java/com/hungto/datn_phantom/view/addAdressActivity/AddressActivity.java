@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -24,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AddressActivity extends AppCompatActivity {
+    public static final String TAG = "tagAddressActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -34,17 +38,22 @@ public class AddressActivity extends AppCompatActivity {
     @BindView(R.id.btn_deliver_here)
     Button mDeliverHere;
     DeliveryActivity deliveryActivity;
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
+        Log.d(TAG, "onCreate: ");
         actionBarLogo = findViewById(R.id.actionbar_logo);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Address");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         actionBarLogo.setVisibility(View.INVISIBLE);
 

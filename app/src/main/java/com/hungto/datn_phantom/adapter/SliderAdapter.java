@@ -2,6 +2,7 @@ package com.hungto.datn_phantom.adapter;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SliderAdapter extends PagerAdapter {
+    public static final String TAG = "tagSliderAdapter";
     @BindView(R.id.img_banner)
     ImageView banner;
 
@@ -36,6 +38,7 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        Log.d(TAG, "instantiateItem: ");
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.slider_layout, container, false);
         ButterKnife.bind(this, view);
         bannerContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModels.get(position).getBackgroundColor())));

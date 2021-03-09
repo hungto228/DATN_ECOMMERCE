@@ -13,10 +13,13 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,7 +45,7 @@ import butterknife.ButterKnife;
 import static com.hungto.datn_phantom.MainActivity.showCart;
 
 public class ProductDetailActivity extends AppCompatActivity {
-
+    public static final String TAG = "tagProductActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -79,15 +82,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     public  static  TextView couponTBody;
     public  static RecyclerView opencouponsRecyclerView;
     public  static LinearLayout selectedCoupon;
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
+        Log.d(TAG, "onCreate: ");
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        window=getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         List<Integer> productImageList = new ArrayList<>();
         productImageList.add(R.drawable.ic_order_orange);

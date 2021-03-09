@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OrderDetailActivity extends AppCompatActivity {
-
+    public static final String TAG = "tagOrderDetailActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -27,6 +28,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+        Log.d(TAG, "onCreate: ");
         actionBarLogo = findViewById(R.id.actionbar_logo);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

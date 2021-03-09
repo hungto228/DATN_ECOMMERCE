@@ -1,6 +1,7 @@
 package com.hungto.datn_phantom.adapter;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+    public static final String TAG = "tagCategoryAdapter";
     private List<CategoryModel> categoryModels;
 
     public CategoryAdapter(List<CategoryModel> categoryModels) {
@@ -35,6 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @NonNull
     @Override
     public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
 
         return new ViewHolder(root);

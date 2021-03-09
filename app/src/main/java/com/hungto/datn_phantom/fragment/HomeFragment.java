@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,6 +55,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+
 import static com.hungto.datn_phantom.connnect.DBqueries.categoryModels;
 import static com.hungto.datn_phantom.connnect.DBqueries.homePageModelList;
 import static com.hungto.datn_phantom.connnect.DBqueries.loadCategory;
@@ -61,6 +63,7 @@ import static com.hungto.datn_phantom.connnect.DBqueries.loadFragment;
 
 
 public class HomeFragment extends Fragment {
+    public static final String TAG = "tagHomeFragment";
 
     @BindView(R.id.recyclerViewCategory)
     RecyclerView recyclerViewCategory;
@@ -73,7 +76,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerViewHomePage;
     private HomePageAdapter homePageAdapter;
     @BindView(R.id.img_no_internet)
-   ImageView noInternetConnectionImg;
+    ImageView noInternetConnectionImg;
 
     //firebaseStore
     FirebaseFirestore firebaseFirestore;
@@ -81,6 +84,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, root);
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -1,6 +1,7 @@
 package com.hungto.datn_phantom.adapter;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHolder> {
-
+    public static final String TAG = "tagWishListAdapter";
     List<WishlistModel> wishlistModelList;
     private Boolean wishList;
 
@@ -34,6 +35,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     @NonNull
     @Override
     public WishListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.wishlist_item_layout, parent, false);
         return new ViewHolder(root);
     }
