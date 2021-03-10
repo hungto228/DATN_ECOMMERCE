@@ -34,7 +34,7 @@ public class ViewAllActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private ImageView actionBarLogo;
-
+    public static List<WishlistModel> wishlistModelList = new ArrayList<>();
 
     @BindView(R.id.recyclerViewViewAll)
     RecyclerView recyclerViewAll;
@@ -42,7 +42,7 @@ public class ViewAllActivity extends AppCompatActivity {
     GridView gridViewAll;
     private Window window;
 
-    public static List<HorizontalProductScrollModel>horizontalProductScrollModelList;
+    public static List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,28 +55,27 @@ public class ViewAllActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-      //  getSupportActionBar().setTitle(R.string.deal_of_day);
+        //  getSupportActionBar().setTitle(R.string.deal_of_day);
         getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBarLogo.setVisibility(View.INVISIBLE);
         window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
-        int layout_code=getIntent().getIntExtra("LAYOUT_CODE",-1);
-        if( layout_code==0) {
+        int layout_code = getIntent().getIntExtra("LAYOUT_CODE", -1);
+        if (layout_code == 0) {
             recyclerViewAll.setVisibility(View.VISIBLE);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
             recyclerViewAll.setLayoutManager(linearLayoutManager);
-            List<WishlistModel> wishlistModelList = new ArrayList<>();
-            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 145, "rs 49999", "rs59999", "cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 2, "4", 15, "rs 49999", "rs59999", "cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 95, "rs 49999", "rs59999", "cash on delivery"));
+
+//            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 145, "rs 49999", "rs59999", "cash on delivery"));
+//            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 2, "4", 15, "rs 49999", "rs59999", "cash on delivery"));
+//            wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 95, "rs 49999", "rs59999", "cash on delivery"));
             WishListAdapter wishListAdapter = new WishListAdapter(wishlistModelList, true);
             recyclerViewAll.setAdapter(wishListAdapter);
             wishListAdapter.notifyDataSetChanged();
-        }else if(layout_code==1) {
+        } else if (layout_code == 1) {
             gridViewAll.setVisibility(View.VISIBLE);
-
 
 
             GridProductViewAdapter gridProductViewAdapter = new GridProductViewAdapter(horizontalProductScrollModelList);

@@ -16,6 +16,7 @@ import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
+import com.hungto.datn_phantom.model.WishlistModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class DBqueries {
                                     //  homePageModelList.add(new HomePageModel(1, "dd", "#ffffff"));
 
                                 } else if ((long) documentSnapshot.get("view_type") == 2) {
-                                    // List<WishlistModel> viewAllProductList = new ArrayList<>();
+                                     List<WishlistModel> viewAllProductList = new ArrayList<>();
                                     List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
                                     long no_of_products = (long) documentSnapshot.get("no_of_products");
                                     for (long x = 1; x < no_of_products + 1; x++) {
@@ -79,18 +80,17 @@ public class DBqueries {
                                                 , documentSnapshot.get("product_title_" + x).toString()
                                                 , documentSnapshot.get("product_subtitle_" + x).toString()
                                                 , documentSnapshot.get("product_price_" + x).toString()));
-//                                      viewAllProductList.add(new WishlistModel(documentSnapshot.get("product_image_" + x).toString()
-//                                                , documentSnapshot.get("product_full_title_" + x).toString()
-//                                                , (long) documentSnapshot.get("free_coupens_" + x)
-//                                                , documentSnapshot.get("average_rating_" + x).toString()
-//                                                , (long) documentSnapshot.get("total_rating_" + x)
-//                                                , documentSnapshot.get("product_price_" + x).toString()
-//                                                , documentSnapshot.get("cutted_price_" + x).toString()
-//                                                , (boolean) documentSnapshot.get("COD_" + x)));
-//                                        )));
+                                      viewAllProductList.add(new WishlistModel(documentSnapshot.get("product_image_" + x).toString()
+                                                , documentSnapshot.get("product_full_title_" + x).toString()
+                                                , (long) documentSnapshot.get("free_coupens_" + x)
+                                                , documentSnapshot.get("average_rating_" + x).toString()
+                                                , (long) documentSnapshot.get("total_ratings_" + x)
+                                                , documentSnapshot.get("product_price_" + x).toString()
+                                                , documentSnapshot.get("cutted_price_" + x).toString()
+                                                , (boolean) documentSnapshot.get("COD_" + x)));
                                     }
                                     homePageModelList.add(new HomePageModel(2, documentSnapshot.get("layout_title").toString()
-                                            , documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList));
+                                            , documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList,viewAllProductList));
 
                                 } else if ((long) documentSnapshot.get("view_type") == 3) {
                                     List<HorizontalProductScrollModel> gridProductScrollModelList = new ArrayList<>();

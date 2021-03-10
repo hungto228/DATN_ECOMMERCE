@@ -7,17 +7,16 @@ import lombok.Setter;
 @Setter
 public class WishlistModel {
 
-    private int mProductImage;
+    private String mProductImage;
     private String mProductTitle;
     private long freeCoupons;
     private String mRating;
     private long totalRatings;
     private String mProductPrice;
     private String mCuttedPrice;
-  //  private boolean COD;
-    private String mPaymentMenthod;
+    private boolean COD;
 
-    public WishlistModel(int mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, String mPaymentMenthod) {
+    public WishlistModel(String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, boolean COD) {
         this.mProductImage = mProductImage;
         this.mProductTitle = mProductTitle;
         this.freeCoupons = freeCoupons;
@@ -25,6 +24,6 @@ public class WishlistModel {
         this.totalRatings = totalRatings;
         this.mProductPrice = mProductPrice;
         this.mCuttedPrice = mCuttedPrice;
-        this.mPaymentMenthod = mPaymentMenthod;
+        this.COD = COD;
     }
 }

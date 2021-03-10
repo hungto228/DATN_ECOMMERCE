@@ -34,11 +34,21 @@ public class HomePageModel {
     //horiontal product layout && gridView layout
     private String title;
     private List<HorizontalProductScrollModel> horizontalProductScrollModelList;
-
+    private List<WishlistModel> wishlistModelList;
     public HomePageModel(int type, String title, String backGroundColor, List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
         this.type = type;
         this.title = title;
         this.backGroundColor = backGroundColor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
     }
+
+    public HomePageModel(int type, String title, String backGroundColor, List<HorizontalProductScrollModel> horizontalProductScrollModelList, List<WishlistModel> wishlistModelList) {
+        this.type = type;
+        this.backGroundColor = backGroundColor;
+        this.title = title;
+        this.horizontalProductScrollModelList = horizontalProductScrollModelList;
+        this.wishlistModelList = wishlistModelList;
+    }
+
+
 }

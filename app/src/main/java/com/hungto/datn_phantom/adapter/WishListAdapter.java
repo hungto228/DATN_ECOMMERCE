@@ -1,6 +1,8 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.WishlistModel;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
@@ -26,6 +30,11 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     public static final String TAG = "tagWishListAdapter";
     List<WishlistModel> wishlistModelList;
     private Boolean wishList;
+    Context context;
+
+    public WishListAdapter(Context context) {
+        this.context = context;
+    }
 
     public WishListAdapter(List<WishlistModel> wishlistModelList, Boolean wishList) {
         this.wishlistModelList = wishlistModelList;
@@ -43,16 +52,16 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull WishListAdapter.ViewHolder holder, int position) {
 
-        int resource = wishlistModelList.get(position).getMProductImage();
+        String resource = wishlistModelList.get(position).getMProductImage();
         String title = wishlistModelList.get(position).getMProductTitle();
         long freeCoupon = wishlistModelList.get(position).getFreeCoupons();
         String rating = wishlistModelList.get(position).getMRating();
         long totalRating = wishlistModelList.get(position).getTotalRatings();
         String productPrice = wishlistModelList.get(position).getMProductPrice();
         String cuttedPrice = wishlistModelList.get(position).getMCuttedPrice();
-        String paymentMethod = wishlistModelList.get(position).getMPaymentMenthod();
+        boolean cod = wishlistModelList.get(position).isCOD();
 
-        holder.setDataWithlist(resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, paymentMethod);
+        holder.setDataWithlist(resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod);
     }
 
     @Override
@@ -90,8 +99,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        private void setDataWithlist(int resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, String payMethod) {
-            productImage.setImageResource(resource);
+        private void setDataWithlist(String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod) {
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImage);
             mProductTitle.setText(title);
             if (freeCouponsNo != 0) {
                 couponIconImage.setVisibility(View.VISIBLE);
@@ -99,7 +108,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
                     mFreeCoupons.setText("free " + freeCouponsNo + " Coupons");
                 } else {
                     mFreeCoupons.setText("free " + freeCouponsNo + " Coupons");
-
                 }
 
             } else {
@@ -107,10 +115,14 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
                 mFreeCoupons.setVisibility(View.GONE);
             }
             mRating.setText(averageRate);
-            mTotalRatings.setText("(" + totalRatingsNo + ")Ratings");
-            mProductPrice.setText("Rs." + price + "/-");
-            mCuttedPrice.setText("Rs." + cuttedPriceValue + "/-");
-            mPaymentMethod.setText(payMethod);
+            mTotalRatings.setText("(" + totalRatingsNo + ")" + "rating");
+            mProductPrice.setText(price + "VNĐ"+ "/-");
+            mCuttedPrice.setText(cuttedPriceValue + "VNĐ" + "/-");
+            if (cod) {
+                mPaymentMethod.setVisibility(View.VISIBLE);
+            } else {
+                mPaymentMethod.setVisibility(View.INVISIBLE);
+            }
 
             if (wishList) {
                 mDeleteBtn.setVisibility(View.VISIBLE);
@@ -127,9 +139,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(itemView.getContext(), ProductDetailActivity.class);
+                    Intent intent = new Intent(itemView.getContext(), ProductDetailActivity.class);
                     itemView.getContext().startActivity(intent);
-             //       Toast.makeText(itemView.getContext(), "item view", Toast.LENGTH_SHORT).show();
+                    //       Toast.makeText(itemView.getContext(), "item view", Toast.LENGTH_SHORT).show();
                 }
             });
         }
