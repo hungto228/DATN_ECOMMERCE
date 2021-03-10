@@ -176,6 +176,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             banner.setAdapter(sliderAdapter);
             banner.setClipToPadding(false);
             banner.setPageMargin(20);
+          //  banner.setPageMargin(currentPage);
 
             banner.setCurrentItem(currentPage);
             ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -192,7 +193,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onPageScrollStateChanged(int state) {
                     if (state == ViewPager.SCROLL_STATE_IDLE) {
-                        pageLooper(sliderModelList);
+                        pageLooper(arrangedList);
                     }
                 }
             };

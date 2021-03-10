@@ -57,9 +57,10 @@ import butterknife.Unbinder;
 
 
 import static com.hungto.datn_phantom.connnect.DBqueries.categoryModels;
-import static com.hungto.datn_phantom.connnect.DBqueries.homePageModelList;
+import static com.hungto.datn_phantom.connnect.DBqueries.lists;
 import static com.hungto.datn_phantom.connnect.DBqueries.loadCategory;
 import static com.hungto.datn_phantom.connnect.DBqueries.loadFragment;
+import static com.hungto.datn_phantom.connnect.DBqueries.loaddataCategoriesName;
 
 
 public class HomeFragment extends Fragment {
@@ -109,14 +110,19 @@ public class HomeFragment extends Fragment {
             LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
             testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerViewHomePage.setLayoutManager(testingLayoutManager);
-            homePageAdapter = new HomePageAdapter(homePageModelList);
-            recyclerViewHomePage.setAdapter(homePageAdapter);
+
             //load fragment
-            if (homePageModelList.size() == 0) {
-                loadFragment(homePageAdapter, getContext());
+            if (lists.size() == 0) {
+                loaddataCategoriesName.add("HOME");
+                lists.add(new ArrayList<HomePageModel>());
+                homePageAdapter = new HomePageAdapter(lists.get(0));
+                loadFragment(homePageAdapter, getContext(),0,"HOME");
             } else {
+                homePageAdapter = new HomePageAdapter(lists.get(0));
                 homePageAdapter.notifyDataSetChanged();
             }
+
+            recyclerViewHomePage.setAdapter(homePageAdapter);
         } else {
             Glide.with(this).load(R.drawable.nointernet).into(noInternetConnectionImg);
             noInternetConnectionImg.setVisibility(View.VISIBLE);

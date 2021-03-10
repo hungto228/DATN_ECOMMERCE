@@ -29,8 +29,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.hungto.datn_phantom.connnect.DBqueries.lists;
+import static com.hungto.datn_phantom.connnect.DBqueries.loadFragment;
+import static com.hungto.datn_phantom.connnect.DBqueries.loaddataCategoriesName;
+
 public class CategoryActivity extends AppCompatActivity {
     public static final String TAG = "tagCategoryActivity";
+   private HomePageAdapter homePageAdapter ;
+
     @BindView(R.id.recyclerViewCategory)
     RecyclerView recyclerViewCategory;
 
@@ -54,7 +60,7 @@ public class CategoryActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
-      //  categoryModels.add(new CategoryModel("link", "Home"));
+        //  categoryModels.add(new CategoryModel("link", "Home"));
         categoryModels.add(new CategoryModel("link", "Electrolics"));
         categoryModels.add(new CategoryModel("link", "Appliances"));
         categoryModels.add(new CategoryModel("link", "Furniture"));
@@ -74,11 +80,21 @@ public class CategoryActivity extends AppCompatActivity {
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewCategory.setLayoutManager(testingLayoutManager);
 
-        List<HomePageModel> homePageModelList = new ArrayList<>();
-
-
-
-        HomePageAdapter homePageAdapter = new HomePageAdapter(homePageModelList);
+//        List<HomePageModel> homePageModelList = new ArrayList<>();
+        int position = 0;
+        for (int i = 0; i < loaddataCategoriesName.size(); i++) {
+            if (loaddataCategoriesName.get(i).equals(title.toUpperCase())) {
+                position = i;
+            }
+        }
+        if(position==0){
+            loaddataCategoriesName.add(title.toUpperCase());
+            lists.add(new ArrayList<HomePageModel>());
+            homePageAdapter = new HomePageAdapter(lists.get(loaddataCategoriesName.size()-1));
+            loadFragment(homePageAdapter, this,loaddataCategoriesName.size()-1,title);
+        }else {
+homePageAdapter=new HomePageAdapter(lists.get(position));
+        }
         recyclerViewCategory.setAdapter(homePageAdapter);
         homePageAdapter.notifyDataSetChanged();
     }
