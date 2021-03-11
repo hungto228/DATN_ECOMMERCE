@@ -15,6 +15,7 @@ import android.view.Window;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductSpecificationAdapter;
 import com.hungto.datn_phantom.model.ProductSpecificationModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class ProductSpecificationFragment extends Fragment {
     public static final String TAG = "tagProductSpecFragment";
     @BindView(R.id.recyclerViewSpecification)
     RecyclerView recyclerViewSpecification;
+    public static List<ProductSpecificationModel> productSpecificationModelList;
 
     Unbinder unbinder;
 
@@ -48,17 +50,17 @@ public class ProductSpecificationFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewSpecification.setLayoutManager(linearLayoutManager);
 
-        List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
+     //  List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
 
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Dispaly"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Dispaly"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Dispaly"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"ram", "4gb"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0, "Dispaly"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1, "ram", "4gb"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1, "ram", "4gb"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0, "Dispaly"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1, "ram", "4gb"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1, "ram", "4gb"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0, "Dispaly"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1, "ram", "4gb"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1, "ram", "4gb"));
         ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(productSpecificationModelList);
         recyclerViewSpecification.setAdapter(productSpecificationAdapter);
         productSpecificationAdapter.notifyDataSetChanged();

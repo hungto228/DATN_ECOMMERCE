@@ -8,15 +8,19 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.hungto.datn_phantom.R;
+
 import java.util.List;
 
 public class Product_Images_Adapter extends PagerAdapter {
     public static final String TAG = "tagProductImageAdapter";
-    ImageView productImg;
 
-    List<Integer> mProductImageList;
 
-    public Product_Images_Adapter(List<Integer> mProductImageList) {
+    List<String> mProductImageList;
+
+    public Product_Images_Adapter(List<String> mProductImageList) {
         this.mProductImageList = mProductImageList;
     }
 
@@ -24,8 +28,8 @@ public class Product_Images_Adapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Log.d(TAG, "instantiateItem: ");
-        productImg = new ImageView(container.getContext());
-        productImg.setImageResource(mProductImageList.get(position));
+        ImageView productImg = new ImageView(container.getContext());
+        Glide.with(container.getContext()).load(mProductImageList.get(position)).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
         container.addView(productImg, 0);
         return productImg;
     }

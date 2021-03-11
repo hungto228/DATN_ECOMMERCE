@@ -25,13 +25,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
 
         <LinearLayout
@@ -93,7 +94,7 @@
             android:stateListAnimator="@null"
             android:layout_weight="1"
             android:textColor="@color/colorAccent"
-            android:background="@color/colorBtnRed"
+            android:backgroundTint="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

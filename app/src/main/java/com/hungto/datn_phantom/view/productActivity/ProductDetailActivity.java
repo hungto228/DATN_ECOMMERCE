@@ -3,11 +3,11 @@ package com.hungto.datn_phantom.view.productActivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -23,16 +23,22 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
 import com.hungto.datn_phantom.adapter.RewardAdapter;
+import com.hungto.datn_phantom.model.ProductSpecificationModel;
 import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 
@@ -51,12 +57,35 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.viewpage_image_product)
     ViewPager mViewPagerproduct;
+    //product_image_lryout
+    @BindView(R.id.tv_productTitle)
+    TextView mProductTitle;
+    @BindView(R.id.tv_productRating)
+    TextView mAverageRatingMiniView;
+    @BindView(R.id.tv_totalRating)
+    TextView mTotalRatingMiniView;
+    @BindView(R.id.tv_productPrice)
+    TextView mProductPrice;
+    @BindView(R.id.tv_cutted_price)
+    TextView mCuttedPrice;
+    @BindView(R.id.cod_indicatorImg)
+    ImageView codIndicatorImg;
+    @BindView(R.id.tv_cod_indiactor)
+    TextView mCodIndicator;
+    //reward with product layout
+    @BindView(R.id.reward_img)
+    ImageView rewardImage;
+    @BindView(R.id.tv_rewardTitle)
+    TextView mRewardTitle;
+    @BindView(R.id.tv_rewardBody)
+    TextView mRewardBody;
 
     @BindView(R.id.table_indicator)
     TabLayout tabIndicator;
 
     @BindView(R.id.btn_coupen_redeem)
     Button mCoupenRedemBtn;
+
 
     private static boolean ALREALY_ADD_TO_WITHLIST;
 
@@ -69,20 +98,47 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.viewpage_product_detail)
     ViewPager mViewPageDetailProduct;
+    @BindView(R.id.product_detail_tab)
+    ConstraintLayout productDetailtab;
+    @BindView(R.id.constraint_product_detail)
+    ConstraintLayout productDetailOnly;
+    @BindView(R.id.tv_productBody)
+    TextView productDescriptionBody;
+
+    public static String productDescription;
+    public static String productOtherDetail;
+    public static List<ProductSpecificationModel> productSpecificationModelList=new ArrayList<>() ;
 
     //rating layout
     @BindView(R.id.linearLayout_rate_now_container)
     LinearLayout linearLayoutRateNow;
+    public static int initialRating;
+    public static LinearLayout rateNowContainer;
+    @BindView(R.id.tv_totalRating_rating)
+    TextView totalRatings;
+    @BindView(R.id.ratings_numbers_container)
+    LinearLayout ratingsNoContainer;
+    @BindView(R.id.total_ratings__figure)
+    TextView totalRatingsFigure;
+    @BindView(R.id.ratings_progressbar_container)
+    LinearLayout ratingsProgressBarContainer;
+    @BindView(R.id.average_rating)
+     TextView averageRating;
+
 
     @BindView(R.id.buy_now_btn)
     Button mBuyNowBtn;
-//coupen dialog
-    public  static TextView couponTitle;
-    public  static  TextView couponExpiryDate;
-    public  static  TextView couponTBody;
-    public  static RecyclerView opencouponsRecyclerView;
-    public  static LinearLayout selectedCoupon;
+    public static String productID;
+
+    //coupen dialog
+    public static TextView couponTitle;
+    public static TextView couponExpiryDate;
+    public static TextView couponTBody;
+    public static RecyclerView opencouponsRecyclerView;
+    public static LinearLayout selectedCoupon;
     private Window window;
+    //firebaseStore
+    private FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,18 +149,91 @@ public class ProductDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        window=getWindow();
+        window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
-        List<Integer> productImageList = new ArrayList<>();
-        productImageList.add(R.drawable.ic_order_orange);
-        productImageList.add(R.drawable.ic_add_black);
-        productImageList.add(R.drawable.ic_email_red);
+        final List<String> productImages = new ArrayList<>();
 
-        Product_Images_Adapter product_images_adapter = new Product_Images_Adapter(productImageList);
-        mViewPagerproduct.setAdapter(product_images_adapter);
-        tabIndicator.setupWithViewPager(mViewPagerproduct, true);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        productID = getIntent().getStringExtra("PRODUCT_ID");
+        firebaseFirestore.collection("PRODUCTS").document("uRoDsSFFJp57RZw0UNeo")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    for (long i = 1; i < (long) documentSnapshot.get("no_of_product_images") + 1; i++) {
+                        productImages.add(documentSnapshot.get("product_image_" + i).toString());
+
+                    }
+                    Product_Images_Adapter product_images_adapter = new Product_Images_Adapter(productImages);
+                    mViewPagerproduct.setAdapter(product_images_adapter);
+                 //   tabIndicator.setupWithViewPager(mViewPagerproduct,true);
+
+                    mProductTitle.setText(documentSnapshot.get("product_title").toString());
+                    mAverageRatingMiniView.setText(documentSnapshot.get("average_rating").toString());
+                    mTotalRatingMiniView.setText("(" + (long) documentSnapshot.get("total_ratings") + ") Danh gia");
+                    mProductPrice.setText(documentSnapshot.get("product_price").toString() + "VNĐ-");
+                    mCuttedPrice.setText(documentSnapshot.get("cutted_price").toString() + "VNĐ-");
+                    if ((boolean) documentSnapshot.get("COD")) {
+                        codIndicatorImg.setVisibility(View.VISIBLE);
+                        mCodIndicator.setVisibility(View.VISIBLE);
+                    } else {
+                        codIndicatorImg.setVisibility(View.INVISIBLE);
+                        mCodIndicator.setVisibility(View.INVISIBLE);
+                    }
+                    mRewardTitle.setText((long) documentSnapshot.get("free_coupens") + documentSnapshot.get("free_coupen_title").toString());
+                    mRewardBody.setText(documentSnapshot.get("free_coupen_body").toString());
+                    if ((boolean) documentSnapshot.get("use_tab_layout") == true) {
+                        productDetailtab.setVisibility(View.VISIBLE);
+                        productDetailOnly.setVisibility(View.VISIBLE);
+                        //cast to productDescription
+                        productDescription = documentSnapshot.get("product_description").toString();
+
+                        productOtherDetail = documentSnapshot.get("product_other_detail").toString();
+                        for (long i = 1; i < (long) documentSnapshot.get("total_spec_title") + 1; i++) {
+                            productSpecificationModelList.add(new
+                                    ProductSpecificationModel(0, documentSnapshot.get("spec_title_" + i).toString()));
+                            for (long j = 1; j < (long) documentSnapshot.get("spec_title_" + i + "_total_fields") + 1; j++) {
+                                productSpecificationModelList.add(new
+                                        ProductSpecificationModel(1, documentSnapshot.get("spec_title_" + i + "_field_" + j + "_name").toString(),
+                                        documentSnapshot.get("spec_title_" + i + "_field_" + j + "_values").toString()));
+                            }
+                        }
+                    } else {
+                        productDetailtab.setVisibility(View.VISIBLE);
+                        productDetailOnly.setVisibility(View.VISIBLE);
+                        productDescriptionBody.setText(documentSnapshot.get("product_description").toString());
+
+                    }
+                    totalRatings.setText((long) documentSnapshot.get("total_ratings") + " ratings");
+                    averageRating.setText(documentSnapshot.get("average_rating").toString());
+                    for (int i = 0; i < 5; i++) {
+                       TextView rating = (TextView) ratingsNoContainer.getChildAt(i);
+                        rating.setText(String.valueOf((long) documentSnapshot.get((5 - i) + "_star")));
+                        ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(i);
+
+                        int maxProgress = Integer.parseInt(String.valueOf((long) documentSnapshot.get("total_ratings")));
+                        progressBar.setMax(maxProgress);
+                        progressBar.setProgress(Integer.parseInt(String.valueOf((long) documentSnapshot.get((5 - i) + "_star"))));
+
+                    }
+                    totalRatingsFigure.setText(String.valueOf((long) documentSnapshot.get("total_ratings")));
+
+                    averageRating.setText(documentSnapshot.get("average_rating").toString());
+
+                    mViewPageDetailProduct.setAdapter(new ProductDetailAdapter(getSupportFragmentManager(), tabDetailProduct.getTabCount(), productDescription, productOtherDetail, productSpecificationModelList));
+
+                } else {
+                    String error = task.getException().getMessage();
+                    Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        tabIndicator.setupWithViewPager(mViewPagerproduct,true);
         mAddToWithList.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -118,7 +247,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
-        mViewPageDetailProduct.setAdapter(new ProductDetailAdapter(getSupportFragmentManager(), tabDetailProduct.getTabCount()));
+
+//       mViewPageDetailProduct.setAdapter(new ProductDetailAdapter(getSupportFragmentManager(), tabDetailProduct.getTabCount(),productDescription,productOtherDetail,productSpecificationModelList));
+
         mViewPageDetailProduct.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabDetailProduct));
         tabDetailProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -146,7 +277,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                     setRating(starPosition);
                 }
             });
-
         }
 
         mBuyNowBtn.setOnClickListener(new View.OnClickListener() {
@@ -210,6 +340,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         /* ********* COUPON DIALOG********* */
 
     }
+
     public static void showDialogRecyclerView() {
         if (opencouponsRecyclerView.getVisibility() == View.GONE) {
             opencouponsRecyclerView.setVisibility(View.VISIBLE);
