@@ -4,6 +4,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -12,6 +14,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
+import com.hungto.datn_phantom.fragment.HomeFragment;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
@@ -28,7 +31,7 @@ public class DBqueries {
     public static List<String> loaddataCategoriesName=new ArrayList<>();
 
 
-    public static void loadCategory(CategoryAdapter categoryAdapter, Context context) {
+    public static void loadCategory(RecyclerView categoryRecycleview, Context context) {
 
         firebaseFirestore.collection("CATEGORIES").orderBy("index").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -39,6 +42,8 @@ public class DBqueries {
                                 categoryModels.add(new CategoryModel(documentSnapshot.get("icon").toString(), documentSnapshot.get("categoryName").toString()));
 
                             }
+                            CategoryAdapter categoryAdapter=new CategoryAdapter(categoryModels);
+                            categoryRecycleview.setAdapter(categoryAdapter);
                             categoryAdapter.notifyDataSetChanged();
                         } else {
                             String error = task.getException().getMessage();
@@ -48,7 +53,7 @@ public class DBqueries {
                 });
     }
 
-    public static void loadFragment(HomePageAdapter homePageAdapter, Context context,final int index,String categoryName) {
+    public static void loadFragment(RecyclerView recycleViewHome,Context context, final int index, String categoryName) {
         firebaseFirestore.collection("CATEGORIES")
                 .document(categoryName.toUpperCase())
                 .collection("TOP_DEALS")
@@ -109,7 +114,10 @@ public class DBqueries {
                                             , documentSnapshot.get("layout_background").toString(), gridProductScrollModelList));
                                 }
                             }
+                            HomePageAdapter homePageAdapter=new HomePageAdapter(lists.get(index));
+                            recycleViewHome.setAdapter(homePageAdapter);
                             homePageAdapter.notifyDataSetChanged();
+                            HomeFragment.swipeRefreshLayout.setRefreshing(false);
                         } else {
                             String error = task.getException().getMessage();
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();

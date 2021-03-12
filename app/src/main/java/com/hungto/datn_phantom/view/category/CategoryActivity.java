@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.hungto.datn_phantom.connnect.DBqueries.lists;
+import static com.hungto.datn_phantom.connnect.DBqueries.loadCategory;
 import static com.hungto.datn_phantom.connnect.DBqueries.loadFragment;
 import static com.hungto.datn_phantom.connnect.DBqueries.loaddataCategoriesName;
 
@@ -91,7 +92,7 @@ public class CategoryActivity extends AppCompatActivity {
             loaddataCategoriesName.add(title.toUpperCase());
             lists.add(new ArrayList<HomePageModel>());
             homePageAdapter = new HomePageAdapter(lists.get(loaddataCategoriesName.size()-1));
-            loadFragment(homePageAdapter, this,loaddataCategoriesName.size()-1,title);
+            loadFragment(recyclerViewCategory, this,loaddataCategoriesName.size()-1,title);
         }else {
 homePageAdapter=new HomePageAdapter(lists.get(position));
         }
