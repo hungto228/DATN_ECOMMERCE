@@ -17,16 +17,19 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -36,6 +39,7 @@ import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.onRes
 
 public class SignInFragment extends Fragment {
     public static final String TAG = "tagSignInFragment";
+
     public SignInFragment() {
         // Required empty public constructor
     }
@@ -66,6 +70,7 @@ public class SignInFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    public static boolean disableCloseBtn = false;
 
 
     @Override
@@ -94,7 +99,7 @@ public class SignInFragment extends Fragment {
         mFogot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onResetPasswordFragment=true;
+                onResetPasswordFragment = true;
                 setFragmentSignUp(new ResetPassWordFragment());
             }
         });
@@ -143,6 +148,11 @@ public class SignInFragment extends Fragment {
                 mainIntent();
             }
         });
+        if (disableCloseBtn) {
+            mBackArrow.setVisibility(View.GONE);
+        } else {
+            mBackArrow.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setFragmentSignUp(Fragment fragmentsignup) {
@@ -180,6 +190,7 @@ public class SignInFragment extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(mainIntent);
                                     getActivity().finish();
                                 } else {
@@ -203,6 +214,7 @@ public class SignInFragment extends Fragment {
     private void mainIntent() {
         Intent mainIntent = new Intent(getActivity(), MainActivity.class);
         startActivity(mainIntent);
+        disableCloseBtn=false;
         getActivity().finish();
     }
 }

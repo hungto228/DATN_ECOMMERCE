@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewHomePage;
     private HomePageAdapter homePageAdapter;
     private ImageView noInternetConnectionImg;
-   // private Button retryButton;
+    private Button retryButton;
     //firebaseStore
     FirebaseFirestore firebaseFirestore;
 
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         swipeRefreshLayout = root.findViewById(R.id.refesh_layout);
         unbinder = ButterKnife.bind(this, root);
-   //     retryButton = root.findViewById(R.id.retry_button);
+        retryButton = root.findViewById(R.id.retry_button);
         noInternetConnectionImg = root.findViewById(R.id.img_no_internet);
         recyclerViewHomePage = root.findViewById(R.id.recyclerViewHomePage);
         recyclerViewCategory=root.findViewById(R.id.recyclerViewCategory);
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment {
      //       MainActivity.drawer.setDrawerLockMode(0);
             noInternetConnectionImg.setVisibility(View.GONE);
 
-            //  retryButton.setVisibility(View.GONE);
+              retryButton.setVisibility(View.GONE);
             recyclerViewCategory.setVisibility(View.VISIBLE);
             recyclerViewHomePage.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setColorSchemeColors(getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary));
@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
             recyclerViewHomePage.setVisibility(View.GONE);
             Glide.with(this).load(R.drawable.nointernet).into(noInternetConnectionImg);
             noInternetConnectionImg.setVisibility(View.VISIBLE);
-         ///   retryButton.setVisibility(View.VISIBLE);
+           retryButton.setVisibility(View.VISIBLE);
         }
 //refresh layout
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -206,7 +206,7 @@ public class HomeFragment extends Fragment {
 
             noInternetConnectionImg.setVisibility(View.GONE);
 
-         //   retryButton.setVisibility(View.GONE);
+            retryButton.setVisibility(View.GONE);
 
             recyclerViewCategory.setVisibility(View.VISIBLE);
             recyclerViewHomePage.setVisibility(View.VISIBLE);

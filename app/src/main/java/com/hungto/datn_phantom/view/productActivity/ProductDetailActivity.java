@@ -38,9 +38,12 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
 import com.hungto.datn_phantom.adapter.RewardAdapter;
+import com.hungto.datn_phantom.fragment.SignInFragment;
+import com.hungto.datn_phantom.fragment.SignUpFragment;
 import com.hungto.datn_phantom.model.ProductSpecificationModel;
 import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
+import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +52,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.hungto.datn_phantom.MainActivity.showCart;
+import static com.hungto.datn_phantom.connnect.DBqueries.currentUser;
 
 public class ProductDetailActivity extends AppCompatActivity {
+    public Dialog signInDialog;
     public static final String TAG = "tagProductActivity";
+    private RegiterActivity regiterActivity;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -107,7 +113,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public static String productDescription;
     public static String productOtherDetail;
-    public static List<ProductSpecificationModel> productSpecificationModelList=new ArrayList<>() ;
+    public static List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
 
     //rating layout
     @BindView(R.id.linearLayout_rate_now_container)
@@ -123,11 +129,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     @BindView(R.id.ratings_progressbar_container)
     LinearLayout ratingsProgressBarContainer;
     @BindView(R.id.average_rating)
-     TextView averageRating;
+    TextView averageRating;
 
 
     @BindView(R.id.buy_now_btn)
     Button mBuyNowBtn;
+    @BindView(R.id.add_to_cart_btn)
+    LinearLayout mAddToCartBtn;
     public static String productID;
 
     //coupen dialog
@@ -169,7 +177,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     }
                     Product_Images_Adapter product_images_adapter = new Product_Images_Adapter(productImages);
                     mViewPagerproduct.setAdapter(product_images_adapter);
-                 //   tabIndicator.setupWithViewPager(mViewPagerproduct,true);
+                    //   tabIndicator.setupWithViewPager(mViewPagerproduct,true);
 
                     mProductTitle.setText(documentSnapshot.get("product_title").toString());
                     mAverageRatingMiniView.setText(documentSnapshot.get("average_rating").toString());
@@ -210,7 +218,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     totalRatings.setText((long) documentSnapshot.get("total_ratings") + " ratings");
                     averageRating.setText(documentSnapshot.get("average_rating").toString());
                     for (int i = 0; i < 5; i++) {
-                       TextView rating = (TextView) ratingsNoContainer.getChildAt(i);
+                        TextView rating = (TextView) ratingsNoContainer.getChildAt(i);
                         rating.setText(String.valueOf((long) documentSnapshot.get((5 - i) + "_star")));
                         ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(i);
 
@@ -233,17 +241,22 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-        tabIndicator.setupWithViewPager(mViewPagerproduct,true);
+        tabIndicator.setupWithViewPager(mViewPagerproduct, true);
+        //Todo:add to withlist
         mAddToWithList.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (ALREALY_ADD_TO_WITHLIST) {
-                    ALREALY_ADD_TO_WITHLIST = false;
-                    mAddToWithList.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                if (currentUser == null) {
+                    signInDialog.show();
                 } else {
-                    ALREALY_ADD_TO_WITHLIST = true;
-                    mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
+                    if (ALREALY_ADD_TO_WITHLIST) {
+                        ALREALY_ADD_TO_WITHLIST = false;
+                        mAddToWithList.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                    } else {
+                        ALREALY_ADD_TO_WITHLIST = true;
+                        mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
+                    }
                 }
             }
         });
@@ -267,27 +280,44 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             }
         });
-
+        //TODO:rating layout
         //rating layout
         for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
             final int starPosition = i;
             linearLayoutRateNow.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setRating(starPosition);
+                    if (currentUser == null) {
+                        signInDialog.show();
+                    } else {
+                        setRating(starPosition);
+                    }
                 }
             });
         }
-
+        //TODO:buy now btn
         mBuyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
-                startActivity(intent);
-
+                if (currentUser == null) {
+                    signInDialog.show();
+                } else {
+                    Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });//TODO:addToCart
+        mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentUser == null) {
+                    signInDialog.show();
+                } else {
+                    return;
+                }
             }
         });
-
+        //TODO:Coupon Dialog
         /* ********* COUPON DIALOG********* */
         final Dialog checkCouponPriceDialog = new Dialog(ProductDetailActivity.this);
         checkCouponPriceDialog.setContentView(R.layout.coupen_redeem_dialog);
@@ -338,6 +368,34 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
         /* ********* COUPON DIALOG********* */
+        //sign indialog
+        signInDialog = new Dialog(ProductDetailActivity.this);
+        signInDialog.setContentView(R.layout.dialog_sign_in);
+        signInDialog.setCancelable(true);
+        signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Button dialogSignInBtn = signInDialog.findViewById(R.id.btn_dialog_sign_in);
+        Button dialogSignUpBtn = signInDialog.findViewById(R.id.btn_dialog_sign_up);
+        final Intent registerIntent = new Intent(ProductDetailActivity.this, RegiterActivity.class);
+        dialogSignInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignInFragment.disableCloseBtn=true;
+                signInDialog.dismiss();
+                regiterActivity.setSignUpFragment = false;
+                startActivity(registerIntent);
+            }
+        });
+        dialogSignUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignUpFragment.disableCloseBtn=true;
+                signInDialog.dismiss();
+                regiterActivity.setSignUpFragment = true;
+                startActivity(registerIntent);
+            }
+        });
+
+        //signin dialog
 
     }
 

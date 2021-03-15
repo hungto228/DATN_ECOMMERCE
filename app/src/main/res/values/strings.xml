@@ -66,6 +66,7 @@
     <string name="sl">Qty</string>
     <string name="vnd">$</string>
     <string name="rating">Rating</string>
+    <string name="retry">Retry</string>
 
     <!--TODO:toast,validate-->
 

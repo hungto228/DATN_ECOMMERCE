@@ -42,7 +42,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-
 public class SignUpFragment extends Fragment {
     public static final String TAG = "tagSignUpFragment";
 
@@ -83,6 +82,7 @@ public class SignUpFragment extends Fragment {
     Unbinder unbinder;
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    public static boolean disableCloseBtn = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,8 +91,8 @@ public class SignUpFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
-        unbinder = ButterKnife.bind(this,view);
-        frameLayout=getActivity().findViewById(R.id.frame_register);
+        unbinder = ButterKnife.bind(this, view);
+        frameLayout = getActivity().findViewById(R.id.frame_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -185,6 +185,11 @@ public class SignUpFragment extends Fragment {
                 mainIntent();
             }
         });
+        if (disableCloseBtn) {
+            mBackImgBtn.setVisibility(View.GONE);
+        } else {
+            mBackImgBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getFragmentSignIn(Fragment fragment) {
@@ -281,6 +286,7 @@ public class SignUpFragment extends Fragment {
     private void mainIntent() {
         Intent mainIntent = new Intent(getActivity(), MainActivity.class);
         startActivity(mainIntent);
+        disableCloseBtn = false;
         getActivity().finish();
     }
 }

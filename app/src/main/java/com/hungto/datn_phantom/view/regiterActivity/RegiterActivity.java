@@ -27,6 +27,7 @@ public class RegiterActivity extends AppCompatActivity {
 
     public static boolean onResetPasswordFragment = false;
     public static boolean setSignUpFragment = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class RegiterActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: ");
         ButterKnife.bind(this);
         if (setSignUpFragment) {
-            setSignUpFragment=false;
+            setSignUpFragment = false;
             setDefaultFragment(new SignUpFragment());
         } else {
             setDefaultFragment(new SignInFragment());
@@ -43,12 +44,17 @@ public class RegiterActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (onResetPasswordFragment) {
-            onResetPasswordFragment=false;
-            setFragment(new SignInFragment());
-            return false;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+           // SignInFragment.disableCloseBtn = false;
+            SignUpFragment.disableCloseBtn = false;
+
+            if (onResetPasswordFragment) {
+                onResetPasswordFragment = false;
+                setFragment(new SignInFragment());
+                return false;
+            }
         }
-        return super.onKeyDown(keyCode,event);
+        return super.onKeyDown(keyCode, event);
     }
 
 
@@ -58,6 +64,7 @@ public class RegiterActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
+
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_from_left, R.anim.slideout_from_left);

@@ -48,10 +48,8 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
         String desc = horizontalProductScrollModelList.get(position).getProductDescription();
         String price = horizontalProductScrollModelList.get(position).getProductPrice();
 
-        holder.setProductImg(resource);
-        holder.setProductTitle(title);
-        holder.setProductDesc(desc);
-        holder.setProductPrice(price);
+        holder.setProductImg(resource,title,desc,price );
+
     }
 
     @Override
@@ -80,31 +78,26 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent productDetailIntent = new Intent(itemView.getContext(), ProductDetailActivity.class);
-                    itemView.getContext().startActivity(productDetailIntent);
-                }
-            });
+
         }
 
-        private void setProductImg(String resource) {
+        private void setProductImg(String resource, String price, String desc, String title) {
             //   productImg.setImageResource(Integer.parseInt(resource));
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
-        }
-
-        private void setProductTitle(String title) {
-            productTitle.setText(title);
-        }
-
-        private void setProductDesc(String desc) {
+            productPrice.setText(price + "-" + " VNĐ");
             productDesc.setText(desc);
-        }
+            productTitle.setText(title);
+//            if (!title.equals("")) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent productDetailIntent = new Intent(itemView.getContext(), ProductDetailActivity.class);
+                        itemView.getContext().startActivity(productDetailIntent);
+                    }
+                });
+//            } else {
 
-        private void setProductPrice(String price) {
-            productPrice.setText(price+"-"+" VNĐ");
+//            }
         }
-
     }
 }
