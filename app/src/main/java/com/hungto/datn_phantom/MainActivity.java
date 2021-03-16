@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarLayout.LayoutParams params;
     private int scrollFlags;
+    public  static DrawerLayout drawer;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);

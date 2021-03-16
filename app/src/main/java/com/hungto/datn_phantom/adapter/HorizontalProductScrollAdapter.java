@@ -43,15 +43,13 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalProductScrollAdapter.ViewHolder holder, int position) {
+        String productId=horizontalProductScrollModelList.get(position).getProductId();
         String resource = horizontalProductScrollModelList.get(position).getProductImg();
         String title = horizontalProductScrollModelList.get(position).getProductTitle();
         String desc = horizontalProductScrollModelList.get(position).getProductDescription();
         String price = horizontalProductScrollModelList.get(position).getProductPrice();
 
-        holder.setProductImg(resource);
-        holder.setProductTitle(title);
-        holder.setProductDesc(desc);
-        holder.setProductPrice(price);
+        holder.setData(productId,resource,title,desc,price);
     }
 
     @Override
@@ -80,30 +78,26 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent productDetailIntent = new Intent(itemView.getContext(), ProductDetailActivity.class);
-                    itemView.getContext().startActivity(productDetailIntent);
-                }
-            });
+
+
         }
 
-        private void setProductImg(String resource) {
+        private void setData(String productId,String resource,String title,String desc,String price) {
             //   productImg.setImageResource(Integer.parseInt(resource));
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
-        }
-
-        private void setProductTitle(String title) {
             productTitle.setText(title);
-        }
-
-        private void setProductDesc(String desc) {
             productDesc.setText(desc);
-        }
-
-        private void setProductPrice(String price) {
             productPrice.setText(price+"-"+" VNĐ");
+            if(!title.equals("")){
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent productDetailIntent = new Intent(itemView.getContext(), ProductDetailActivity.class);
+                        productDetailIntent.putExtra("PRODUCT_ID",productId);
+                        itemView.getContext().startActivity(productDetailIntent);
+                    }
+                });
+            }
         }
 
     }

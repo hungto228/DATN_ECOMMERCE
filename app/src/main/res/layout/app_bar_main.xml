@@ -16,13 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:popupTheme="@style/Theme.DATN_PHANTOM.PopupOverlay" >
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:popupTheme="@style/Theme.DATN_PHANTOM.PopupOverlay">
+
             <ImageView
                 android:id="@+id/actionbar_logo"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
-                android:src="@drawable/foodytext"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                android:src="@drawable/foodytext" />
 
         </androidx.appcompat.widget.Toolbar>
 

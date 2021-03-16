@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment {
         networkInfo = connectivityManager.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
-            //       MainActivity.drawer.setDrawerLockMode(0);
+            MainActivity.drawer.setDrawerLockMode(0);
             noInternetConnectionImg.setVisibility(View.GONE);
 
             retryButton.setVisibility(View.GONE);
@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment {
             }
             recyclerViewHomePage.setAdapter(homePageAdapter);
         } else {
-            //   MainActivity.drawer.setDrawerLockMode(1);
+            MainActivity.drawer.setDrawerLockMode(1);
             recyclerViewCategory.setVisibility(View.GONE);
             recyclerViewHomePage.setVisibility(View.GONE);
             Glide.with(this).load(R.drawable.nointernet).into(noInternetConnectionImg);
@@ -229,7 +229,7 @@ public class HomeFragment extends Fragment {
 
         } else {
 
-            //   MainActivity.drawer.setDrawerLockMode(1);
+            MainActivity.drawer.setDrawerLockMode(1);
 
             Toast.makeText(getContext(), "No Internet NP Connection", Toast.LENGTH_SHORT).show();
             recyclerViewCategory.setVisibility(View.GONE);

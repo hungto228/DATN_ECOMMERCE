@@ -31,6 +31,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.MainActivity;
@@ -146,7 +148,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static LinearLayout selectedCoupon;
     private Window window;
     //firebaseStore
+    private Dialog SignInDialog;
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +169,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         productID = getIntent().getStringExtra("PRODUCT_ID");
-        firebaseFirestore.collection("PRODUCTS").document("uRoDsSFFJp57RZw0UNeo")
+        firebaseFirestore.collection("PRODUCTS").document(getIntent().getStringExtra("PRODUCT_ID"))
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -399,8 +403,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         //signin dialog
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             coupenRedemLinealayout.setVisibility(View.GONE);
+        } else {
+            coupenRedemLinealayout.setVisibility(View.VISIBLE);
         }
     }
 
