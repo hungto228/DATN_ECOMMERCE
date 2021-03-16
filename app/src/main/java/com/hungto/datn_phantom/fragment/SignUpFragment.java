@@ -83,7 +83,7 @@ public class SignUpFragment extends Fragment {
     Unbinder unbinder;
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
+    public static boolean disableCloseBtn = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,6 +102,8 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, view);
+        frameLayout = getActivity().findViewById(R.id.frame_register);
         mRealyHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +187,11 @@ public class SignUpFragment extends Fragment {
                 mainIntent();
             }
         });
+        if (disableCloseBtn) {
+            mBackImgBtn.setVisibility(View.GONE);
+        } else {
+            mBackImgBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getFragmentSignIn(Fragment fragment) {
@@ -281,6 +288,7 @@ public class SignUpFragment extends Fragment {
     private void mainIntent() {
         Intent mainIntent = new Intent(getActivity(), MainActivity.class);
         startActivity(mainIntent);
+        disableCloseBtn = false;
         getActivity().finish();
     }
 }

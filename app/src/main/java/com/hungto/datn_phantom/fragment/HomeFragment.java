@@ -82,7 +82,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewHomePage;
     private HomePageAdapter homePageAdapter;
     private ImageView noInternetConnectionImg;
-   // private Button retryButton;
+    @BindView(R.id.retry_button)
+    Button retryButton;
     //firebaseStore
     FirebaseFirestore firebaseFirestore;
 
@@ -93,10 +94,10 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         swipeRefreshLayout = root.findViewById(R.id.refesh_layout);
         unbinder = ButterKnife.bind(this, root);
-   //     retryButton = root.findViewById(R.id.retry_button);
+        //     retryButton = root.findViewById(R.id.retry_button);
         noInternetConnectionImg = root.findViewById(R.id.img_no_internet);
         recyclerViewHomePage = root.findViewById(R.id.recyclerViewHomePage);
-        recyclerViewCategory=root.findViewById(R.id.recyclerViewCategory);
+        recyclerViewCategory = root.findViewById(R.id.recyclerViewCategory);
 
         LinearLayoutManager linearLayoutManagerCategory = new LinearLayoutManager(getActivity());
         linearLayoutManagerCategory.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -140,10 +141,10 @@ public class HomeFragment extends Fragment {
         networkInfo = connectivityManager.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
-     //       MainActivity.drawer.setDrawerLockMode(0);
+            //       MainActivity.drawer.setDrawerLockMode(0);
             noInternetConnectionImg.setVisibility(View.GONE);
 
-            //  retryButton.setVisibility(View.GONE);
+            retryButton.setVisibility(View.GONE);
             recyclerViewCategory.setVisibility(View.VISIBLE);
             recyclerViewHomePage.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setColorSchemeColors(getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary), getContext().getResources().getColor(R.color.colorPrimary));
@@ -169,12 +170,12 @@ public class HomeFragment extends Fragment {
             }
             recyclerViewHomePage.setAdapter(homePageAdapter);
         } else {
-         //   MainActivity.drawer.setDrawerLockMode(1);
+            //   MainActivity.drawer.setDrawerLockMode(1);
             recyclerViewCategory.setVisibility(View.GONE);
             recyclerViewHomePage.setVisibility(View.GONE);
             Glide.with(this).load(R.drawable.nointernet).into(noInternetConnectionImg);
             noInternetConnectionImg.setVisibility(View.VISIBLE);
-         ///   retryButton.setVisibility(View.VISIBLE);
+            retryButton.setVisibility(View.VISIBLE);
         }
 //refresh layout
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -184,29 +185,30 @@ public class HomeFragment extends Fragment {
                 reloadPage();
             }
         });
-
-
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reloadPage();
+            }
+        });
         return root;
     }
 
     private void reloadPage() {
-
-
         networkInfo = connectivityManager.getActiveNetworkInfo();
 //
 //        categoryModelList.clear();
 //        lists.clear();
 //        loadedCategoriesNames.clear();
 
-     //   DBqueries.clearData();
+        //   DBqueries.clearData();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
 
-        //    MainActivity.drawer.setDrawerLockMode(0);
-
+            //    MainActivity.drawer.setDrawerLockMode(0);
             noInternetConnectionImg.setVisibility(View.GONE);
 
-         //   retryButton.setVisibility(View.GONE);
+            retryButton.setVisibility(View.GONE);
 
             recyclerViewCategory.setVisibility(View.VISIBLE);
             recyclerViewHomePage.setVisibility(View.VISIBLE);
@@ -234,10 +236,10 @@ public class HomeFragment extends Fragment {
             recyclerViewHomePage.setVisibility(View.GONE);
             Glide.with(getContext()).load(R.drawable.ic_add_black).into(noInternetConnectionImg);
             noInternetConnectionImg.setVisibility(View.VISIBLE);
-            //   retryButton.setVisibility(View.VISIBLE);
+            retryButton.setVisibility(View.VISIBLE);
 
             swipeRefreshLayout.setRefreshing(false);
         }
 
     }
-    }
+}

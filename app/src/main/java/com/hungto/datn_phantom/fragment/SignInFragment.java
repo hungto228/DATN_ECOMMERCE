@@ -1,4 +1,4 @@
-package com.hungto.datn_phantom.fragment;
+ package com.hungto.datn_phantom.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -66,6 +66,7 @@ public class SignInFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    public static boolean disableCloseBtn = false;
 
 
     @Override
@@ -143,6 +144,11 @@ public class SignInFragment extends Fragment {
                 mainIntent();
             }
         });
+        if (disableCloseBtn) {
+            mBackArrow.setVisibility(View.GONE);
+        } else {
+            mBackArrow.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setFragmentSignUp(Fragment fragmentsignup) {
@@ -180,6 +186,7 @@ public class SignInFragment extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(mainIntent);
                                     getActivity().finish();
                                 } else {
@@ -203,6 +210,7 @@ public class SignInFragment extends Fragment {
     private void mainIntent() {
         Intent mainIntent = new Intent(getActivity(), MainActivity.class);
         startActivity(mainIntent);
+        disableCloseBtn=false;
         getActivity().finish();
     }
 }

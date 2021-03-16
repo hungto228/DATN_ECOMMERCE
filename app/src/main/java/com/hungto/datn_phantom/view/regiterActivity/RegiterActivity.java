@@ -43,10 +43,14 @@ public class RegiterActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (onResetPasswordFragment) {
-            onResetPasswordFragment=false;
-            setFragment(new SignInFragment());
-            return false;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // SignInFragment.disableCloseBtn = false;
+            SignUpFragment.disableCloseBtn = false;
+            if (onResetPasswordFragment) {
+                onResetPasswordFragment = false;
+                setFragment(new SignInFragment());
+                return false;
+            }
         }
         return super.onKeyDown(keyCode,event);
     }
