@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.connnect;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -11,9 +12,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
 import com.hungto.datn_phantom.fragment.HomeFragment;
@@ -22,6 +25,7 @@ import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
 import com.hungto.datn_phantom.model.WishlistModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +34,10 @@ public class DBqueries {
     public static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     public static FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     public static List<CategoryModel> categoryModels = new ArrayList<>();
-    public static List<List<HomePageModel>>lists=new ArrayList<>();
-    public static List<String> loaddataCategoriesName=new ArrayList<>();
+    public static List<List<HomePageModel>> lists = new ArrayList<>();
+    public static List<String> loaddataCategoriesName = new ArrayList<>();
+    public static List<WishlistModel> wishlistModelList = new ArrayList<>();
+    public static List<String> wishlist = new ArrayList<>();
 
 
     public static void loadCategory(RecyclerView categoryRecycleview, Context context) {
@@ -45,7 +51,7 @@ public class DBqueries {
                                 categoryModels.add(new CategoryModel(documentSnapshot.get("icon").toString(), documentSnapshot.get("categoryName").toString()));
 
                             }
-                            CategoryAdapter categoryAdapter=new CategoryAdapter(categoryModels);
+                            CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModels);
                             categoryRecycleview.setAdapter(categoryAdapter);
                             categoryAdapter.notifyDataSetChanged();
                         } else {
@@ -56,7 +62,7 @@ public class DBqueries {
                 });
     }
 
-    public static void loadFragment(RecyclerView recycleViewHome,Context context, final int index, String categoryName) {
+    public static void loadFragment(RecyclerView recycleViewHome, Context context, final int index, String categoryName) {
         firebaseFirestore.collection("CATEGORIES")
                 .document(categoryName.toUpperCase())
                 .collection("TOP_DEALS")
@@ -117,7 +123,7 @@ public class DBqueries {
                                             , documentSnapshot.get("layout_background").toString(), gridProductScrollModelList));
                                 }
                             }
-                            HomePageAdapter homePageAdapter=new HomePageAdapter(lists.get(index));
+                            HomePageAdapter homePageAdapter = new HomePageAdapter(lists.get(index));
                             recycleViewHome.setAdapter(homePageAdapter);
                             homePageAdapter.notifyDataSetChanged();
                             HomeFragment.swipeRefreshLayout.setRefreshing(false);
@@ -127,5 +133,33 @@ public class DBqueries {
                         }
                     }
                 });
+    }
+
+    public static void loadWithlist(final Context context, final Dialog dialog) {//}, final boolean loadProductData) {
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("MY_WISHLIST")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (long i = 0; i < (long) task.getResult().get("list_size"); i++) {
+                        wishlist.add(task.getResult().get("product_ID_" + i).toString());
+//                        if (DBqueries.wishlist.contains(ProductDetailActivity.productID)) {
+//
+//                            ProductDetailActivity.ALREALY_ADD_TO_WITHLIST = true;
+//
+//                            if (ProductDetailActivity.mAddToWithList != null) {
+//
+//                                ProductDetailActivity.mAddToWithList.setSupportImageTintList(context.getResources().getColorStateList(R.color.white));
+//                            }
+//                        }
+                    }
+                } else {
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
     }
 }

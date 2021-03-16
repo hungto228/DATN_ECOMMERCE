@@ -57,4 +57,6 @@
     <string name="vnd">VNĐ</string>
     <string name="rating">Đánh giá</string>
     <string name="retry">Thử lại.</string>
+    <string name="add_wishlist">Thêm vào danh sách yêu thích thành công!!</string>
+    <string name="loading">Đang tải ...</string>
 </resources>

@@ -67,6 +67,8 @@
     <string name="vnd">$</string>
     <string name="rating">Rating</string>
     <string name="retry">Retry</string>
+    <string name="add_wishlist">Added to wishlist success!!</string>
+    <string name="loading">Loading...</string>
 
     <!--TODO:toast,validate-->
 

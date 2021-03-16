@@ -40,15 +40,19 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
 import com.hungto.datn_phantom.adapter.RewardAdapter;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.fragment.SignInFragment;
 import com.hungto.datn_phantom.fragment.SignUpFragment;
 import com.hungto.datn_phantom.model.ProductSpecificationModel;
 import com.hungto.datn_phantom.model.RewardModel;
+import com.hungto.datn_phantom.model.WishlistModel;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +63,7 @@ import static com.hungto.datn_phantom.connnect.DBqueries.currentUser;
 public class ProductDetailActivity extends AppCompatActivity {
     public static final String TAG = "tagProductActivity";
     public Dialog signInDialog;
+    public Dialog loadingDialogLong;
     private RegiterActivity regiterActivity;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -95,10 +100,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     Button mCoupenRedemBtn;
     @BindView(R.id.linearLayout_coupen_redemption)
     LinearLayout coupenRedemLinealayout;
-    private static boolean ALREALY_ADD_TO_WITHLIST;
+    public static boolean ALREALY_ADD_TO_WITHLIST;
 
-    @BindView(R.id.floating_addTo_withlist)
-    FloatingActionButton mAddToWithList;
+    public static FloatingActionButton mAddToWithList;
 
     //product_description_layout
     @BindView(R.id.tabLayout_product_detail)
@@ -151,6 +155,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Dialog SignInDialog;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser currentUser;
+    private DocumentSnapshot documentSnapshot;
+    private boolean inStock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +164,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         Log.d(TAG, "onCreate: ");
         ButterKnife.bind(this);
+        mAddToWithList = findViewById(R.id.floating_addTo_withlist);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -166,10 +173,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         final List<String> productImages = new ArrayList<>();
+        //loadingDialogLong
+        loadingDialogLong = new Dialog(ProductDetailActivity.this);
+        loadingDialogLong.setContentView(R.layout.loading_progress_dialog);
+        loadingDialogLong.setCancelable(false);
+        loadingDialogLong.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+        loadingDialogLong.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialogLong.show();
+        //loadingDialogLong
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         productID = getIntent().getStringExtra("PRODUCT_ID");
-        firebaseFirestore.collection("PRODUCTS").document(getIntent().getStringExtra("PRODUCT_ID"))
+        firebaseFirestore.collection("PRODUCTS").document(productID)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -237,7 +252,18 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     mViewPageDetailProduct.setAdapter(new ProductDetailAdapter(getSupportFragmentManager(), tabDetailProduct.getTabCount(), productDescription, productOtherDetail, productSpecificationModelList));
 
+                    if (DBqueries.wishlist.size() == 0) {
+                        DBqueries.loadWithlist(ProductDetailActivity.this, loadingDialogLong);
+                    } else {
+                        loadingDialogLong.dismiss();
+                    }
+                    if (DBqueries.wishlist.contains(productID)) {
+                        ALREALY_ADD_TO_WITHLIST = true;
+                    } else {
+                        ALREALY_ADD_TO_WITHLIST = false;
+                    }
                 } else {
+                    loadingDialogLong.dismiss();
                     String error = task.getException().getMessage();
                     Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
 
@@ -258,8 +284,40 @@ public class ProductDetailActivity extends AppCompatActivity {
                         ALREALY_ADD_TO_WITHLIST = false;
                         mAddToWithList.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
                     } else {
-                        ALREALY_ADD_TO_WITHLIST = true;
-                        mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
+                        Map<String, Object> addProduct = new HashMap<>();
+                        addProduct.put("product_ID_" + String.valueOf(DBqueries.wishlist.size()), productID);
+
+                        firebaseFirestore.collection("USERS").document(currentUser.getUid())
+                                .collection("USER_DATA").document("MY_WISHLIST")
+                                .set(addProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Map<String, Object> updateListSize = new HashMap<>();
+                                    updateListSize.put("list_size", (long)(DBqueries.wishlist.size() + 1));
+                                    firebaseFirestore.collection("USERS").document(currentUser.getUid())
+                                            .collection("USER_DATA").document("MY_WISHLIST")
+                                            .update(updateListSize).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                ALREALY_ADD_TO_WITHLIST = true;
+                                                mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
+                                                DBqueries.wishlist.add(productID);
+                                                Toast.makeText(ProductDetailActivity.this, getResources().getString(R.string.add_wishlist), Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                String error = task.getException().getMessage();
+                                                Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.white));
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 }
             }
