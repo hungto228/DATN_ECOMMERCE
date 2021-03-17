@@ -59,4 +59,5 @@
     <string name="retry">Thử lại.</string>
     <string name="add_wishlist">Thêm vào danh sách yêu thích thành công!!</string>
     <string name="loading">Đang tải ...</string>
+    <string name="removed_successfully">Xóa thành công.</string>
 </resources>

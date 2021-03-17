@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,7 +14,9 @@ import android.view.ViewGroup;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.WishListAdapter;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.WishlistModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,8 @@ public class WithlistFragment extends Fragment {
     RecyclerView recyclerViewWithlist;
 
     Unbinder unbinder;
+    private Dialog loadingDialogLong;
+    public static WishListAdapter wishListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,15 +41,25 @@ public class WithlistFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
         View root = inflater.inflate(R.layout.fragment_withlist, container, false);
         unbinder = ButterKnife.bind(this, root);
+        //loadingDialogLong
+        loadingDialogLong = new Dialog(getContext());
+        loadingDialogLong.setContentView(R.layout.loading_progress_dialog);
+        loadingDialogLong.setCancelable(false);
+        loadingDialogLong.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
+        loadingDialogLong.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialogLong.show();
+        //loadingDialogLong
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerViewWithlist.setLayoutManager(linearLayoutManager);
 
-        List<WishlistModel> wishlistModelList = new ArrayList<>();
-//        wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 145, "rs 49999", "rs59999", "cash on delivery"));
-//        wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 2, "4", 15, "rs 49999", "rs59999", "cash on delivery"));
-//        wishlistModelList.add(new WishlistModel(R.drawable.banner_slider, "pixel 2", 1, "3", 95, "rs 49999", "rs59999", "cash on delivery"));
-        WishListAdapter wishListAdapter = new WishListAdapter(wishlistModelList,true);
+        if (DBqueries.wishlistModelList.size() == 0) {
+            DBqueries.wishlist.clear();
+            DBqueries.loadWithlist(getContext(), loadingDialogLong, true);
+        }else {
+            loadingDialogLong.dismiss();
+        }
+         wishListAdapter = new WishListAdapter(DBqueries.wishlistModelList, true);
         recyclerViewWithlist.setAdapter(wishListAdapter);
         wishListAdapter.notifyDataSetChanged();
         return root;

@@ -42,7 +42,7 @@ public class SliderAdapter extends PagerAdapter {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.slider_layout, container, false);
         ButterKnife.bind(this, view);
         bannerContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModels.get(position).getBackgroundColor())));
-        Glide.with(container.getContext()).load(sliderModels.get(position).getBanner()).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(banner);
+        Glide.with(container.getContext()).load(sliderModels.get(position).getBanner()).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(banner);
         container.addView(view, 0);
         return view;
     }

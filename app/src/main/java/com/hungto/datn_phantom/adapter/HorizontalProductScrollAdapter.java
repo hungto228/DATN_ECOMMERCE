@@ -84,7 +84,7 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
 
         private void setData(String productId,String resource,String title,String desc,String price) {
             //   productImg.setImageResource(Integer.parseInt(resource));
-            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(productImg);
             productTitle.setText(title);
             productDesc.setText(desc);
             productPrice.setText(price+"-"+" VNĐ");

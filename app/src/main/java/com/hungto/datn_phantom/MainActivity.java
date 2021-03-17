@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.fragment.AccountFragment;
 import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.fragment.HomeFragment;
@@ -289,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         gotoFragment("My Account", new AccountFragment(), ACCOUNT_FRAGMENT);
                     } else if (id == R.id.nav_share) {
                         FirebaseAuth.getInstance().signOut();
+                        DBqueries.clearData();
                         Intent registerIntent = new Intent(MainActivity.this, RegiterActivity.class);
                         startActivity(registerIntent);
                         finish();

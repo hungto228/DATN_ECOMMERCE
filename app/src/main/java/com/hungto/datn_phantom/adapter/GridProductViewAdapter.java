@@ -81,7 +81,7 @@ public class GridProductViewAdapter extends BaseAdapter {
                 }
             });
             //  productImg.setImageResource(horizontalProductScrollModelList.get(position).getProductImg());
-            Glide.with(parent.getContext()).load(horizontalProductScrollModelList.get(position).getProductImg()).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
+            Glide.with(parent.getContext()).load(horizontalProductScrollModelList.get(position).getProductImg()).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(productImg);
             productTitle.setText(horizontalProductScrollModelList.get(position).getProductTitle());
             productDesc.setText(horizontalProductScrollModelList.get(position).getProductDescription());
             productPrice.setText(horizontalProductScrollModelList.get(position).getProductPrice());

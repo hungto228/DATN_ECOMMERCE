@@ -72,7 +72,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         private void setCategoryIcon(String iconUrl) {
             if(!iconUrl.equals("null")){
-                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(mCategoryIcon);
+                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mCategoryIcon);
             }
 
         }

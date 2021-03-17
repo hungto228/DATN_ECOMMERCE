@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.WishlistModel;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
@@ -30,11 +31,12 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     public static final String TAG = "tagWishListAdapter";
     List<WishlistModel> wishlistModelList;
     private Boolean wishList;
-    Context context;
-
-    public WishListAdapter(Context context) {
-        this.context = context;
-    }
+    private int lastPosition=-1;
+//    Context context;
+//
+//    public WishListAdapter(Context context) {
+//        this.context = context;
+//    }
 
     public WishListAdapter(List<WishlistModel> wishlistModelList, Boolean wishList) {
         this.wishlistModelList = wishlistModelList;
@@ -61,7 +63,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
         String cuttedPrice = wishlistModelList.get(position).getMCuttedPrice();
         boolean cod = wishlistModelList.get(position).isCOD();
 
-        holder.setDataWithlist(resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod);
+        holder.setDataWithlist(resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod,position );
     }
 
     @Override
@@ -99,8 +101,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        private void setDataWithlist(String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod) {
-            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImage);
+        private void setDataWithlist(String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod,int index) {
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(productImage);
             mProductTitle.setText(title);
             if (freeCouponsNo != 0) {
                 couponIconImage.setVisibility(View.VISIBLE);
@@ -115,7 +117,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
                 mFreeCoupons.setVisibility(View.GONE);
             }
             mRating.setText(averageRate);
-            mTotalRatings.setText("(" + totalRatingsNo + ")" + "rating");
+            mTotalRatings.setText("(" + totalRatingsNo + ")" + "Đánh giá");
             mProductPrice.setText(price + "VNĐ"+ "/-");
             mCuttedPrice.setText(cuttedPriceValue + "VNĐ" + "/-");
             if (cod) {
@@ -132,6 +134,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             mDeleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mDeleteBtn.setEnabled(false);
+                    DBqueries.removeFromWishlist(index,itemView.getContext());
                     Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
                 }
             });

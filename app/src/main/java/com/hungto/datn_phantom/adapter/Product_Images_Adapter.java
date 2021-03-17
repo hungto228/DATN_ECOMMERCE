@@ -29,7 +29,8 @@ public class Product_Images_Adapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Log.d(TAG, "instantiateItem: ");
         ImageView productImg = new ImageView(container.getContext());
-        Glide.with(container.getContext()).load(mProductImageList.get(position)).apply(new RequestOptions().placeholder(R.drawable.ic_home_black)).into(productImg);
+        //set color white when loading
+        Glide.with(container.getContext()).load(mProductImageList.get(position)).apply(new RequestOptions().placeholder(R.drawable.ic_add_black)).into(productImg);
         container.addView(productImg, 0);
         return productImg;
     }
