@@ -28,12 +28,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -251,27 +254,44 @@ public class SignUpFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        Map<Object, Long> listsize = new HashMap<>();
-                                                        listsize.put("list_size", (long) 0);
-                                                        firebaseFirestore.collection("USERS")
+                                                        CollectionReference userDataReference = firebaseFirestore.collection("USERS")
                                                                 .document(firebaseAuth.getUid())
-                                                                .collection("USER_DATA")
-                                                                .document("MY_WISHLIST")
-                                                                .set(listsize).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    mainIntent();
-                                                                } else {
-                                                                    String error = task.getException().getMessage();
-                                                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            }
-                                                        });
+                                                                .collection("USER_DATA");
+
+                                                        Map<String, Object> wishlistMap = new HashMap<>();
+                                                        wishlistMap.put("list_size", (long) 0);
+                                                        Map<String, Object> ratingMap = new HashMap<>();
+                                                        ratingMap.put("list_size", (long) 0);
+
+                                                        List<String> documentNames = new ArrayList<>();
+                                                        documentNames.add("MY_WISHLIST");
+                                                        documentNames.add("MY_RATINGS");
+
+                                                        List<Map<String, Object>> documentFile = new ArrayList<>();
+                                                        documentFile.add(wishlistMap);
+                                                        documentFile.add(ratingMap);
+                                                        for (int i = 0; i < documentNames.size(); i++) {
+                                                            int finalI = i;
+                                                            userDataReference.document(documentNames.get(i))
+                                                                    .set(documentFile.get(i))
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                if (finalI == documentNames.size() - 1) {
+                                                                                    mainIntent();
+                                                                                }
+                                                                            } else {
+                                                                                pbSignUp.setVisibility(View.INVISIBLE);
+                                                                                mSignUpBtn.setEnabled(false);
+                                                                                mSignUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
+                                                                                String error = task.getException().getMessage();
+                                                                                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                        }
                                                     } else {
-                                                        pbSignUp.setVisibility(View.INVISIBLE);
-                                                        mSignUpBtn.setEnabled(false);
-                                                        mSignUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
                                                         String error = task.getException().getMessage();
                                                         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                                                     }
@@ -291,11 +311,9 @@ public class SignUpFragment extends Fragment {
                         });
             } else {
                 mConfimPasswordEdt.setError("Mật khẩu không hợp lệ !", customErrorIcon);
-
             }
         } else {
             mEmailEdt.setError("Email không hợp lệ !", customErrorIcon);
-
         }
     }
 

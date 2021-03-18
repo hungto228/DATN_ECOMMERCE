@@ -62,6 +62,8 @@ import static com.hungto.datn_phantom.connnect.DBqueries.currentUser;
 
 public class ProductDetailActivity extends AppCompatActivity {
     public static final String TAG = "tagProductActivity";
+    public static boolean running_wishlist_query = false;
+    public static boolean running_rating_query = false;
     public Dialog signInDialog;
     public Dialog loadingDialogLong;
     private RegiterActivity regiterActivity;
@@ -122,8 +124,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
 
     //rating layout
-    @BindView(R.id.linearLayout_rate_now_container)
-    LinearLayout linearLayoutRateNow;
     public static int initialRating;
     public static LinearLayout rateNowContainer;
     @BindView(R.id.tv_totalRating_rating)
@@ -164,6 +164,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         Log.d(TAG, "onCreate: ");
         ButterKnife.bind(this);
+        rateNowContainer = findViewById(R.id.linearLayout_rate_now_container);
         mAddToWithList = findViewById(R.id.floating_addTo_withlist);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -189,7 +190,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                     documentSnapshot = task.getResult();
+                    documentSnapshot = task.getResult();
                     for (long i = 1; i < (long) documentSnapshot.get("no_of_product_images") + 1; i++) {
                         productImages.add(documentSnapshot.get("product_image_" + i).toString());
 
@@ -252,6 +253,40 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     mViewPageDetailProduct.setAdapter(new ProductDetailAdapter(getSupportFragmentManager(), tabDetailProduct.getTabCount(), productDescription, productOtherDetail, productSpecificationModelList));
 
+                    if (currentUser != null) {
+
+                        if (DBqueries.myRating.size() == 0) {
+
+                            DBqueries.loadRatingList(ProductDetailActivity.this);
+                        }
+
+//                        if (DBqueries.cartList.size() == 0) {
+//
+//                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount, new TextView(ProductDetailsActivity.this));
+//
+//                        }
+
+                        if (DBqueries.wishlist.size() == 0) {
+
+                            DBqueries.loadWithlist(ProductDetailActivity.this, loadingDialogLong, false);
+
+                        } else {
+                            loadingDialogLong.dismiss();
+                        }
+
+
+                    } else {
+                        loadingDialogLong.dismiss();
+                    }
+
+                    if (DBqueries.myRatedIds.contains(productID)) {
+
+                        int index = DBqueries.myRatedIds.indexOf(productID);
+
+                        initialRating = Integer.parseInt(String.valueOf(DBqueries.myRating.get(index))) - 1;
+
+                        setRating(initialRating);
+                    }
                 } else {
                     loadingDialogLong.dismiss();
                     String error = task.getException().getMessage();
@@ -270,60 +305,66 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-                    mAddToWithList.setEnabled(true);
-                    if (ALREALY_ADD_TO_WITHLIST) {
-                        int index=DBqueries.wishlist.indexOf(productID);
-                        DBqueries.removeFromWishlist(index,ProductDetailActivity.this);
+//                    mAddToWithList.setEnabled(true);
+                    if (!running_wishlist_query) {
+                        running_wishlist_query = true;
+                        if (ALREALY_ADD_TO_WITHLIST) {
+                            int index = DBqueries.wishlist.indexOf(productID);
+                            DBqueries.removeFromWishlist(index, ProductDetailActivity.this);
 
-                        mAddToWithList.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
-                    } else {
-                        mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
-                        Map<String, Object> addProduct = new HashMap<>();
-                        addProduct.put("product_ID_" + String.valueOf(DBqueries.wishlist.size()), productID);
+                            mAddToWithList.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                        } else {
+                            mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
+                            Map<String, Object> addProduct = new HashMap<>();
+                            addProduct.put("product_ID_" + String.valueOf(DBqueries.wishlist.size()), productID);
 
-                        firebaseFirestore.collection("USERS").document(currentUser.getUid())
-                                .collection("USER_DATA").document("MY_WISHLIST")
-                                .update(addProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Map<String, Object> updateListSize = new HashMap<>();
-                                    updateListSize.put("list_size", (long) (DBqueries.wishlist.size() + 1));
-                                    firebaseFirestore.collection("USERS").document(currentUser.getUid())
-                                            .collection("USER_DATA").document("MY_WISHLIST")
-                                            .update(updateListSize).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                if(DBqueries.wishlistModelList.size()!=0){
-                                                    DBqueries.wishlistModelList.add(new WishlistModel(documentSnapshot.get("product_image_1").toString()
-                                                            , documentSnapshot.get("product_title").toString()
-                                                            , (long) documentSnapshot.get("free_coupens")
-                                                            , documentSnapshot.get("average_rating").toString()
-                                                            , (long) documentSnapshot.get("total_ratings")
-                                                            , documentSnapshot.get("product_price").toString()
-                                                            , documentSnapshot.get("cutted_price").toString()
-                                                            , (boolean) documentSnapshot.get("COD")));
+                            firebaseFirestore.collection("USERS").document(currentUser.getUid())
+                                    .collection("USER_DATA").document("MY_WISHLIST")
+                                    .update(addProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Map<String, Object> updateListSize = new HashMap<>();
+                                        updateListSize.put("list_size", (long) (DBqueries.wishlist.size() + 1));
+                                        firebaseFirestore.collection("USERS").document(currentUser.getUid())
+                                                .collection("USER_DATA").document("MY_WISHLIST")
+                                                .update(updateListSize).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    if (DBqueries.wishlistModelList.size() != 0) {
+                                                        DBqueries.wishlistModelList.add(new WishlistModel(productID, documentSnapshot.get("product_image_1").toString()
+                                                                , documentSnapshot.get("product_title").toString()
+                                                                , (long) documentSnapshot.get("free_coupens")
+                                                                , documentSnapshot.get("average_rating").toString()
+                                                                , (long) documentSnapshot.get("total_ratings")
+                                                                , documentSnapshot.get("product_price").toString()
+                                                                , documentSnapshot.get("cutted_price").toString()
+                                                                , (boolean) documentSnapshot.get("COD")));
+                                                    }
+                                                    ALREALY_ADD_TO_WITHLIST = true;
+                                                    mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
+                                                    DBqueries.wishlist.add(productID);
+                                                    Toast.makeText(ProductDetailActivity.this, getResources().getString(R.string.add_wishlist), Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    mAddToWithList.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                                                    String error = task.getException().getMessage();
+                                                    Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
                                                 }
-                                                ALREALY_ADD_TO_WITHLIST = true;
-                                                mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
-                                                DBqueries.wishlist.add(productID);
-                                                Toast.makeText(ProductDetailActivity.this, getResources().getString(R.string.add_wishlist), Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                String error = task.getException().getMessage();
-                                                Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+                                                //     mAddToWithList.setEnabled(true);
+                                                running_wishlist_query = false;
                                             }
-                                            mAddToWithList.setEnabled(true);
-                                        }
-                                    });
-                                } else {
-                                    mAddToWithList.setEnabled(true);
-                                    mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.white));
-                                    String error = task.getException().getMessage();
-                                    Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+                                        });
+                                    } else {
+                                        // mAddToWithList.setEnabled(true);
+                                        running_wishlist_query = false;
+                                        mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.white));
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             }
@@ -350,9 +391,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
         //TODO:rating layout
         //rating layout
-        for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
+        for (int i = 0; i < rateNowContainer.getChildCount(); i++) {
             final int starPosition = i;
-            linearLayoutRateNow.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+            rateNowContainer.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (currentUser == null) {
@@ -391,7 +432,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         final Dialog checkCouponPriceDialog = new Dialog(ProductDetailActivity.this);
         checkCouponPriceDialog.setContentView(R.layout.coupen_redeem_dialog);
         checkCouponPriceDialog.setCancelable(true);
-        checkCouponPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        checkCouponPriceDialog.getWindow().
+
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         ImageView toggleRecyclerView = checkCouponPriceDialog.findViewById(R.id.toggle_recyclerview);
         opencouponsRecyclerView = checkCouponPriceDialog.findViewById(R.id.coupons_recyclerview);
         selectedCoupon = checkCouponPriceDialog.findViewById(R.id.selected_coupon);
@@ -406,15 +450,33 @@ public class ProductDetailActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         opencouponsRecyclerView.setLayoutManager(layoutManager);
         List<RewardModel> rewardModelList = new ArrayList<>();
-        rewardModelList.add(new RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+        rewardModelList.add(new
+
+                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
 
         RewardAdapter myRewardsAdapter = new RewardAdapter(rewardModelList, false);
         opencouponsRecyclerView.setAdapter(myRewardsAdapter);
@@ -438,10 +500,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
         /* ********* COUPON DIALOG********* */
         //sign indialog
-        signInDialog = new Dialog(ProductDetailActivity.this);
+        signInDialog = new
+
+                Dialog(ProductDetailActivity.this);
         signInDialog.setContentView(R.layout.dialog_sign_in);
         signInDialog.setCancelable(true);
-        signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        signInDialog.getWindow().
+
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         Button dialogSignInBtn = signInDialog.findViewById(R.id.btn_dialog_sign_in);
         Button dialogSignUpBtn = signInDialog.findViewById(R.id.btn_dialog_sign_up);
         final Intent registerIntent = new Intent(ProductDetailActivity.this, RegiterActivity.class);
@@ -482,13 +549,23 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
         if (currentUser != null) {
+            if (DBqueries.myRating.size() == 0) {
+
+                DBqueries.loadRatingList(ProductDetailActivity.this);
+            }
             if (DBqueries.wishlist.size() == 0) {
-                DBqueries.loadWithlist(ProductDetailActivity.this, loadingDialogLong,false);
+                DBqueries.loadWithlist(ProductDetailActivity.this, loadingDialogLong, false);
             } else {
                 loadingDialogLong.dismiss();
             }
         } else {
             loadingDialogLong.dismiss();
+        }
+        if (DBqueries.myRatedIds.contains(productID)) {
+            int index = DBqueries.myRatedIds.indexOf(productID);
+            initialRating = Integer.parseInt(String.valueOf(DBqueries.myRating.get(index))) - 1;
+
+            setRating(initialRating);
         }
         if (DBqueries.wishlist.contains(productID)) {
             ALREALY_ADD_TO_WITHLIST = true;
@@ -510,9 +587,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setRating(int starPosition) {
-        for (int i = 0; i < linearLayoutRateNow.getChildCount(); i++) {
-            ImageView mStartBtn = (ImageView) linearLayoutRateNow.getChildAt(i);
+    public static void setRating(int starPosition) {
+        for (int i = 0; i < rateNowContainer.getChildCount(); i++) {
+            ImageView mStartBtn = (ImageView) rateNowContainer.getChildAt(i);
             mStartBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
             if (i <= starPosition) {
                 mStartBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));

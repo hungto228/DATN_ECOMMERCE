@@ -31,7 +31,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     public static final String TAG = "tagWishListAdapter";
     List<WishlistModel> wishlistModelList;
     private Boolean wishList;
-    private int lastPosition=-1;
+    private int lastPosition = -1;
 //    Context context;
 //
 //    public WishListAdapter(Context context) {
@@ -53,7 +53,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull WishListAdapter.ViewHolder holder, int position) {
-
+        String productId = wishlistModelList.get(position).getMProductId();
         String resource = wishlistModelList.get(position).getMProductImage();
         String title = wishlistModelList.get(position).getMProductTitle();
         long freeCoupon = wishlistModelList.get(position).getFreeCoupons();
@@ -63,7 +63,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
         String cuttedPrice = wishlistModelList.get(position).getMCuttedPrice();
         boolean cod = wishlistModelList.get(position).isCOD();
 
-        holder.setDataWithlist(resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod,position );
+        holder.setDataWithlist(productId,resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod, position);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        private void setDataWithlist(String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod,int index) {
+        private void setDataWithlist(String productId,String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod, int index) {
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(productImage);
             mProductTitle.setText(title);
             if (freeCouponsNo != 0) {
@@ -118,7 +118,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             }
             mRating.setText(averageRate);
             mTotalRatings.setText("(" + totalRatingsNo + ")" + "Đánh giá");
-            mProductPrice.setText(price + "VNĐ"+ "/-");
+            mProductPrice.setText(price + "VNĐ" + "/-");
             mCuttedPrice.setText(cuttedPriceValue + "VNĐ" + "/-");
             if (cod) {
                 mPaymentMethod.setVisibility(View.VISIBLE);
@@ -134,8 +134,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             mDeleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDeleteBtn.setEnabled(false);
-                    DBqueries.removeFromWishlist(index,itemView.getContext());
+                    if(!ProductDetailActivity.running_wishlist_query){
+                    ProductDetailActivity.running_wishlist_query=true;
+                    DBqueries.removeFromWishlist(index, itemView.getContext());}
                     Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -144,6 +145,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(itemView.getContext(), ProductDetailActivity.class);
+                    intent.putExtra("PRODUCT_ID",productId);
                     itemView.getContext().startActivity(intent);
                     //       Toast.makeText(itemView.getContext(), "item view", Toast.LENGTH_SHORT).show();
                 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WishlistModel {
-
+    private String mProductId;
     private String mProductImage;
     private String mProductTitle;
     private long freeCoupons;
@@ -16,7 +16,8 @@ public class WishlistModel {
     private String mCuttedPrice;
     private boolean COD;
 
-    public WishlistModel(String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, boolean COD) {
+    public WishlistModel(String mProductId,String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, boolean COD) {
+        this.mProductId=mProductId;
         this.mProductImage = mProductImage;
         this.mProductTitle = mProductTitle;
         this.freeCoupons = freeCoupons;
