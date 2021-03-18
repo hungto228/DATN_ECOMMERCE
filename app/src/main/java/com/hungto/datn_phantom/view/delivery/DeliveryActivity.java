@@ -42,6 +42,7 @@ public class DeliveryActivity extends AppCompatActivity {
     Button mChangeOrAddAdressBtn;
     public static final int SELECT_ADDRESS = 0;
     private Window window;
+    public  static CartAdapter cartAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +66,9 @@ public class DeliveryActivity extends AppCompatActivity {
         recyclerViewDelivery.setLayoutManager(linearLayoutManager);
 
         List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
-        cartItemModelList.add(new CartItemModel(0, R.drawable.banner_slider, "pixel 2l", 2, "rs.4999", "rs.5999", 1, 0, 0));
-        cartItemModelList.add(new CartItemModel(0, R.drawable.banner_slider, "pixel 2l", 0, "rs.4999", "rs.5999", 1, 1, 0));
-        cartItemModelList.add(new CartItemModel(0, R.drawable.banner_slider, "pixel 2l", 2, "rs.4999", "rs.5999", 1, 0, 0));
         cartItemModelList.add(new CartItemModel(1, "price(3item)", "rs.69000", "free", "rs.69000", "59999"));
-        CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
+
+         cartAdapter = new CartAdapter(cartItemModelList,true);
         recyclerViewDelivery.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         mChangeOrAddAdressBtn.setVisibility(View.VISIBLE);

@@ -21,8 +21,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
+import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.fragment.HomeFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
+import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
@@ -44,6 +46,8 @@ public class DBqueries {
     public static List<WishlistModel> wishlistModelList = new ArrayList<>();
     public static List<String> wishlist = new ArrayList<>();
     public static List<String> myRatedIds = new ArrayList<>();
+    public static List<String> cartList = new ArrayList<>();
+    public static List<CartItemModel> cartItemModelList = new ArrayList<>();
 
     public static List<Long> myRating = new ArrayList<>();
     private static String productID;
@@ -168,7 +172,7 @@ public class DBqueries {
                         }
                         if (loadProductData) {
                             wishlistModelList.clear();
-                            final String productId = task.getResult().get("product_ID_"+i).toString();
+                            final String productId = task.getResult().get("product_ID_" + i).toString();
                             firebaseFirestore.collection("PRODUCTS").document(productId)
                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
@@ -257,7 +261,7 @@ public class DBqueries {
                             myRatedIds.add(task.getResult().get("product_ID_" + x).toString());
                             myRating.add((long) task.getResult().get("rating_" + x));
 
-                            if (task.getResult().get("product_ID_" + x).toString().equals(ProductDetailActivity.productID) && ProductDetailActivity.rateNowContainer!=null) {
+                            if (task.getResult().get("product_ID_" + x).toString().equals(ProductDetailActivity.productID) && ProductDetailActivity.rateNowContainer != null) {
                                 ProductDetailActivity.initialRating = Integer.parseInt(String.valueOf((long) task.getResult().get("rating_" + x))) - 1;
                                 if (ProductDetailActivity.rateNowContainer != null) {
 
@@ -277,6 +281,57 @@ public class DBqueries {
                 }
             });
         }
+    }
+
+    public static void loadCartList(final Context context,final Dialog dialog, final boolean loadProductData){
+        cartList.clear();
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("MY_CART")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (long i = 0; i < (long) task.getResult().get("list_size"); i++) {
+                        cartList.add(task.getResult().get("product_ID_" + i).toString());
+
+                        if (DBqueries.cartList.contains(ProductDetailActivity.productID)) {
+                            ProductDetailActivity.ALREADY_ADDED_TO_CART = true;
+                        } else {
+                            ProductDetailActivity.ALREADY_ADDED_TO_CART = false;
+                        }
+                        if (loadProductData) {
+                            cartItemModelList.clear();
+                            final String productId = task.getResult().get("product_ID_" + i).toString();
+                            firebaseFirestore.collection("PRODUCTS").document(productId)
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+
+                                        cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM,productId,
+                                                task.getResult().get("product_image_1").toString(),
+                                                task.getResult().get("product_title").toString(),
+                                                //free_coupons change
+                                                (long) task.getResult().get("free_coupens"),
+                                                task.getResult().get("product_price").toString(),
+                                                task.getResult().get("cutted_price").toString(), (long) 1, (long) 0, (long) 0));
+                                        CartFragment.cartAdapter.notifyDataSetChanged();
+                                    } else {
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+
     }
 
     public static void clearData() {
