@@ -167,8 +167,9 @@ public class DBqueries {
                             ProductDetailActivity.ALREALY_ADD_TO_WITHLIST = false;
                         }
                         if (loadProductData) {
-                            final String productId = task.getResult().get("product_ID_").toString();
-                            firebaseFirestore.collection("PRODUCTS").document(task.getResult().get("product_ID_" + i).toString())
+                            wishlistModelList.clear();
+                            final String productId = task.getResult().get("product_ID_"+i).toString();
+                            firebaseFirestore.collection("PRODUCTS").document(productId)
                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
