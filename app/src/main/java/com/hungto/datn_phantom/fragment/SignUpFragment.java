@@ -244,6 +244,7 @@ public class SignUpFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    //TODO:MAP
                                     //maper user with account
                                     Map<Object, String> userData = new HashMap<>();
                                     userData.put("fullname", mFullnanmeEdt.getText().toString());
@@ -262,14 +263,18 @@ public class SignUpFragment extends Fragment {
                                                         wishlistMap.put("list_size", (long) 0);
                                                         Map<String, Object> ratingMap = new HashMap<>();
                                                         ratingMap.put("list_size", (long) 0);
+                                                        Map<String, Object> cartMap = new HashMap<>();
+                                                        cartMap.put("list_size", (long) 0);
 
                                                         List<String> documentNames = new ArrayList<>();
                                                         documentNames.add("MY_WISHLIST");
                                                         documentNames.add("MY_RATINGS");
+                                                        documentNames.add("MY_CART");
 
                                                         List<Map<String, Object>> documentFile = new ArrayList<>();
                                                         documentFile.add(wishlistMap);
                                                         documentFile.add(ratingMap);
+                                                        documentFile.add(cartMap);
                                                         for (int i = 0; i < documentNames.size(); i++) {
                                                             int finalI = i;
                                                             userDataReference.document(documentNames.get(i))
