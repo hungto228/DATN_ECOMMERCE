@@ -12,18 +12,20 @@ public class CartItemModel {
     private int type;
 
     //cart item
-    private int productImage;
+    private String productId;
+    private String productImage;
     private String mProductTitle;
-    private int freeCoupons;
+    private Long freeCoupons;
     private String mProductPrice;
     private String mCuttedPrice;
-    private int productQuantity;
-    private int offersApplied;
-    private int couponsApplied;
+    private Long productQuantity;
+    private Long offersApplied;
+    private Long couponsApplied;
 
-    public CartItemModel(int type, int productImage, String mProductTitle, int freeCoupons, String mProductPrice, String mCuttedPrice,
-                         int productQuantity, int offersApplied, int couponsApplied) {
+    public CartItemModel(int type,String productId, String productImage, String mProductTitle, Long freeCoupons, String mProductPrice, String mCuttedPrice,
+                         Long productQuantity, Long offersApplied, Long couponsApplied) {
         this.type = type;
+        this.productId=productId;
         this.productImage = productImage;
         this.mProductTitle = mProductTitle;
         this.freeCoupons = freeCoupons;
@@ -34,20 +36,7 @@ public class CartItemModel {
         this.couponsApplied = couponsApplied;
     }
 
-    //cart total
-    private String mTotalItems;
-    private String mTotalItemPrice;
-    private String mDeliveryPrice;
-    private String mSavedAmount;
-    private String mTotalAmount;
-
-
-    public CartItemModel(int type, String mTotalItems, String mTotalItemPrice, String mDeliveryPrice, String mSavedAmount, String mTotalAmount) {
+    public CartItemModel(int type) {
         this.type = type;
-        this.mTotalItems = mTotalItems;
-        this.mTotalItemPrice = mTotalItemPrice;
-        this.mDeliveryPrice = mDeliveryPrice;
-        this.mSavedAmount = mSavedAmount;
-        this.mTotalAmount = mTotalAmount;
     }
 }

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,6 +66,12 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
         boolean cod = wishlistModelList.get(position).isCOD();
 
         holder.setDataWithlist(productId,resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod, position);
+
+        if(lastPosition<position){
+            Animation animation= AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.fade_in);
+            holder.itemView.setAnimation(animation);
+            lastPosition=position;
+        }
     }
 
     @Override

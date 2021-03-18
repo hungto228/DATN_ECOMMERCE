@@ -1,6 +1,7 @@
 package com.hungto.datn_phantom.fragment;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CartAdapter;
+import com.hungto.datn_phantom.adapter.WishListAdapter;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
@@ -42,6 +45,10 @@ public class CartFragment extends Fragment {
     @BindView(R.id.btn_cart_continue)
     Button mCartContinueBtn;
 
+    public static CartAdapter cartAdapter;
+    private Dialog loadingDialogLong;
+    List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,11 +59,25 @@ public class CartFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewCartItem.setLayoutManager(linearLayoutManager);
 
-        List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
-        cartItemModelList.add(new CartItemModel(0, R.drawable.banner_slider, "pixel 2l", 2, "rs.4999", "rs.5999", 1, 0, 0));
-        cartItemModelList.add(new CartItemModel(0, R.drawable.banner_slider, "pixel 2l", 0, "rs.4999", "rs.5999", 1, 1, 0));
-        cartItemModelList.add(new CartItemModel(0, R.drawable.banner_slider, "pixel 2l", 2, "rs.4999", "rs.5999", 1, 0, 0));
-        cartItemModelList.add(new CartItemModel(1, "price(3item)", "rs.69000", "free", "rs.69000", "59999"));
+        if (DBqueries.cartItemModelList.size() == 0) {
+            DBqueries.cartList.clear();
+            DBqueries.loadCartList(getContext(), loadingDialogLong, true,new TextView(getContext()));
+        }else {
+            loadingDialogLong.dismiss();
+        }
+
+        //loadingDialogLong
+        loadingDialogLong = new Dialog(getContext());
+        loadingDialogLong.setContentView(R.layout.loading_progress_dialog);
+        loadingDialogLong.setCancelable(false);
+        loadingDialogLong.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
+        loadingDialogLong.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialogLong.show();
+        //loadingDialogLong
+
+
+
+       // cartItemModelList.add(new CartItemModel(1, "price(3item)", "rs.69000", "free", "rs.69000", "59999"));
         CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
         recyclerViewCartItem.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
