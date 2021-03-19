@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //    ImageView noInternetConnectionImg;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    private TextView badgeCount;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -209,39 +210,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             getMenuInflater().inflate(R.menu.main, menu);
             MenuItem cartItem = menu.findItem(R.id.main_cart_icon);
-            if (DBqueries.cartList.size() > 0) {
-                cartItem.setActionView(R.layout.badge_layout);
-                ImageView badgeIcon = cartItem.getActionView().findViewById(R.id.badge_icon);
-                badgeIcon.setImageResource(R.drawable.ic_cart_white);
-                TextView badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
+            cartItem.setActionView(R.layout.badge_layout);
+            ImageView badgeIcon = cartItem.getActionView().findViewById(R.id.badge_icon);
+            badgeIcon.setImageResource(R.drawable.ic_cart_white);
+            badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
 
-                if (currentUser != null) {
-                    if (DBqueries.cartList.size() == 0) {
-                        DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false);
+            if (currentUser != null) {
+                if (DBqueries.cartList.size() == 0) {
+                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount);
+                } else {
+                    badgeCount.setVisibility(View.VISIBLE);
+                    if (DBqueries.cartList.size() < 99) {
+                        badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
                     } else {
-                        badgeCount.setVisibility(View.VISIBLE);
-                        if (DBqueries.cartList.size() < 99) {
-
-                            badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
-                        } else {
-                            badgeCount.setText("99");
-                        }
+                        badgeCount.setText("99");
                     }
                 }
-
-                cartItem.getActionView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (currentUser == null) {
-                            signInDialog.show();
-                        } else {
-                            gotoFragment("My Cart", new CartFragment(), CART_FRAGMENT);
-                        }
-                    }
-                });
-            }else {
-                cartItem.setActionView(null);
             }
+
+            cartItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentUser == null) {
+                        signInDialog.show();
+                    } else {
+                        gotoFragment("My Cart", new CartFragment(), CART_FRAGMENT);
+                    }
+                }
+            });
+
         }
         return true;
     }

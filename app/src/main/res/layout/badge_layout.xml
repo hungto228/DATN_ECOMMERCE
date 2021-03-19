@@ -28,6 +28,7 @@
         android:layout_marginBottom="18dp"
         android:background="@drawable/badge_count"
         android:text="99"
+        android:visibility="invisible"
         android:gravity="center"
         android:textAlignment="center"
         android:textColor="@color/white"
