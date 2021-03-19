@@ -265,16 +265,21 @@ public class SignUpFragment extends Fragment {
                                                         ratingMap.put("list_size", (long) 0);
                                                         Map<String, Object> cartMap = new HashMap<>();
                                                         cartMap.put("list_size", (long) 0);
+                                                        Map<String, Object> myAddressesMap = new HashMap<>();
+                                                        myAddressesMap.put("list_size", (long) 0);
 
                                                         List<String> documentNames = new ArrayList<>();
                                                         documentNames.add("MY_WISHLIST");
                                                         documentNames.add("MY_RATINGS");
                                                         documentNames.add("MY_CART");
+                                                        documentNames.add("MY_ADDRESSES");
 
                                                         List<Map<String, Object>> documentFile = new ArrayList<>();
                                                         documentFile.add(wishlistMap);
                                                         documentFile.add(ratingMap);
                                                         documentFile.add(cartMap);
+                                                        documentFile.add(myAddressesMap);
+
                                                         for (int i = 0; i < documentNames.size(); i++) {
                                                             int finalI = i;
                                                             userDataReference.document(documentNames.get(i))
@@ -323,9 +328,14 @@ public class SignUpFragment extends Fragment {
     }
 
     private void mainIntent() {
-        Intent mainIntent = new Intent(getActivity(), MainActivity.class);
-        startActivity(mainIntent);
-        disableCloseBtn = false;
+        if(disableCloseBtn){
+            disableCloseBtn = false;
+        }else {
+            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+            startActivity(mainIntent);
+
+
+        }
         getActivity().finish();
     }
 }

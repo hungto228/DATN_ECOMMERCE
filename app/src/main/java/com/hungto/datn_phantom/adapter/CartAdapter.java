@@ -33,13 +33,13 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter {
     public static final String TAG = "tagCartAdapter";
     List<CartItemModel> cartItemModelList;
-    private Boolean cartList;
+    private TextView cartTotalAmount;
     private int lastPosition = -1;
     Context context;
 
-    public CartAdapter(List<CartItemModel> cartItemModelList, Boolean cartList) {
+    public CartAdapter(List<CartItemModel> cartItemModelList,TextView cartTotalAmount) {
         this.cartItemModelList = cartItemModelList;
-        this.cartList = cartList;
+        this.cartTotalAmount = cartTotalAmount;
     }
 
     @Override
@@ -256,6 +256,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 mDeliveryPrice.setText("rs." + deliveryPrice + "-");
             }
             mTotalAmount.setText("rs." + totalAmount + "-");
+            cartTotalAmount.setText("Rs. " + totalAmount + "/-");
             mSavedAmount.setText("Your save" + saveAmount + "- on this order");
 
         }

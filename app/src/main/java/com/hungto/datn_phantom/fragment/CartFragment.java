@@ -34,6 +34,7 @@ import butterknife.Unbinder;
 
 public class CartFragment extends Fragment {
     public static final String TAG = "tagCartFragment";
+
     public CartFragment() {
     }
 
@@ -46,6 +47,8 @@ public class CartFragment extends Fragment {
     public static CartAdapter cartAdapter;
     private Dialog loadingDialogLong;
     List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
+    @BindView(R.id.tv_total_cart_amount)
+    TextView totalAmount;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -67,22 +70,21 @@ public class CartFragment extends Fragment {
         recyclerViewCartItem.setLayoutManager(linearLayoutManager);
 
 
-
         if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(), loadingDialogLong, true,new TextView(getContext()));
-        }else {
+            DBqueries.loadCartList(getContext(), loadingDialogLong, true, new TextView(getContext()));
+        } else {
             loadingDialogLong.dismiss();
         }
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList,true);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount);
         recyclerViewCartItem.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         mCartContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddAddressAvtivity.class);
-                getActivity().startActivity(intent);
+               // loadingDialogLong.show();
+                DBqueries.loadAddresses(getContext(), loadingDialogLong);
             }
         });
         return root;

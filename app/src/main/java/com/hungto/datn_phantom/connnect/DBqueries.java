@@ -2,6 +2,7 @@ package com.hungto.datn_phantom.connnect;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
@@ -26,12 +27,16 @@ import com.hungto.datn_phantom.adapter.HomePageAdapter;
 import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.fragment.HomeFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
+import com.hungto.datn_phantom.model.AddressModel;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
 import com.hungto.datn_phantom.model.WishlistModel;
+import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
+import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
+import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
@@ -47,11 +52,13 @@ public class DBqueries {
     public static List<String> loaddataCategoriesName = new ArrayList<>();
     public static List<WishlistModel> wishlistModelList = new ArrayList<>();
     public static List<String> wishlist = new ArrayList<>();
+    public static List<Long> myRating = new ArrayList<>();
     public static List<String> myRatedIds = new ArrayList<>();
     public static List<String> cartList = new ArrayList<>();
     public static List<CartItemModel> cartItemModelList = new ArrayList<>();
+    public static int selectedAddress = -1;
+    public static List<AddressModel> addressesModelList = new ArrayList<>();
 
-    public static List<Long> myRating = new ArrayList<>();
     private static String productID;
 
     //TODO:load category
@@ -325,10 +332,10 @@ public class DBqueries {
                                                 (long) task.getResult().get("free_coupens"),
                                                 task.getResult().get("product_price").toString(),
                                                 task.getResult().get("cutted_price").toString(), (long) 1, (long) 0, (long) 0));
-                                        if (cartList.size() ==1) {
+                                        if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                                         }
-                                        if(cartList.size()==0){
+                                        if (cartList.size() == 0) {
                                             cartItemModelList.clear();
                                         }
                                         CartFragment.cartAdapter.notifyDataSetChanged();
@@ -399,6 +406,49 @@ public class DBqueries {
                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                 }
                 ProductDetailActivity.running_cart_query = false;
+            }
+        });
+    }
+
+    public static void loadAddresses(final Context context, final Dialog loadingDialog) {
+
+        addressesModelList.clear();
+
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_ADDRESSES").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    Intent deliveryIntent;
+                    if ((long) task.getResult().get("list_size") == 0) {
+
+                        deliveryIntent = new Intent(context, AddAddressAvtivity.class);
+//                        deliveryIntent.putExtra("INTENT", "deliveryIntent");
+
+                    } else {
+
+                        for (long x = 1; x < (long) task.getResult().get("list_size") + 1; x++) {
+                            addressesModelList.add(new AddressModel(task.getResult().get("fullname_" + x).toString(),
+                                    task.getResult().get("address_" + x).toString(),
+                                    task.getResult().get("pincode_" + x).toString(),
+                                    (boolean) task.getResult().get("selected_" + x)));
+
+                            if ((boolean) task.getResult().get("selected_" + x)) {
+
+                                selectedAddress = Integer.parseInt(String.valueOf(x - 1));
+                            }
+                        }
+                        deliveryIntent = new Intent(context, DeliveryActivity.class);
+
+                    }
+                    context.startActivity(deliveryIntent);
+                } else {
+
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+
+                loadingDialog.dismiss();
             }
         });
     }
