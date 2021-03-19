@@ -37,19 +37,8 @@ public class CartItemModel {
     }
 
     //cart total
-    private String mTotalItems;
-    private String mTotalItemPrice;
-    private String mDeliveryPrice;
-    private String mSavedAmount;
-    private String mTotalAmount;
 
-
-    public CartItemModel(int type, String mTotalItems, String mTotalItemPrice, String mDeliveryPrice, String mSavedAmount, String mTotalAmount) {
+    public CartItemModel(int type) {
         this.type = type;
-        this.mTotalItems = mTotalItems;
-        this.mTotalItemPrice = mTotalItemPrice;
-        this.mDeliveryPrice = mDeliveryPrice;
-        this.mSavedAmount = mSavedAmount;
-        this.mTotalAmount = mTotalAmount;
     }
 }

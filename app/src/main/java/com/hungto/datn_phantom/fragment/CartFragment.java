@@ -70,7 +70,7 @@ public class CartFragment extends Fragment {
 
         if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(), loadingDialogLong, true);
+            DBqueries.loadCartList(getContext(), loadingDialogLong, true,new TextView(getContext()));
         }else {
             loadingDialogLong.dismiss();
         }
