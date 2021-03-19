@@ -60,5 +60,7 @@
     <string name="add_wishlist">Added to wishlist success!!</string>
     <string name="loading">Loading...</string>
     <string name="removed_successfully">Removed successfully</string>
+    <string name="pincode_values">Please provide valid pincode!</string>
+    <string name="phone_values">Please provide valid phone number!</string>
 
 </resources>

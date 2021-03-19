@@ -60,4 +60,6 @@
     <string name="add_wishlist">Thêm vào danh sách yêu thích thành công!!</string>
     <string name="loading">Đang tải ...</string>
     <string name="removed_successfully">Xóa thành công.</string>
+    <string name="pincode_values">Vui lòng cung cấp mã pin hợp lệ !</string>
+    <string name="phone_values">Vui lòng cung cấp số điện thoại hợp lệ !</string>
 </resources>

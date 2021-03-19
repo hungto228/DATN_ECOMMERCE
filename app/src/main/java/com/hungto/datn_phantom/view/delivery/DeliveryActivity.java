@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hungto.datn_phantom.R;
@@ -42,7 +43,9 @@ public class DeliveryActivity extends AppCompatActivity {
     Button mChangeOrAddAdressBtn;
     public static final int SELECT_ADDRESS = 0;
     private Window window;
-    public  static CartAdapter cartAdapter;
+    CartAdapter cartAdapter;
+    @BindView(R.id.tv_total_cart_amount)
+    TextView totalAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
         List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
 
-         cartAdapter = new CartAdapter(cartItemModelList,true);
+        cartAdapter = new CartAdapter(cartItemModelList,totalAmount);
         recyclerViewDelivery.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         mChangeOrAddAdressBtn.setVisibility(View.VISIBLE);
