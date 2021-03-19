@@ -11,7 +11,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hungto.datn_phantom.R;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.List;
 
@@ -144,6 +148,8 @@ public class CartAdapter extends RecyclerView.Adapter {
         TextView mCoupenApplied;
         @BindView(R.id.tv_product_quantity)
         TextView mProductQuality;
+        @BindView(R.id.remove_item_btn)
+        LinearLayout mDeleteBtn;
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -205,6 +211,17 @@ public class CartAdapter extends RecyclerView.Adapter {
                         }
                     });
                     quantityDialog.show();
+                }
+            });
+            mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!ProductDetailActivity.running_cart_query) {
+                        ProductDetailActivity.running_cart_query = true;
+                        DBqueries.removeFromCart(position, itemView.getContext());
+                    }
+                    Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
+
                 }
             });
 

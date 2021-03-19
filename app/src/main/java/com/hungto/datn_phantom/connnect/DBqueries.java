@@ -52,7 +52,7 @@ public class DBqueries {
     public static List<Long> myRating = new ArrayList<>();
     private static String productID;
 
-
+    //TODO:load category
     public static void loadCategory(RecyclerView categoryRecycleview, Context context) {
         categoryModels.clear();
         firebaseFirestore.collection("CATEGORIES").orderBy("index").get()
@@ -75,6 +75,7 @@ public class DBqueries {
                 });
     }
 
+    //TODO:load fragment home
     public static void loadFragment(RecyclerView recycleViewHome, Context context, final int index, String categoryName) {
         firebaseFirestore.collection("CATEGORIES")
                 .document(categoryName.toUpperCase())
@@ -148,6 +149,7 @@ public class DBqueries {
                 });
     }
 
+    //TODO:load wish list
     public static void loadWithlist(final Context context, final Dialog dialog, final boolean loadProductData) {
         wishlist.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
@@ -205,6 +207,7 @@ public class DBqueries {
         });
     }
 
+    //TODO:remove from wishlist
     public static void removeFromWishlist(final int index, final Context context) {
         final String removeProductId = wishlist.get(index);
         wishlist.remove(index);
@@ -242,6 +245,7 @@ public class DBqueries {
 
     }
 
+    //TODO:load rating list
     public static void loadRatingList(final Context context) {
 
         if (!ProductDetailActivity.running_rating_query) {
@@ -283,7 +287,8 @@ public class DBqueries {
         }
     }
 
-    public static void loadCartList(final Context context,final Dialog dialog, final boolean loadProductData){
+    //TODO:load cart list
+    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData) {
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
                 .collection("USER_DATA").document("MY_CART")
@@ -308,7 +313,7 @@ public class DBqueries {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()) {
 
-                                        cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM,productId,
+                                        cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productId,
                                                 task.getResult().get("product_image_1").toString(),
                                                 task.getResult().get("product_title").toString(),
                                                 //free_coupons change
@@ -334,11 +339,58 @@ public class DBqueries {
 
     }
 
+    //TODO: remove From cart
+    public static void removeFromCart(final int index, final Context context) {
+
+        final String removeProductId = cartList.get(index);
+
+        cartList.remove(index);
+        Map<String, Object> updateCartList = new HashMap<>();
+
+        for (int x = 0; x < cartList.size(); x++) {
+
+            updateCartList.put("product_ID_" + x, cartList.get(x));
+        }
+
+        updateCartList.put("list_size", (long) cartList.size());
+
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("MY_CART")
+                .set(updateCartList).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    if (cartItemModelList.size() != 0) {
+                        cartItemModelList.remove(index);
+                        CartFragment.cartAdapter.notifyDataSetChanged();
+                    }
+//                    if (cartList.size() == 0) {
+//                        cartItemModelList.clear();
+//                    }
+                    if (ProductDetailActivity.cartItem != null) {
+                        ProductDetailActivity.cartItem.setActionView(null);
+                    }
+                    ProductDetailActivity.running_cart_query = false;
+                    Toast.makeText(context, "Removed successfully", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    cartList.add(index, removeProductId);
+
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+                ProductDetailActivity.running_cart_query = false;
+            }
+        });
+    }
+
     public static void clearData() {
         categoryModels.clear();
         lists.clear();
         loaddataCategoriesName.clear();
         wishlist.clear();
         wishlistModelList.clear();
+        cartList.clear();
+        cartItemModelList.clear();
     }
 }

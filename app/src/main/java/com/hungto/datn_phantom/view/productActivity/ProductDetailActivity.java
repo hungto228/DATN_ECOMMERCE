@@ -41,6 +41,7 @@ import com.hungto.datn_phantom.adapter.ProductDetailAdapter;
 import com.hungto.datn_phantom.adapter.Product_Images_Adapter;
 import com.hungto.datn_phantom.adapter.RewardAdapter;
 import com.hungto.datn_phantom.connnect.DBqueries;
+import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.fragment.SignInFragment;
 import com.hungto.datn_phantom.fragment.SignUpFragment;
 import com.hungto.datn_phantom.model.CartItemModel;
@@ -71,6 +72,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private RegiterActivity regiterActivity;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    public static MenuItem cartItem;
 
     @BindView(R.id.viewpage_image_product)
     ViewPager mViewPagerproduct;
@@ -542,7 +544,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
 
-//TODO:buy now btn
+        //TODO:buy now btn
         mBuyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -588,9 +590,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                                         ALREADY_ADDED_TO_CART = true;
                                         DBqueries.cartList.add(productID);
                                         Toast.makeText(ProductDetailActivity.this, "Added to cart success", Toast.LENGTH_SHORT).show();
-                                        //     mAddToWithList.setEnabled(true);
-                                        running_wishlist_query = false;
-                                    }else {
+                                        invalidateOptionsMenu();
+                                        running_cart_query = false;
+                                    } else {
                                         running_cart_query = false;
                                         String error = task.getException().getMessage();
                                         Toast.makeText(ProductDetailActivity.this, error, Toast.LENGTH_SHORT).show();
@@ -602,7 +604,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
-//TODO:Coupon Dialog
+            //TODO:Coupon Dialog
 
         /* ********* COUPON DIALOG********* */
         final Dialog checkCouponPriceDialog = new Dialog(ProductDetailActivity.this);
@@ -674,6 +676,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(ProductDetailActivity.this, "coupendedembtn", Toast.LENGTH_SHORT).show();
             }
         });
+        //TODO:
         /* ********* COUPON DIALOG********* */
         //sign indialog
         signInDialog = new
@@ -805,10 +808,52 @@ public class ProductDetailActivity extends AppCompatActivity {
             return String.valueOf(totalStars / (Long.parseLong(totalRatingsFigure.getText().toString()) + 1)).substring(0, 3);
         }
     }
-
+    //TODO:onCreateOptionsMenu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_and_cart_icon, menu);
+        cartItem = menu.findItem(R.id.main_cart_icon);
+        if (DBqueries.cartList.size() > 0) {
+            cartItem.setActionView(R.layout.badge_layout);
+            ImageView badgeIcon = cartItem.getActionView().findViewById(R.id.badge_icon);
+            badgeIcon.setImageResource(R.drawable.ic_cart_white);
+            TextView badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
+
+            if (currentUser != null) {
+
+                if (DBqueries.cartList.size() == 0) {
+                    DBqueries.loadCartList(ProductDetailActivity.this, new Dialog(ProductDetailActivity.this), false);
+
+                } else {
+
+                    badgeCount.setVisibility(View.VISIBLE);
+
+                    if (DBqueries.cartList.size() < 99) {
+
+                        badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
+                    } else {
+                        badgeCount.setText("99");
+
+                    }
+                }
+            }
+
+            cartItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentUser == null) {
+                        signInDialog.show();
+                    } else {
+                        Intent cartIntent = new Intent(ProductDetailActivity.this, MainActivity.class);
+                        showCart = true;
+                        startActivity(cartIntent);
+
+                    }
+                }
+            });
+        } else {
+            cartItem.setActionView(null);
+        }
         return true;
     }
 
