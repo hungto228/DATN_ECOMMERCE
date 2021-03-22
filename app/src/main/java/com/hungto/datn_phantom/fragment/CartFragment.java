@@ -77,7 +77,7 @@ public class CartFragment extends Fragment {
             loadingDialogLong.dismiss();
         }
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount,true);
         recyclerViewCartItem.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         mCartContinueBtn.setOnClickListener(new View.OnClickListener() {

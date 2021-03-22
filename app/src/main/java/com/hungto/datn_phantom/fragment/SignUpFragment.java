@@ -307,9 +307,6 @@ public class SignUpFragment extends Fragment {
                                                     }
                                                 }
                                             });
-                                    Intent mainIntent = new Intent(getActivity(), MainActivity.class);
-                                    startActivity(mainIntent);
-                                    getActivity().finish();
                                 } else {
                                     pbSignUp.setVisibility(View.INVISIBLE);
                                     mSignUpBtn.setEnabled(false);

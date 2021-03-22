@@ -423,7 +423,7 @@ public class DBqueries {
                     if ((long) task.getResult().get("list_size") == 0) {
 
                         deliveryIntent = new Intent(context, AddAddressAvtivity.class);
-//                        deliveryIntent.putExtra("INTENT", "deliveryIntent");
+                       deliveryIntent.putExtra("INTENT", "deliveryIntent");
 
                     } else {
 

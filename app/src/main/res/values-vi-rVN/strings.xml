@@ -62,4 +62,12 @@
     <string name="removed_successfully">Xóa thành công.</string>
     <string name="pincode_values">Vui lòng cung cấp mã pin hợp lệ !</string>
     <string name="phone_values">Vui lòng cung cấp số điện thoại hợp lệ !</string>
+    <string name="flat_no">Số nhà, Tên tòa nhà</string>
+    <string name="area_street">"Vị trí, Khu vực hoặc Đường phố * "</string>
+    <string name="Wards">Phường /xã</string>
+    <string name="district">Quận /Huyện</string>
+    <string name="full_name">Họ &amp; tên</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="alternate_mobile">"Số điện thoại di động thay thế. "</string>
+    <string name="save">Lưu lại</string>
 </resources>

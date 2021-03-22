@@ -45,23 +45,23 @@ public class AddAddressAvtivity extends AppCompatActivity {
     private ImageView actionBarLogo;
     private Window window;
     @BindView(R.id.edt_city)
-     EditText city;
+    EditText city;
     @BindView(R.id.edt_locality)
-     EditText locality;
+    EditText locality;
     @BindView(R.id.edt_flat_no)
-     EditText flatNo;
+    EditText flatNo;
     @BindView(R.id.edt_pincode)
-     EditText pincode;
+    EditText pincode;
     @BindView(R.id.edt_landmark)
-     EditText landmark;
+    EditText landmark;
     @BindView(R.id.edt_fullname)
-     EditText name;
+    EditText name;
     @BindView(R.id.edt_mobile_no)
-     EditText mobileNo;
+    EditText mobileNo;
     @BindView(R.id.edt_alternate_mobile_no)
-     EditText alternateMobileNo;
+    EditText alternateMobileNo;
     @BindView(R.id.spiner_state)
-     Spinner stateSpinner;
+    Spinner stateSpinner;
     private String selectedState;
     private String[] stateList;
     private Dialog loadingDialog;
@@ -152,13 +152,23 @@ public class AddAddressAvtivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        if(DBqueries.addressesModelList.size()>0) {
+                                                        if (DBqueries.addressesModelList.size() > 0) {
                                                             DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
                                                         }
-                                                        DBqueries.addressesModelList.add( new AddressModel(  name.getText().toString() + " - " +
-                                                                mobileNo.getText().toString(),fullAddress, pincode.getText().toString(),true));
-                                                        Intent intent = new Intent(AddAddressAvtivity.this, DeliveryActivity.class);
-                                                        startActivity(intent);
+                                                        if (TextUtils.isEmpty(alternateMobileNo.getText())) {
+
+                                                            DBqueries.addressesModelList.add(new AddressModel(name.getText().toString() + " - " + mobileNo.getText().toString(), fullAddress, pincode.getText().toString(), true));
+                                                        } else {
+                                                            DBqueries.addressesModelList.add(new AddressModel(name.getText().toString() + " - " + mobileNo.getText().toString() + " or " + alternateMobileNo.getText().toString(), fullAddress, pincode.getText().toString(), true));
+                                                        }
+                                                        if (getIntent().getStringExtra("INTENT").equals("deliveryIntent")) {
+                                                            Intent intent = new Intent(AddAddressAvtivity.this, DeliveryActivity.class);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            AddressActivity.refreshItem(DBqueries.selectedAddress, DBqueries.addressesModelList.size() - 1);
+                                                        }
+
+                                                        DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
                                                         finish();
                                                     } else {
                                                         String error = task.getException().getMessage();
@@ -168,27 +178,27 @@ public class AddAddressAvtivity extends AppCompatActivity {
                                                 }
                                             });
 
-                                        }else {
+                                        } else {
                                             mobileNo.requestFocus();
                                             Toast.makeText(AddAddressAvtivity.this, getResources().getString(R.string.phone_values), Toast.LENGTH_SHORT).show();
                                         }
-                                    }else {
+                                    } else {
                                         name.requestFocus();
                                     }
-                                }else {
+                                } else {
                                     landmark.requestFocus();
                                 }
-                            }else {
+                            } else {
                                 pincode.requestFocus();
                                 Toast.makeText(AddAddressAvtivity.this, getResources().getString(R.string.pincode_values), Toast.LENGTH_SHORT).show();
                             }
-                        }else {
+                        } else {
                             flatNo.requestFocus();
                         }
-                    }else {
+                    } else {
                         locality.requestFocus();
                     }
-                }else {
+                } else {
                     city.requestFocus();
                 }
 
