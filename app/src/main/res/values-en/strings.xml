@@ -62,5 +62,13 @@
     <string name="removed_successfully">Removed successfully</string>
     <string name="pincode_values">Please provide valid pincode!</string>
     <string name="phone_values">Please provide valid phone number!</string>
+    <string name="flat_no">Flat No., Building Name*</string>
+    <string name="area_street">Locality, Area or Street*</string>
+    <string name="Wards">Wards</string>
+    <string name="district">"District  "</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Mobile number</string>
+    <string name="alternate_mobile">Alternate Mobile No.(Optional)</string>
+    <string name="save">Save</string>
 
 </resources>

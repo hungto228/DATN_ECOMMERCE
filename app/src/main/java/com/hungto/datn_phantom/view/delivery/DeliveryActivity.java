@@ -15,11 +15,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CartAdapter;
-import com.hungto.datn_phantom.fragment.CartFragment;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
 
@@ -46,6 +45,12 @@ public class DeliveryActivity extends AppCompatActivity {
     CartAdapter cartAdapter;
     @BindView(R.id.tv_total_cart_amount)
     TextView totalAmount;
+    @BindView(R.id.tv_fullName)
+    TextView mFullname;
+    @BindView(R.id.tv_address)
+    TextView mFullAddress;
+    @BindView(R.id.tv_pincode)
+    TextView mPincode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +73,12 @@ public class DeliveryActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewDelivery.setLayoutManager(linearLayoutManager);
 
-        List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
 
-        cartAdapter = new CartAdapter(cartItemModelList,totalAmount);
+
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,false);
         recyclerViewDelivery.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
+        //ToDO:button change Adress
         mChangeOrAddAdressBtn.setVisibility(View.VISIBLE);
         mChangeOrAddAdressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +89,11 @@ public class DeliveryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        mFullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMFullName());
+        mFullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMAddress());
+        mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMPincode());
+
+
     }
 
     @Override

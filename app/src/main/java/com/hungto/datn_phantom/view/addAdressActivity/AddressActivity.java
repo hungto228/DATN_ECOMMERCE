@@ -1,35 +1,55 @@
 package com.hungto.datn_phantom.view.addAdressActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.AddressAdapter;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.AddressModel;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AddressActivity extends AppCompatActivity {
     public static final String TAG = "tagAddressActivity";
+    private Dialog loadingDialog;
+    public int previousAddress;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.add_new_address_btn)
+    LinearLayout addNewAddressLinearBtn;
+    @BindView(R.id.tv_address_saved)
+    TextView mAddressSave;
 
     public static AddressAdapter addressAdapter;
     private ImageView actionBarLogo;
@@ -57,14 +77,26 @@ public class AddressActivity extends AppCompatActivity {
 
         actionBarLogo.setVisibility(View.INVISIBLE);
 
+        ///// loading dialog
+
+        loadingDialog = new Dialog(this);
+        loadingDialog.setContentView(R.layout.loading_progress_dialog);
+
+        loadingDialog.setCancelable(false);
+
+        loadingDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.slider_background));
+
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        ///// loading dialog
+        //set previous
+        previousAddress = DBqueries.selectedAddress;
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewAddress.setLayoutManager(linearLayoutManager);
-        List<AddressModel> addressModelList = new ArrayList<>();
-        addressModelList.add(new AddressModel("dsfssd", "yenphdd", "1234", true));
-        addressModelList.add(new AddressModel("dsfssd1", "yenphdd", "12345", false));
-        addressModelList.add(new AddressModel("dsfssd2", "yenphdd", "12346", false));
-        addressModelList.add(new AddressModel("dsfssd3", "yenphdd", "12347", false));
+
 
         //get intent deliveryActivity
         int mode = getIntent().getIntExtra("MODE", -1);
@@ -73,11 +105,54 @@ public class AddressActivity extends AppCompatActivity {
         } else {
             mDeliverHere.setVisibility(View.GONE);
         }
+        mDeliverHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DBqueries.selectedAddress != previousAddress) {
+                    final int previousAddressIndex = previousAddress;
+                    loadingDialog.show();
+                    Map<String, Object> updateSelection = new HashMap<>();
+                    updateSelection.put("selected_" + String.valueOf(previousAddress + 1), false);
+                    updateSelection.put("selected_" + String.valueOf(DBqueries.selectedAddress + 1), true);
 
-        addressAdapter = new AddressAdapter(addressModelList, mode);
+                    previousAddress = DBqueries.selectedAddress;
+                    FirebaseFirestore.getInstance().collection("USERS")
+                            .document(FirebaseAuth.getInstance().getUid())
+                            .collection("USER_DATA").document("MY_ADDRESSES")
+                            .update(updateSelection).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                finish();
+                            } else {
+                                previousAddress=previousAddressIndex;
+                                String error = task.getException().getMessage();
+                                Toast.makeText(AddressActivity.this, error, Toast.LENGTH_SHORT).show();
+                            }
+                            loadingDialog.dismiss();
+                        }
+                    });
+                }else {
+                    finish();
+                }
+            }
+        });
+        //call addressesModelList from DBqueries
+        addressAdapter = new AddressAdapter(DBqueries.addressesModelList, mode);
         ((SimpleItemAnimator) recyclerViewAddress.getItemAnimator()).setSupportsChangeAnimations(false);
         recyclerViewAddress.setAdapter(addressAdapter);
         addressAdapter.notifyDataSetChanged();
+        //TODO: addnewAddress
+        addNewAddressLinearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddressActivity.this, AddAddressAvtivity.class);
+                intent.putExtra("INTENT", "null");
+                startActivity(intent);
+                finish();
+            }
+        });
+        mAddressSave.setText(String.valueOf(DBqueries.addressesModelList.size() + "save Adress"));
 
     }
 
