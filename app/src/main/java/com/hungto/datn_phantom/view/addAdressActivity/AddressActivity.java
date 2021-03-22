@@ -132,7 +132,7 @@ public class AddressActivity extends AppCompatActivity {
                             loadingDialog.dismiss();
                         }
                     });
-                }else {
+                } else {
                     finish();
                 }
             }
@@ -152,6 +152,15 @@ public class AddressActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+//        mAddressSave.setText(String.valueOf(DBqueries.addressesModelList.size() + "save Adress"));
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         mAddressSave.setText(String.valueOf(DBqueries.addressesModelList.size() + "save Adress"));
 
     }
@@ -167,6 +176,11 @@ public class AddressActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            if (DBqueries.selectedAddress != previousAddress) {
+                DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
+                DBqueries.addressesModelList.get(previousAddress).setSelected(true);
+                DBqueries.selectedAddress = previousAddress;
+            }
             finish();
             return true;
         }
@@ -175,6 +189,11 @@ public class AddressActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (DBqueries.selectedAddress != previousAddress) {
+            DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
+            DBqueries.addressesModelList.get(previousAddress).setSelected(true);
+            DBqueries.selectedAddress = previousAddress;
+        }
         super.onBackPressed();
     }
 }

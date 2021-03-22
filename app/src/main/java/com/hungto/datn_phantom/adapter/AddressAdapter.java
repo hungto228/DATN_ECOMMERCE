@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hungto.datn_phantom.R;
+import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.fragment.AccountFragment;
 import com.hungto.datn_phantom.model.AddressModel;
 import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
@@ -31,13 +32,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     private AccountFragment accountFragment;
     private AddressActivity addressActivity;
 
-    private int preSelectedposition=-1;
+    private int preSelectedposition;
     List<AddressModel> addressModelList;
     private int MODE;
 
     public AddressAdapter(List<AddressModel> addressModelList, int MODE) {
         this.addressModelList = addressModelList;
         this.MODE = MODE;
+        preSelectedposition= DBqueries.selectedAddress;
     }
 
     @NonNull
@@ -99,6 +101,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                             addressModelList.get(position).setSelected(true);
                             addressModelList.get(preSelectedposition).setSelected(false);
                             refreshItem(preSelectedposition, position);
+                            preSelectedposition=position;
+                            DBqueries.selectedAddress=position;
                         }
                     }
                 });

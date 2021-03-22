@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //scrollFlag toolbar
         params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
 
         scrollFlags = params.getScrollFlags();

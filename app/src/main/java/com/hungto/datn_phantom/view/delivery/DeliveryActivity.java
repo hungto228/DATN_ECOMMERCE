@@ -94,6 +94,16 @@ public class DeliveryActivity extends AppCompatActivity {
         mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMPincode());
 
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mFullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMFullName());
+        mFullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMAddress());
+        mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMPincode());
+
     }
 
     @Override
