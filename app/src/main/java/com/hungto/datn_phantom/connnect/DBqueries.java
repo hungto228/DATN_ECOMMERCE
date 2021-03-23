@@ -331,7 +331,8 @@ public class DBqueries {
                                                 //free_coupons change
                                                 (long) task.getResult().get("free_coupens"),
                                                 task.getResult().get("product_price").toString(),
-                                                task.getResult().get("cutted_price").toString(), (long) 1, (long) 0, (long) 0));
+                                                task.getResult().get("cutted_price").toString(), (long) 1, (long) 0, (long) 0
+                                                , (boolean) task.getResult().get("in_stock")));
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                                         }
@@ -423,7 +424,7 @@ public class DBqueries {
                     if ((long) task.getResult().get("list_size") == 0) {
 
                         deliveryIntent = new Intent(context, AddAddressAvtivity.class);
-                       deliveryIntent.putExtra("INTENT", "deliveryIntent");
+                        deliveryIntent.putExtra("INTENT", "deliveryIntent");
 
                     } else {
 

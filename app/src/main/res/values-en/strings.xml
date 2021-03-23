@@ -70,5 +70,6 @@
     <string name="phone_number">Mobile number</string>
     <string name="alternate_mobile">Alternate Mobile No.(Optional)</string>
     <string name="save">Save</string>
+    <string name="out_of_stock">Out of Stock!</string>
 
 </resources>
