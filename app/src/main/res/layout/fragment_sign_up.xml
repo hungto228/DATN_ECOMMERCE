@@ -28,7 +28,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edt_conflim"
             tools:layout_editor_absoluteX="0dp" />
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,9 +39,10 @@
             android:padding="10dp"
             android:textColorHint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:layout_editor_absoluteX="47dp" />
+            tools:layout_editor_absoluteX="47dp"
+            app:met_floatingLabel="normal"/>
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,9 +52,10 @@
             android:inputType="text"
             android:padding="10dp"
             android:textColorHint="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_email"
+            app:met_floatingLabel="normal"/>
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +67,7 @@
             android:textColorHint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/edt_fullname" />
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_conflim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

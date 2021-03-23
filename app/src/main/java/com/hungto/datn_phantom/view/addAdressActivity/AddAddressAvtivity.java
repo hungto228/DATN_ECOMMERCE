@@ -30,6 +30,7 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.AddressModel;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,21 +46,21 @@ public class AddAddressAvtivity extends AppCompatActivity {
     private ImageView actionBarLogo;
     private Window window;
     @BindView(R.id.edt_city)
-    EditText city;
+    MaterialEditText city;
     @BindView(R.id.edt_locality)
-    EditText locality;
+    MaterialEditText locality;
     @BindView(R.id.edt_flat_no)
-    EditText flatNo;
+    MaterialEditText flatNo;
     @BindView(R.id.edt_pincode)
-    EditText pincode;
+    MaterialEditText pincode;
     @BindView(R.id.edt_landmark)
-    EditText landmark;
+    MaterialEditText landmark;
     @BindView(R.id.edt_fullname)
-    EditText name;
+    MaterialEditText name;
     @BindView(R.id.edt_mobile_no)
-    EditText mobileNo;
+    MaterialEditText mobileNo;
     @BindView(R.id.edt_alternate_mobile_no)
-    EditText alternateMobileNo;
+    MaterialEditText alternateMobileNo;
     @BindView(R.id.spiner_state)
     Spinner stateSpinner;
     private String selectedState;

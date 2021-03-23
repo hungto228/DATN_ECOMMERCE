@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,16 +61,16 @@ public class SignUpFragment extends Fragment {
     TextView mRealyHaveAccount;
 
     @BindView(R.id.edt_email)
-    EditText mEmailEdt;
+    MaterialEditText mEmailEdt;
 
     @BindView(R.id.edt_fullname)
-    EditText mFullnanmeEdt;
+    MaterialEditText mFullnanmeEdt;
 
     @BindView(R.id.edt_password)
-    EditText mPasswordEdt;
+    MaterialEditText mPasswordEdt;
 
     @BindView(R.id.edt_conflim)
-    EditText mConfimPasswordEdt;
+    MaterialEditText mConfimPasswordEdt;
 
     @BindView(R.id.btn_signUp)
     Button mSignUpBtn;

@@ -27,6 +27,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -47,10 +49,10 @@ public class SignInFragment extends Fragment {
     TextView mFogot;
 
     @BindView(R.id.edt_email)
-    EditText mEmail;
+    MaterialEditText mEmail;
 
     @BindView(R.id.edt_password)
-    EditText mPassword;
+    MaterialEditText mPassword;
 
     @BindView(R.id.btn_signIn)
     Button mSignin;

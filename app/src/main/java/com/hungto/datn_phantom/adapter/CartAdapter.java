@@ -24,6 +24,7 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.List;
 
@@ -195,7 +196,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     quantityDialog.setContentView(R.layout.dialog_quantity);
                     quantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     quantityDialog.setCancelable(false);
-                    final EditText quantityNo = quantityDialog.findViewById(R.id.edt_quantiy);
+                    final MaterialEditText quantityNo = quantityDialog.findViewById(R.id.edt_quantiy);
                     Button cancelBtn = quantityDialog.findViewById(R.id.btn_cancel);
                     Button okBtn = quantityDialog.findViewById(R.id.btn_ok);
                     cancelBtn.setOnClickListener(new View.OnClickListener() {

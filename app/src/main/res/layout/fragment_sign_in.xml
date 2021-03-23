@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnImg_back_arrow"></ImageView>
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,9 +39,10 @@
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColorHint="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:met_floatingLabel="normal"/>
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +52,8 @@
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColorHint="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_email"
+            app:met_floatingLabel="normal"/>
 
         <TextView
             android:id="@+id/tv_forgot"

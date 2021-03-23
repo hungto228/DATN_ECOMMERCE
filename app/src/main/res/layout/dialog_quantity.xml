@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/edt_quantiy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,7 +31,8 @@
         android:theme="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
+        app:met_floatingLabel="normal"/>
 
     <LinearLayout
         android:id="@+id/linearLayout9"

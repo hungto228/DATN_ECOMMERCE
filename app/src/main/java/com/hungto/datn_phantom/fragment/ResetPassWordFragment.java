@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.R;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +49,7 @@ public class ResetPassWordFragment extends Fragment {
     Button mReset;
 
     @BindView(R.id.edt_email)
-    EditText mEmail;
+    MaterialEditText mEmail;
     Unbinder unbinder;
 
     private FrameLayout ParentFrameLayout;

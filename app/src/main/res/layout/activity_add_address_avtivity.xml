@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.addAdressActivity.AddAddressAvtivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout4"
         android:layout_width="match_parent"
@@ -31,6 +32,7 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -58,7 +60,7 @@
                 tools:layout_editor_absoluteX="120dp"
                 tools:layout_editor_absoluteY="152dp" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,9 +69,10 @@
                 android:ems="10"
                 android:hint="@string/district"
                 android:inputType="textPersonName"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_locality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,9 +84,10 @@
                 android:hint="@string/area_street"
                 android:inputType="textMultiLine"
                 android:isScrollContainer="true"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_flat_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,8 +99,8 @@
                 android:hint="@string/flat_no"
                 android:inputType="textMultiLine"
                 android:isScrollContainer="true"
-
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,7 +108,7 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/edt_pincode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,7 +117,8 @@
                     android:layout_weight="1"
                     android:hint="Pincode*"
                     android:inputType="number"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    app:met_floatingLabel="normal" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spiner_state"
@@ -130,7 +135,7 @@
 
             </LinearLayout>
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_landmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,7 +145,8 @@
                 android:layout_weight="1"
                 android:hint="@string/Wards"
                 android:inputType="textPersonName"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
             <View
                 android:id="@+id/divider12"
@@ -150,7 +156,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="?android:attr/listDivider" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,9 +166,10 @@
                 android:layout_weight="1"
                 android:hint="@string/full_name"
                 android:inputType="textPersonName"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_mobile_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,9 +179,10 @@
                 android:layout_weight="1"
                 android:hint="@string/phone_number"
                 android:inputType="number"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edt_alternate_mobile_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,7 +192,8 @@
                 android:layout_weight="1"
                 android:hint="@string/alternate_mobile"
                 android:inputType="number"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:met_floatingLabel="normal" />
 
             <Button
                 android:id="@+id/btn_save"
