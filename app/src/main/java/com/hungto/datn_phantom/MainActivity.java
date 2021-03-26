@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (currentUser != null) {
                 if (DBqueries.cartList.size() == 0) {
-                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount);
+                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount,new TextView(MainActivity.this));
                 } else {
                     badgeCount.setVisibility(View.VISIBLE);
                     if (DBqueries.cartList.size() < 99) {

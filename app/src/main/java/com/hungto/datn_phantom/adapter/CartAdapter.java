@@ -242,7 +242,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     if (!ProductDetailActivity.running_cart_query) {
                         ProductDetailActivity.running_cart_query = true;
-                        DBqueries.removeFromCart(position, itemView.getContext());
+                        DBqueries.removeFromCart(position, itemView.getContext(),cartTotalAmount);
                     }
                     Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
 
@@ -283,10 +283,12 @@ public class CartAdapter extends RecyclerView.Adapter {
             cartTotalAmount.setText("Rs. " + totalAmount + "/-");
             mSavedAmount.setText("Your save" + saveAmount + "- on this order");
 
+            LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
             if (totalItemPrice == 0) {
                 DBqueries.cartItemModelList.remove(DBqueries.cartItemModelList.size() - 1);
-                LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
                 parent.setVisibility(View.GONE);
+            }else {
+                parent.setVisibility(View.VISIBLE);
             }
 
         }

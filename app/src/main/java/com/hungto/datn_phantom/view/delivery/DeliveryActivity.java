@@ -34,6 +34,7 @@ public class DeliveryActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private ImageView actionBarLogo;
+    public static List<CartItemModel>cartItemModelList;
 
     @BindView(R.id.recyclerViewDelivery)
     RecyclerView recyclerViewDelivery;
@@ -75,7 +76,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
 
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,false);
+        cartAdapter = new CartAdapter(cartItemModelList,totalAmount,false);
         recyclerViewDelivery.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         //ToDO:button change Adress

@@ -269,7 +269,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                         if (DBqueries.cartList.size() == 0) {
 
-                            DBqueries.loadCartList(ProductDetailActivity.this, loadingDialogLong, false, badgeCount);
+                            DBqueries.loadCartList(ProductDetailActivity.this, loadingDialogLong, false, badgeCount,new TextView(ProductDetailActivity.this));
 
                         }
 
@@ -333,7 +333,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         if (DBqueries.cartItemModelList.size() != 0) {
-                                                            DBqueries.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID,
+                                                            DBqueries.cartItemModelList.add(0,new CartItemModel(CartItemModel.CART_ITEM, productID,
                                                                     documentSnapshot.get("product_image_1").toString(),
                                                                     documentSnapshot.get("product_title").toString(),
                                                                     (long) documentSnapshot.get("free_coupons"),
@@ -607,11 +607,28 @@ public class ProductDetailActivity extends AppCompatActivity {
         mBuyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingDialogLong.show();
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-                    Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
-                    startActivity(intent);
+                    DeliveryActivity.cartItemModelList.clear();
+                    DeliveryActivity.cartItemModelList = new ArrayList<>();
+                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID,
+                            documentSnapshot.get("product_image_1").toString(),
+                            documentSnapshot.get("product_title").toString(),
+                            (long) documentSnapshot.get("free_coupons"),
+                            documentSnapshot.get("product_price").toString(),
+                            documentSnapshot.get("cutted_price").toString(), (long) 1, (long) 0, (long) 0
+                            , (boolean) documentSnapshot.get("in_stock")));
+                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
+
+                    if (DBqueries.addressesModelList.size() == 0) {
+                        DBqueries.loadAddresses(ProductDetailActivity.this, loadingDialogLong);
+                    } else {
+                        loadingDialogLong.dismiss();
+                        Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -836,7 +853,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (currentUser != null) {
 
             if (DBqueries.cartList.size() == 0) {
-                DBqueries.loadCartList(ProductDetailActivity.this, loadingDialogLong, false, badgeCount);
+                DBqueries.loadCartList(ProductDetailActivity.this, loadingDialogLong, false, badgeCount,new TextView(ProductDetailActivity.this));
 
             } else {
 

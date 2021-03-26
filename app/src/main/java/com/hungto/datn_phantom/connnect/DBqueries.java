@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -297,7 +298,7 @@ public class DBqueries {
     }
 
     //TODO:load cart list
-    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount) {
+    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount,TextView totalCartAmount) {
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
                 .collection("USER_DATA").document("MY_CART")
@@ -335,6 +336,8 @@ public class DBqueries {
                                                 , (boolean) task.getResult().get("in_stock")));
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
+                                            LinearLayout parent= (LinearLayout) totalCartAmount.getParent().getParent();
+                                            parent.setVisibility(View.VISIBLE);
                                         }
                                         if (cartList.size() == 0) {
                                             cartItemModelList.clear();
@@ -370,7 +373,7 @@ public class DBqueries {
     }
 
     //TODO: remove From cart
-    public static void removeFromCart(final int index, final Context context) {
+    public static void removeFromCart(final int index, final Context context,TextView cartTotalAmount) {
 
         final String removeProductId = cartList.get(index);
 
@@ -395,6 +398,8 @@ public class DBqueries {
                         CartFragment.cartAdapter.notifyDataSetChanged();
                     }
                     if (cartList.size() == 0) {
+                        LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
+                        parent.setVisibility(View.GONE);
                         cartItemModelList.clear();
                     }
                     ProductDetailActivity.running_cart_query = false;

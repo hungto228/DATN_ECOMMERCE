@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hungto.datn_phantom.R;
@@ -72,19 +73,38 @@ public class CartFragment extends Fragment {
 
         if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(), loadingDialogLong, true, new TextView(getContext()));
+            DBqueries.loadCartList(getContext(), loadingDialogLong, true, new TextView(getContext()),totalAmount);
         } else {
+            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size() - 1).getType() == CartItemModel.TOTAL_AMOUNT) {
+                LinearLayout parent = (LinearLayout) totalAmount.getParent().getParent();
+                parent.setVisibility(View.VISIBLE);
+            }
             loadingDialogLong.dismiss();
         }
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount,true);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount, true);
         recyclerViewCartItem.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
         mCartContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // loadingDialogLong.show();
-                DBqueries.loadAddresses(getContext(), loadingDialogLong);
+                DeliveryActivity.cartItemModelList = new ArrayList<>();
+                for (int i = 0; i < DBqueries.cartItemModelList.size(); i++) {
+                    CartItemModel cartItemModel = DBqueries.cartItemModelList.get(i);
+                    if (cartItemModel.isInStock()) {
+                        DeliveryActivity.cartItemModelList.add(cartItemModel);
+                    }
+                }
+                DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
+                loadingDialogLong.show();
+
+                if (DBqueries.addressesModelList.size() == 0) {
+                    DBqueries.loadAddresses(getContext(), loadingDialogLong);
+                } else {
+                    loadingDialogLong.dismiss();
+                    Intent intent = new Intent(getContext(), DeliveryActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         return root;
