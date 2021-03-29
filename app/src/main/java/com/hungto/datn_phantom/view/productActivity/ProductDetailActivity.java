@@ -656,38 +656,38 @@ public class ProductDetailActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         opencouponsRecyclerView.setLayoutManager(layoutManager);
-        List<RewardModel> rewardModelList = new ArrayList<>();
-        rewardModelList.add(new
+//        List<RewardModel> rewardModelList = new ArrayList<>();
+//        rewardModelList.add(new
+//
+//                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
+//        rewardModelList.add(new
+//
+//                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
 
-                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("CashBack", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("Discount", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-        rewardModelList.add(new
-
-                RewardModel("Buy 1 get 1 Free", "till, 2nd,June 2019", "GET 20% CashBack on any product above Rs. 200/- and below Rs. 3000/-"));
-
-        RewardAdapter myRewardsAdapter = new RewardAdapter(rewardModelList, false);
-        opencouponsRecyclerView.setAdapter(myRewardsAdapter);
-        myRewardsAdapter.notifyDataSetChanged();
+//        RewardAdapter myRewardsAdapter = new RewardAdapter(rewardModelList, false);
+//        opencouponsRecyclerView.setAdapter(myRewardsAdapter);
+//        myRewardsAdapter.notifyDataSetChanged();
 
         toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override

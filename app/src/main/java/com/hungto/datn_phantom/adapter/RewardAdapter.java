@@ -13,7 +13,9 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,7 +26,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
     List<RewardModel> rewardModelList = new ArrayList<>();
     private Boolean useMiniLayout = false;
 
-    public RewardAdapter(List<RewardModel> rewardModelList ,Boolean useMiniLayout) {
+    public RewardAdapter(List<RewardModel> rewardModelList, Boolean useMiniLayout) {
         this.rewardModelList = rewardModelList;
         this.useMiniLayout = useMiniLayout;
     }
@@ -47,10 +49,13 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RewardAdapter.ViewHolder holder, int position) {
 
-        String title = rewardModelList.get(position).getTitle();
-        String date = rewardModelList.get(position).getExpiryDate();
+        String type = rewardModelList.get(position).getType();
+        Date validity = rewardModelList.get(position).getTimestamp();
         String body = rewardModelList.get(position).getCouponBody();
-        holder.setdataReward(title, date, body);
+        String lowerLimit = rewardModelList.get(position).getLowerLimit();
+        String upperLimit = rewardModelList.get(position).getUpperLimit();
+        String discount = rewardModelList.get(position).getDiscount();
+        holder.setdataReward(type, validity, body, upperLimit, lowerLimit, discount);
     }
 
     @Override
@@ -72,16 +77,22 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
         }
 
-        private void setdataReward(String title, String date, String body) {
-            mCouponTitle.setText(title);
-            mCouponValidity.setText(date);
+        private void setdataReward(final String type, final Date validity, final String body, String upperLimit, String lowerLimit, String discount) {
+            if (type.equals("Discount")) {
+                mCouponTitle.setText(type);
+            } else {
+                mCouponTitle.setText("Giảm giá "+discount+"%");
+            }
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY");
+            mCouponValidity.setText("Đến " + simpleDateFormat.format(validity));
             mCouponBody.setText(body);
-            if(useMiniLayout){
+
+            if (useMiniLayout) {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ProductDetailActivity.couponTitle.setText(title);
-                        ProductDetailActivity.couponExpiryDate.setText(date);
+                        ProductDetailActivity.couponTitle.setText(type);
+                        ProductDetailActivity.couponExpiryDate.setText(simpleDateFormat.format(validity));
                         ProductDetailActivity.couponTBody.setText(body);
                         ProductDetailActivity.showDialogRecyclerView();
                     }

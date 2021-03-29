@@ -27,12 +27,14 @@ import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
 import com.hungto.datn_phantom.fragment.CartFragment;
 import com.hungto.datn_phantom.fragment.HomeFragment;
+import com.hungto.datn_phantom.fragment.RewardFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
 import com.hungto.datn_phantom.model.AddressModel;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
+import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.model.SliderModel;
 import com.hungto.datn_phantom.model.WishlistModel;
 import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
@@ -41,6 +43,7 @@ import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +62,7 @@ public class DBqueries {
     public static List<CartItemModel> cartItemModelList = new ArrayList<>();
     public static int selectedAddress = -1;
     public static List<AddressModel> addressesModelList = new ArrayList<>();
+    public static List<RewardModel> rewardModelList = new ArrayList<>();
 
     private static String productID;
 
@@ -298,7 +302,7 @@ public class DBqueries {
     }
 
     //TODO:load cart list
-    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount,TextView totalCartAmount) {
+    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount, TextView totalCartAmount) {
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
                 .collection("USER_DATA").document("MY_CART")
@@ -336,7 +340,7 @@ public class DBqueries {
                                                 , (boolean) task.getResult().get("in_stock")));
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
-                                            LinearLayout parent= (LinearLayout) totalCartAmount.getParent().getParent();
+                                            LinearLayout parent = (LinearLayout) totalCartAmount.getParent().getParent();
                                             parent.setVisibility(View.VISIBLE);
                                         }
                                         if (cartList.size() == 0) {
@@ -373,7 +377,7 @@ public class DBqueries {
     }
 
     //TODO: remove From cart
-    public static void removeFromCart(final int index, final Context context,TextView cartTotalAmount) {
+    public static void removeFromCart(final int index, final Context context, TextView cartTotalAmount) {
 
         final String removeProductId = cartList.get(index);
 
@@ -416,6 +420,7 @@ public class DBqueries {
         });
     }
 
+    //TODO:Load Address list
     public static void loadAddresses(final Context context, final Dialog loadingDialog) {
 
         addressesModelList.clear();
@@ -459,6 +464,44 @@ public class DBqueries {
         });
     }
 
+    //TODO:load Reward list
+    public static void loadReward(final Context context, final Dialog loadingDialog) {
+        rewardModelList.clear();
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_REWARDS").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                        if (documentSnapshot.get("type").toString().equals("Discount")) {
+                            rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString(),
+                                    documentSnapshot.get("lower_limit").toString(),
+                                    documentSnapshot.get("upper_limit").toString(),
+                                    documentSnapshot.get("percentage").toString(),
+                                    documentSnapshot.get("body").toString(),
+                                    (Date) documentSnapshot.getTimestamp("validity").toDate()));
+                        } else {
+                            rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString(),
+                                    documentSnapshot.get("lower_limit").toString(),
+                                    documentSnapshot.get("upper_limit").toString(),
+                                    documentSnapshot.get("amount").toString(),
+                                    documentSnapshot.get("body").toString(),
+                                    (Date) documentSnapshot.getTimestamp("validity").toDate()));
+                        }
+                    }
+
+                    RewardFragment.rewardAdapter.notifyDataSetChanged();
+
+                } else {
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     public static void clearData() {
         categoryModels.clear();
         lists.clear();
@@ -467,5 +510,6 @@ public class DBqueries {
         wishlistModelList.clear();
         cartList.clear();
         cartItemModelList.clear();
+        rewardModelList.clear();
     }
 }

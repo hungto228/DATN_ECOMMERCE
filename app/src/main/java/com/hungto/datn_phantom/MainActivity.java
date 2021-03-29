@@ -217,6 +217,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
 
             if (currentUser != null) {
+                if(DBqueries.rewardModelList.size()==0){
+                    DBqueries.loadRatingList(MainActivity.this);
+                }
                 if (DBqueries.cartList.size() == 0) {
                     DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount,new TextView(MainActivity.this));
                 } else {
