@@ -50,7 +50,7 @@ public class RewardFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewReward.setLayoutManager(linearLayoutManager);
         if (DBqueries.rewardModelList.size() == 0) {
-            DBqueries.loadReward(getContext(), loadingDialogLong);
+            DBqueries.loadReward(getContext(), loadingDialogLong,true);
         } else {
             loadingDialogLong.dismiss();
         }

@@ -4,11 +4,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.Timestamp;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
@@ -25,10 +28,29 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
     public static final String TAG = "tagRewardAdapter";
     List<RewardModel> rewardModelList = new ArrayList<>();
     private Boolean useMiniLayout = false;
+    RecyclerView coupensRecycleView;
+    LinearLayout selectedCoupens;
+    private String productOriginalPrice;
+    TextView couponTitle;
+    TextView couponExpiryDate;
+    TextView couponTBody;
+    TextView discountedPrice;
 
-    public RewardAdapter(List<RewardModel> rewardModelList, Boolean useMiniLayout) {
+    public RewardAdapter(List<RewardModel> rewardModelList, Boolean useMiniLayoutiew) {
         this.rewardModelList = rewardModelList;
         this.useMiniLayout = useMiniLayout;
+    }
+
+    public RewardAdapter(List<RewardModel> rewardModelList, Boolean useMiniLayout, RecyclerView coupensRecycleView, LinearLayout selectedCoupens, String productOriginalPrice, TextView couponTitle, TextView couponExpiryDate, TextView couponTBody, TextView discountedPrice) {
+        this.rewardModelList = rewardModelList;
+        this.useMiniLayout = useMiniLayout;
+        this.coupensRecycleView = coupensRecycleView;
+        this.selectedCoupens = selectedCoupens;
+        this.productOriginalPrice = productOriginalPrice;
+        this.couponTitle = couponTitle;
+        this.couponExpiryDate = couponExpiryDate;
+        this.couponTBody = couponTBody;
+        this.discountedPrice = discountedPrice;
     }
 
     @NonNull
@@ -81,7 +103,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
             if (type.equals("Discount")) {
                 mCouponTitle.setText(type);
             } else {
-                mCouponTitle.setText("Giảm giá "+discount+"%");
+                mCouponTitle.setText("Giảm giá " + discount + "VNĐ");
             }
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY");
             mCouponValidity.setText("Đến " + simpleDateFormat.format(validity));
@@ -91,10 +113,28 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ProductDetailActivity.couponTitle.setText(type);
-                        ProductDetailActivity.couponExpiryDate.setText(simpleDateFormat.format(validity));
-                        ProductDetailActivity.couponTBody.setText(body);
-                        ProductDetailActivity.showDialogRecyclerView();
+                        couponTitle.setText(type);
+                        couponExpiryDate.setText(simpleDateFormat.format(validity));
+                        couponTBody.setText(body);
+                        if (Long.valueOf(productOriginalPrice) > Long.valueOf(lowerLimit) && Long.valueOf(productOriginalPrice) < Long.valueOf(upperLimit)) {
+                            if (type.equals("Discount")) {
+                                Long discountAmount = (Long.valueOf(productOriginalPrice) * Long.valueOf(discount)) / 100;
+                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - discountAmount)+"VNĐ");
+                            } else {
+                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - Long.valueOf(discount))+"VNĐ");
+                            }
+                        } else {
+                            discountedPrice.setText(itemView.getResources().getString(R.string.invalid));
+                            Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.sorry), Toast.LENGTH_SHORT).show();
+                        }
+                        if (coupensRecycleView.getVisibility() == View.GONE) {
+                            coupensRecycleView.setVisibility(View.VISIBLE);
+                            selectedCoupens.setVisibility(View.GONE);
+
+                        } else {
+                            coupensRecycleView.setVisibility(View.GONE);
+                            selectedCoupens.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
             }

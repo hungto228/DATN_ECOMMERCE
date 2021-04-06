@@ -71,4 +71,6 @@
     <string name="alternate_mobile">"Số điện thoại di động thay thế. "</string>
     <string name="save">Lưu lại</string>
     <string name="out_of_stock">Hết hàng !!</string>
+    <string name="sorry">Lấy làm tiếc ! Sản phẩm phù hợp với các điều khoản của phiếu giảm giá .</string>
+    <string name="invalid">Không hợp lệ !</string>
 </resources>
