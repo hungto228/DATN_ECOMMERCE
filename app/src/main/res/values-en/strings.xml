@@ -71,5 +71,7 @@
     <string name="alternate_mobile">Alternate Mobile No.(Optional)</string>
     <string name="save">Save</string>
     <string name="out_of_stock">Out of Stock!</string>
+    <string name="sorry">Sorry ! Product does matches the coupen terms.</string>
+    <string name="invalid">Invalid!</string>
 
 </resources>
