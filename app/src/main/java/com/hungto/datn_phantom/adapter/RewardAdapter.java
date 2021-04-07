@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder> {
     public static final String TAG = "tagRewardAdapter";
-    List<RewardModel> rewardModelList = new ArrayList<>();
+   private List<RewardModel> rewardModelList ;
     private Boolean useMiniLayout = false;
     RecyclerView coupensRecycleView;
     LinearLayout selectedCoupens;
@@ -119,9 +119,11 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                         if (Long.valueOf(productOriginalPrice) > Long.valueOf(lowerLimit) && Long.valueOf(productOriginalPrice) < Long.valueOf(upperLimit)) {
                             if (type.equals("Discount")) {
                                 Long discountAmount = (Long.valueOf(productOriginalPrice) * Long.valueOf(discount)) / 100;
-                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - discountAmount)+"VNĐ");
+
+                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - discountAmount)+"-VNĐ");
                             } else {
-                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - Long.valueOf(discount))+"VNĐ");
+                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - Long.valueOf(discount))+"-VNĐ");
+
                             }
                         } else {
                             discountedPrice.setText(itemView.getResources().getString(R.string.invalid));

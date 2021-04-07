@@ -246,16 +246,19 @@ public class ProductDetailActivity extends AppCompatActivity {
                     mProductTitle.setText(documentSnapshot.get("product_title").toString());
                     mAverageRatingMiniView.setText(documentSnapshot.get("average_rating").toString());
                     mTotalRatingMiniView.setText("(" + (long) documentSnapshot.get("total_ratings") + ") Danh gia");
-                    mProductPrice.setText(documentSnapshot.get("product_price").toString() + "VNĐ-");
+
+                    mProductPrice.setText(documentSnapshot.get("product_price").toString() + "-VNĐ");
                     //coupen dialog use
                     originalPrice.setText(mProductPrice.getText());
-                    productOriginalprice = documentSnapshot.get("product_price").toString()+"-VNĐ";
-                    discountedPrice.setText(documentSnapshot.get("product_price").toString()+"-VNĐ");
+                    productOriginalprice = documentSnapshot.get("product_price").toString();
+                    discountedPrice.setText(documentSnapshot.get("product_price").toString());
                     RewardAdapter myRewardsAdapter = new RewardAdapter(DBqueries.rewardModelList, true, opencouponsRecyclerView, selectedCoupon, productOriginalprice, couponTitle, couponExpiryDate, couponTBody, discountedPrice);
                     opencouponsRecyclerView.setAdapter(myRewardsAdapter);
                     myRewardsAdapter.notifyDataSetChanged();
                     //coupen dialog use
-                    mCuttedPrice.setText(documentSnapshot.get("cutted_price").toString() + "-VNĐ");
+
+                    mCuttedPrice.setText(documentSnapshot.get("cutted_price").toString());
+
                     if ((boolean) documentSnapshot.get("COD")) {
                         codIndicatorImg.setVisibility(View.VISIBLE);
                         mCodIndicator.setVisibility(View.VISIBLE);
