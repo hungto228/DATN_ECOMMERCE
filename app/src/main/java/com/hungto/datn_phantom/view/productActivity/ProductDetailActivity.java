@@ -74,8 +74,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     public static MenuItem cartItem;
     private TextView badgeCount;
-    private TextView discountedPrice;
-    private TextView originalPrice;
 
     @BindView(R.id.viewpage_image_product)
     ViewPager mViewPagerproduct;
@@ -160,6 +158,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView couponTBody;
     private RecyclerView opencouponsRecyclerView;
     private LinearLayout selectedCoupon;
+    private TextView discountedPrice;
+    private TextView originalPrice;
     private Window window;
     //firebaseStore
     private Dialog SignInDialog;

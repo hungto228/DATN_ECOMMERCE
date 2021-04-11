@@ -18,13 +18,15 @@ public class RewardModel {
     private String discount;
     private String couponBody;
     private Date timestamp;
+    private boolean alreadyUsed;
 
-    public RewardModel(String type, String lowerLimit, String upperLimit, String discount, String couponBody, Date timestamp) {
+    public RewardModel(String type, String lowerLimit, String upperLimit, String discount, String couponBody, Date timestamp,boolean alreadyUsed) {
         this.type = type;
         this.lowerLimit = lowerLimit;
         this.upperLimit = upperLimit;
         this.discount = discount;
         this.couponBody = couponBody;
         this.timestamp = timestamp;
+        this.alreadyUsed=alreadyUsed;
     }
 }

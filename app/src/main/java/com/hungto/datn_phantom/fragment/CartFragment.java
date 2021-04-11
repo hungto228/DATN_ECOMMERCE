@@ -3,6 +3,8 @@ package com.hungto.datn_phantom.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,12 +21,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CartAdapter;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
+import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +113,26 @@ public class CartFragment extends Fragment {
         });
         return root;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        cartAdapter.notifyDataSetChanged();
+        if(DBqueries.rewardModelList.size()==0){
+            loadingDialogLong.show();
+            DBqueries.loadReward(getContext(),loadingDialogLong,false);
+        }
+        if(DBqueries.cartItemModelList.size() == 0){
+            DBqueries.cartList.clear();
+            DBqueries.loadCartList(getContext(),loadingDialogLong , true, new TextView(getContext()), totalAmount);
+        }
+        else{
+            if(DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size()-1).getType() == CartItemModel.TOTAL_AMOUNT){
+                LinearLayout parent = (LinearLayout) totalAmount.getParent().getParent();
+                parent.setVisibility(View.VISIBLE);
 
+            }
+            loadingDialogLong.dismiss();
+        }
+    }
 
 }
