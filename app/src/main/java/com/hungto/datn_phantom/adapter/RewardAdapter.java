@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.Timestamp;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.model.RewardModel;
-import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,14 +24,14 @@ import butterknife.ButterKnife;
 
 public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder> {
     public static final String TAG = "tagRewardAdapter";
-   private List<RewardModel> rewardModelList ;
+    private List<RewardModel> rewardModelList;
     private Boolean useMiniLayout = false;
     RecyclerView coupensRecycleView;
     LinearLayout selectedCoupens;
     private String productOriginalPrice;
-    TextView couponTitle;
-    TextView couponExpiryDate;
-    TextView couponTBody;
+    TextView selectedCouponTitle;
+    TextView selectedcouponExpiryDate;
+    TextView selectedCouponTBody;
     TextView discountedPrice;
 
     public RewardAdapter(List<RewardModel> rewardModelList, Boolean useMiniLayoutiew) {
@@ -47,9 +45,9 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
         this.coupensRecycleView = coupensRecycleView;
         this.selectedCoupens = selectedCoupens;
         this.productOriginalPrice = productOriginalPrice;
-        this.couponTitle = couponTitle;
-        this.couponExpiryDate = couponExpiryDate;
-        this.couponTBody = couponTBody;
+        this.selectedCouponTitle = couponTitle;
+        this.selectedcouponExpiryDate = couponExpiryDate;
+        this.selectedCouponTBody = couponTBody;
         this.discountedPrice = discountedPrice;
     }
 
@@ -77,7 +75,8 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
         String lowerLimit = rewardModelList.get(position).getLowerLimit();
         String upperLimit = rewardModelList.get(position).getUpperLimit();
         String discount = rewardModelList.get(position).getDiscount();
-        holder.setdataReward(type, validity, body, upperLimit, lowerLimit, discount);
+        boolean alreadly=rewardModelList.get(position).isAlreadyUsed();
+        holder.setdataReward(type, validity, body, upperLimit, lowerLimit, discount,alreadly);
     }
 
     @Override
@@ -99,43 +98,55 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
 
         }
 
-        private void setdataReward(final String type, final Date validity, final String body, String upperLimit, String lowerLimit, String discount) {
+        private void setdataReward(final String type, final Date validity, final String body, String upperLimit, String lowerLimit, String discount, boolean alreadlyUsed) {
             if (type.equals("Discount")) {
                 mCouponTitle.setText(type);
             } else {
                 mCouponTitle.setText("Giảm giá " + discount + "VNĐ");
             }
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY");
-            mCouponValidity.setText("Đến " + simpleDateFormat.format(validity));
+            if (alreadlyUsed) {
+                mCouponValidity.setText(itemView.getResources().getString(R.string.alreadly_used));
+                mCouponValidity.setTextColor(itemView.getContext().getResources().getColor(R.color.colorBtnRed));
+                mCouponBody.setTextColor(Color.parseColor("#50ffffff"));
+                mCouponTitle.setTextColor(Color.parseColor("#50ffffff"));
+
+            } else {
+                mCouponBody.setTextColor(Color.parseColor("#ffffff"));
+                mCouponTitle.setTextColor(Color.parseColor("#ffffff"));
+                mCouponValidity.setTextColor(itemView.getContext().getResources().getColor(R.color.coupenPurple));
+                mCouponValidity.setText("Đến " + simpleDateFormat.format(validity));
+            }
             mCouponBody.setText(body);
 
             if (useMiniLayout) {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        couponTitle.setText(type);
-                        couponExpiryDate.setText(simpleDateFormat.format(validity));
-                        couponTBody.setText(body);
-                        if (Long.valueOf(productOriginalPrice) > Long.valueOf(lowerLimit) && Long.valueOf(productOriginalPrice) < Long.valueOf(upperLimit)) {
-                            if (type.equals("Discount")) {
-                                Long discountAmount = (Long.valueOf(productOriginalPrice) * Long.valueOf(discount)) / 100;
-
-                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - discountAmount)+"-VNĐ");
+                        if (!alreadlyUsed) {
+                            selectedCouponTitle.setText(type);
+                            selectedcouponExpiryDate.setText(simpleDateFormat.format(validity));
+                            selectedCouponTBody.setText(body);
+                            if (Long.valueOf(productOriginalPrice) > Long.valueOf(lowerLimit) && Long.valueOf(productOriginalPrice) < Long.valueOf(upperLimit)) {
+                                if (type.equals("Discount")) {
+                                    Long discountAmount = (Long.valueOf(productOriginalPrice) * Long.valueOf(discount)) / 100;
+                                    discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - discountAmount) + "-VNĐ");
+                                } else {
+                                    discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - Long.valueOf(discount)) + "-VNĐ");
+                                }
                             } else {
-                                discountedPrice.setText(String.valueOf(Long.valueOf(productOriginalPrice) - Long.valueOf(discount))+"-VNĐ");
+                                discountedPrice.setText(itemView.getResources().getString(R.string.invalid));
+                                Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.sorry), Toast.LENGTH_SHORT).show();
 
                             }
-                        } else {
-                            discountedPrice.setText(itemView.getResources().getString(R.string.invalid));
-                            Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.sorry), Toast.LENGTH_SHORT).show();
-                        }
-                        if (coupensRecycleView.getVisibility() == View.GONE) {
-                            coupensRecycleView.setVisibility(View.VISIBLE);
-                            selectedCoupens.setVisibility(View.GONE);
+                            if (coupensRecycleView.getVisibility() == View.GONE) {
+                                coupensRecycleView.setVisibility(View.VISIBLE);
+                                selectedCoupens.setVisibility(View.GONE);
 
-                        } else {
-                            coupensRecycleView.setVisibility(View.GONE);
-                            selectedCoupens.setVisibility(View.VISIBLE);
+                            } else {
+                                coupensRecycleView.setVisibility(View.GONE);
+                                selectedCoupens.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 });

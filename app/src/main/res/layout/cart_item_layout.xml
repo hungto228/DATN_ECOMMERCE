@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Offers Applied"
+        android:text="@string/offers_applied"
         android:textSize="12sp"
         android:textColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Coupons Applied"
+        android:text="@string/coupon_applied"
         android:textColor="@color/colorBtnRed"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +127,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="#FF3030"
+        android:background="@color/coupenRed"
         android:gravity="right"
         android:orientation="horizontal"
         android:padding="16dp"
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Check price after coupon redemption"
+            android:text="@string/check_price"
             android:textAlignment="center"
             android:textColor="@color/white" />
 
@@ -149,7 +149,7 @@
             android:layout_width="95dp"
             android:layout_height="35dp"
             android:background="@drawable/border_background"
-            android:text="Reedem"
+            android:text="@string/redeem"
             android:textColor="@color/white"
             android:textSize="12sp" />
     </LinearLayout>
@@ -165,7 +165,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coupon_redeemption_layout">
         <TextView
-            android:text="Remove item"
+            android:text="@string/remove_item"
             android:gravity="center"
             android:drawablePadding="4dp"
             android:drawableStart="@drawable/ic_delete_black"

@@ -150,5 +150,14 @@
     <string name="out_of_stock">Out of Stock!</string>
     <string name="sorry">Sorry ! Product does matches the coupen terms.</string>
     <string name="invalid">Invalid!</string>
+    <string name="tap_icon">Tap the icon on the top rignt conner to select your coupen.</string>
+    <string name="coupen">Coupen</string>
+    <string name="coupen_validity">Coupen validity.</string>
+    <string name="alreadly_used">Alreadly used</string>
+    <string name="apply">Apply</string>
+    <string name="apply_coupen">Make sure to apply the coupon in your cart.</string>
+    <string name="remove_item">Remove item</string>
+    <string name="coupon_applied">Coupons Applied</string>
+    <string name="offers_applied">Offers Applied</string>
 
 </resources>

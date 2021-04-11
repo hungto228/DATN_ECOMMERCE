@@ -37,7 +37,7 @@
     <string name="deal_of_day">Giao dịch trong ngày !</string>
     <string name="view_all">Xem tất cả!</string>
     <string name="check_price">"Kiểm tra giá sau khi đổi phiếu giảm giá "</string>
-    <string name="redeem">"Quy đổi "</string>
+    <string name="redeem">Đổi thưởng.</string>
     <string name="description">"Mô tả "</string>
     <string name="specifications">"Thông số kỹ thuật "</string>
     <string name="other_detail">"Những chi tiết khác "</string>
@@ -73,4 +73,13 @@
     <string name="out_of_stock">Hết hàng !!</string>
     <string name="sorry">Lấy làm tiếc ! Sản phẩm phù hợp với các điều khoản của phiếu giảm giá .</string>
     <string name="invalid">Không hợp lệ !</string>
+    <string name="tap_icon">Chạm vào biểu tượng ở góc trên cùng bên phải để chọn phiếu giảm giá của bạn.</string>
+    <string name="coupen">Giảm giá.</string>
+    <string name="coupen_validity">Thời gian giảm giá.</string>
+    <string name="alreadly_used">Đã được sử dụng.</string>
+    <string name="apply">Áp dụng</string>
+    <string name="apply_coupen">Áp dụng phiếu giảm giá trong giỏ hàng của bạn.</string>
+    <string name="remove_item">Loại bỏ mặt hàng!</string>
+    <string name="coupon_applied">Phiếu giảm giá đã áp dụng .</string>
+    <string name="offers_applied">Ưu đãi đã áp dụng.</string>
 </resources>

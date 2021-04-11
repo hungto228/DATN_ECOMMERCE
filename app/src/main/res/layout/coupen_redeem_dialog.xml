@@ -23,10 +23,10 @@
         android:id="@+id/toggle_recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_reward_red" />
@@ -35,8 +35,8 @@
         android:id="@+id/coupons_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:visibility="gone"
         android:background="@drawable/reward_gradient_background"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toggle_recyclerview" />
@@ -45,8 +45,8 @@
         android:id="@+id/selected_coupon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/reward_gradient_background"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coupons_recyclerview">
@@ -129,17 +129,50 @@
         app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/tv_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+
         android:layout_marginBottom="8dp"
-        android:text="* Make sure to apply the coupon in your cart."
+        android:text="@string/apply_coupen"
         android:textColor="#000000"
         android:textSize="10sp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/original_price" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_apply_or_remove_contaner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_footer">
+
+        <Button
+            android:id="@+id/btn_remove"
+            android:backgroundTint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:stateListAnimator="@null"
+            android:text="@string/remove" />
+        <Button
+            android:id="@+id/btn_apply"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:stateListAnimator="@null"
+            android:text="@string/apply" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

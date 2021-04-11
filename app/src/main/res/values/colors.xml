@@ -13,4 +13,6 @@
     <color name="white">#ffffff</color>
     <color name="green">#58F306</color>
     <color name="recycleView">#d6d6d6</color>
+    <color name="coupenPurple">#3606b6</color>
+    <color name="coupenRed">#FF3030</color>
 </resources>

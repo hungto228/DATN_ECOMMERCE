@@ -466,7 +466,7 @@ public class DBqueries {
     }
 
     //TODO:load Reward list
-    public static void loadReward(final Context context, final Dialog loadingDialog,boolean onRewardFragment) {
+    public static void loadReward(final Context context, final Dialog loadingDialog, boolean onRewardFragment) {
         rewardModelList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -487,14 +487,16 @@ public class DBqueries {
                                                         documentSnapshot.get("upper_limit").toString(),
                                                         documentSnapshot.get("percentage").toString(),
                                                         documentSnapshot.get("body").toString(),
-                                                        (Date) documentSnapshot.getTimestamp("validity").toDate()));
+                                                        (Date) documentSnapshot.getTimestamp("validity").toDate(),
+                                                        (boolean) documentSnapshot.get("alreadly_used")));
                                             } else if (documentSnapshot.get("type").toString().equals("Flatoff") && lastseenDate.before(documentSnapshot.getDate("validity"))) {
                                                 rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString(),
                                                         documentSnapshot.get("lower_limit").toString(),
                                                         documentSnapshot.get("upper_limit").toString(),
                                                         documentSnapshot.get("amount").toString(),
                                                         documentSnapshot.get("body").toString(),
-                                                        (Date) documentSnapshot.getTimestamp("validity").toDate()));
+                                                        (Date) documentSnapshot.getTimestamp("validity").toDate(),
+                                                        (boolean) documentSnapshot.get("alreadly_used")));
                                             }
                                         }
                                         if (onRewardFragment) {
