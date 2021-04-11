@@ -137,6 +137,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.ViewHolder
                             } else {
                                 discountedPrice.setText(itemView.getResources().getString(R.string.invalid));
                                 Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.sorry), Toast.LENGTH_SHORT).show();
+
                             }
                             if (coupensRecycleView.getVisibility() == View.GONE) {
                                 coupensRecycleView.setVisibility(View.VISIBLE);

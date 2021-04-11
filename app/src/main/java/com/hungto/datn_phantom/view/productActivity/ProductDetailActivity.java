@@ -246,6 +246,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     mProductTitle.setText(documentSnapshot.get("product_title").toString());
                     mAverageRatingMiniView.setText(documentSnapshot.get("average_rating").toString());
                     mTotalRatingMiniView.setText("(" + (long) documentSnapshot.get("total_ratings") + ") Danh gia");
+
                     mProductPrice.setText(documentSnapshot.get("product_price").toString() + "-VNĐ");
                     //coupen dialog use
                     originalPrice.setText(mProductPrice.getText());
@@ -255,7 +256,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                     opencouponsRecyclerView.setAdapter(myRewardsAdapter);
                     myRewardsAdapter.notifyDataSetChanged();
                     //coupen dialog use
+
                     mCuttedPrice.setText(documentSnapshot.get("cutted_price").toString());
+
                     if ((boolean) documentSnapshot.get("COD")) {
                         codIndicatorImg.setVisibility(View.VISIBLE);
                         mCodIndicator.setVisibility(View.VISIBLE);
