@@ -480,6 +480,7 @@ public class DBqueries {
                                     if (task.isSuccessful()) {
 
                                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
                                             if (documentSnapshot.get("type").toString().equals("Discount") && lastseenDate.before(documentSnapshot.getDate("validity"))) {
                                                 rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString(),
                                                         documentSnapshot.get("lower_limit").toString(),
