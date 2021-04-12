@@ -22,6 +22,7 @@ public class CartItemModel {
     private Long offersApplied;
     private Long couponsApplied;
     private boolean inStock;
+    private String selectedCoupenId;
 
     public CartItemModel(int type, String productId, String productImage, String mProductTitle, Long freeCoupons, String mProductPrice, String mCuttedPrice,
                          Long productQuantity, Long offersApplied, Long couponsApplied, boolean inStock) {

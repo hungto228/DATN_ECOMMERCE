@@ -19,8 +19,10 @@ public class RewardModel {
     private String couponBody;
     private Date timestamp;
     private boolean alreadyUsed;
+    private String coupenId;
 
-    public RewardModel(String type, String lowerLimit, String upperLimit, String discount, String couponBody, Date timestamp,boolean alreadyUsed) {
+    public RewardModel(String coupenId,String type, String lowerLimit, String upperLimit, String discount, String couponBody, Date timestamp,boolean alreadyUsed) {
+        this.coupenId=coupenId;
         this.type = type;
         this.lowerLimit = lowerLimit;
         this.upperLimit = upperLimit;
