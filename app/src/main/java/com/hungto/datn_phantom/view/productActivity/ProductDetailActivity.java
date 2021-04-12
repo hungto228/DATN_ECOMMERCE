@@ -246,11 +246,11 @@ public class ProductDetailActivity extends AppCompatActivity {
                     mProductTitle.setText(documentSnapshot.get("product_title").toString());
                     mAverageRatingMiniView.setText(documentSnapshot.get("average_rating").toString());
                     mTotalRatingMiniView.setText("(" + (long) documentSnapshot.get("total_ratings") + ") Danh gia");
-                    mProductPrice.setText(documentSnapshot.get("product_price").toString() + "-VNĐ");
+                    mProductPrice.setText(documentSnapshot.get("product_price").toString());
                     //coupen dialog use
                     originalPrice.setText(mProductPrice.getText());
                     productOriginalprice = documentSnapshot.get("product_price").toString();
-                    discountedPrice.setText(documentSnapshot.get("product_price").toString());
+                   // discountedPrice.setText(documentSnapshot.get("product_price").toString());
                     RewardAdapter myRewardsAdapter = new RewardAdapter(DBqueries.rewardModelList, true, opencouponsRecyclerView, selectedCoupon, productOriginalprice, couponTitle, couponExpiryDate, couponTBody, discountedPrice);
                     opencouponsRecyclerView.setAdapter(myRewardsAdapter);
                     myRewardsAdapter.notifyDataSetChanged();
@@ -660,12 +660,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-                    DeliveryActivity.cartItemModelList.clear();
+                   DeliveryActivity.cartItemModelList.clear();
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID,
                             documentSnapshot.get("product_image_1").toString(),
                             documentSnapshot.get("product_title").toString(),
-                            (long) documentSnapshot.get("free_coupons"),
+                            (long) documentSnapshot.get("free_coupens"),
                             documentSnapshot.get("product_price").toString(),
                             documentSnapshot.get("cutted_price").toString(), (long) 1, (long) 0, (long) 0
                             , (boolean) documentSnapshot.get("in_stock")));
