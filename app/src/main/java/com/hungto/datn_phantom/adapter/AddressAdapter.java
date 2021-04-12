@@ -81,6 +81,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
             ButterKnife.bind(this, itemView);
         }
 
+
         private void setDataAdress(String username, String useraddress, String userpincode, boolean selected, int position) {
             fullname.setText(username);
             address.setText(useraddress);
