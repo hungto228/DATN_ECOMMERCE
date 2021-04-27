@@ -249,6 +249,9 @@ public class SignUpFragment extends Fragment {
                                     //maper user with account
                                     Map<Object, String> userData = new HashMap<>();
                                     userData.put("fullname", mFullnanmeEdt.getText().toString());
+                                    userData.put("email",mEmailEdt.getText().toString());
+                                    userData.put("profile","");
+
 
                                     firebaseFirestore.collection("USERS").document(firebaseAuth.getUid())
                                             .set(userData)

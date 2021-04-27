@@ -52,6 +52,7 @@ import java.util.Map;
 public class DBqueries {
     public static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     public static FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    public static String fullName,email,profile;
     public static List<CategoryModel> categoryModels = new ArrayList<>();
     public static List<List<HomePageModel>> lists = new ArrayList<>();
     public static List<String> loaddataCategoriesName = new ArrayList<>();
