@@ -11,14 +11,18 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/layout_container_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <include layout="@layout/profile_data_layout" />
+
             <include layout="@layout/order_status_layout" />
+
             <include layout="@layout/your_recent_order_layout" />
-            <include layout="@layout/my_address_layout"/>
+
+            <include layout="@layout/my_address_layout" />
 
             <Button
                 android:id="@+id/btn_signOut"

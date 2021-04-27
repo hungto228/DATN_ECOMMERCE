@@ -23,11 +23,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.fragment.AccountFragment;
 import com.hungto.datn_phantom.fragment.CartFragment;
@@ -39,6 +44,7 @@ import com.hungto.datn_phantom.fragment.SignUpFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
 import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -49,6 +55,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hungto.datn_phantom.connnect.DBqueries.currentUser;
 import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.setSignUpFragment;
@@ -84,6 +91,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarLayout.LayoutParams params;
     private int scrollFlags;
+    //profile
+   // @BindView(R.id.img_user)
+ private    CircleImageView mProfileImg;
+   // @BindView(R.id.tv_fullName)
+    private TextView mFullNameTv;
+   // @BindView(R.id.tv_email)
+  private   TextView mEmailTv;
+   // @BindView(R.id.img_add)
+   private ImageView mAddIconimg;
+  // @BindView(R.id.btn_settings)
+
+
     public static DrawerLayout drawer;
 
     @SuppressLint("WrongConstant")
@@ -102,6 +121,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
 
         scrollFlags = params.getScrollFlags();
+        mProfileImg=navigationView.getHeaderView(0).findViewById(R.id.img_user);
+        mFullNameTv=navigationView.getHeaderView(0).findViewById(R.id.tv_fullName);
+        mEmailTv=navigationView.getHeaderView(0).findViewById(R.id.tv_email);
+        mAddIconimg=navigationView.getHeaderView(0).findViewById(R.id.img_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,6 +190,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
+            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DBqueries.fullName = task.getResult().getString("fullname");
+                        DBqueries.email = task.getResult().getString("email");
+                        DBqueries.profile = task.getResult().getString("profile");
+                        mFullNameTv.setText(DBqueries.fullName);
+                        mEmailTv.setText(DBqueries.email);
+                        if(DBqueries.profile.equals("")){
+                         mAddIconimg.setVisibility(View.VISIBLE);
+                        }else {
+                            Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
+                        }
+
+                    } else {
+                        String error = task.getException().getMessage();
+                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
         }
         if (resetMainActivity) {
@@ -217,11 +262,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
 
             if (currentUser != null) {
-                if(DBqueries.rewardModelList.size()==0){
+                if (DBqueries.rewardModelList.size() == 0) {
                     DBqueries.loadRatingList(MainActivity.this);
                 }
                 if (DBqueries.cartList.size() == 0) {
-                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount,new TextView(MainActivity.this));
+                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount, new TextView(MainActivity.this));
                 } else {
                     badgeCount.setVisibility(View.VISIBLE);
                     if (DBqueries.cartList.size() < 99) {
