@@ -48,6 +48,7 @@ public class DeliveryActivity extends AppCompatActivity {
     TextView totalAmount;
     @BindView(R.id.tv_fullName)
     TextView mFullname;
+    private String name, mobileNo;
     @BindView(R.id.tv_address)
     TextView mFullAddress;
     @BindView(R.id.tv_pincode)
@@ -90,9 +91,9 @@ public class DeliveryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        mFullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMFullName());
-        mFullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMAddress());
-        mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMPincode());
+//        mFullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName());
+//        mFullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).get());
+//        mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
 
 
 
@@ -101,9 +102,25 @@ public class DeliveryActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mFullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMFullName());
-        mFullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMAddress());
-        mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMPincode());
+        name=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
+        mobileNo=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
+        if(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")){
+            mFullname.setText(name+"-"+mobileNo);
+        }else {
+            mFullname.setText(name+"-"+mobileNo+"Hoặc"+DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+        }
+        String flatNo=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
+        String locality=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
+        String landMark=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
+        String city=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+        String state=DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+        if(landMark.equals("")){
+            mFullAddress.setText(flatNo+" "+locality+" "+city+" "+state);
+        }else {
+            mFullAddress.setText(flatNo+" "+locality+" "+landMark+" "+city+" "+state);
+        }
+
+        mPincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
 
     }
 

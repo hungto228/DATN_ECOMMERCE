@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +17,7 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.fragment.AccountFragment;
 import com.hungto.datn_phantom.model.AddressModel;
+import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
 import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 
@@ -35,11 +38,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     private int preSelectedposition;
     List<AddressModel> addressModelList;
     private int MODE;
+    private boolean refesh = false;
 
     public AddressAdapter(List<AddressModel> addressModelList, int MODE) {
         this.addressModelList = addressModelList;
         this.MODE = MODE;
-        preSelectedposition= DBqueries.selectedAddress;
+        preSelectedposition = DBqueries.selectedAddress;
     }
 
     @NonNull
@@ -52,11 +56,17 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull AddressAdapter.ViewHolder holder, int position) {
-        String name = addressModelList.get(position).getMFullName();
-        String address = addressModelList.get(position).getMAddress();
-        String pincode = addressModelList.get(position).getMPincode();
+        String city = addressModelList.get(position).getCity();
+        String locality = addressModelList.get(position).getLocality();
+        String flatNo = addressModelList.get(position).getFlatNo();
+        String pincode = addressModelList.get(position).getPincode();
+        String landmark = addressModelList.get(position).getLandmark();
+        String name = addressModelList.get(position).getName();
+        String mobileNo = addressModelList.get(position).getMobileNo();
+        String alternateMobileNo = addressModelList.get(position).getAlternateMobileNo();
+        String state = addressModelList.get(position).getState();
         Boolean selected = addressModelList.get(position).isSelected();
-        holder.setDataAdress(name, address, pincode, selected, position);
+        holder.setDataAdress(name, city, pincode, selected, position, mobileNo, alternateMobileNo, flatNo, locality, state, landmark);
     }
 
     @Override
@@ -82,10 +92,20 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         }
 
 
-        private void setDataAdress(String username, String useraddress, String userpincode, boolean selected, int position) {
-            fullname.setText(username);
-            address.setText(useraddress);
+        private void setDataAdress(String username, String city, String userpincode, boolean selected, int position, String mobileNo, String alternateMobileNo, String flatNo, String locality, String state, String landMark) {
+            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
+                fullname.setText(username + "-" + mobileNo);
+            } else {
+                fullname.setText(username + "-" + mobileNo + "Hoặc" + alternateMobileNo);
+            }
+            if (landMark.equals("")) {
+                address.setText(flatNo + " " + locality + " " + city + " " + state);
+            } else {
+                address.setText(flatNo + " " + locality + " " + landMark + " " + city + " " + state);
+            }
+
             pincode.setText(userpincode);
+
 
             if (MODE == deliveryActivity.SELECT_ADDRESS) {
                 iconImg.setImageResource(R.drawable.ic_check_black);
@@ -102,29 +122,51 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                             addressModelList.get(position).setSelected(true);
                             addressModelList.get(preSelectedposition).setSelected(false);
                             refreshItem(preSelectedposition, position);
-                            preSelectedposition=position;
-                            DBqueries.selectedAddress=position;
+                            preSelectedposition = position;
+                            DBqueries.selectedAddress = position;
                         }
                     }
                 });
 
             } else if (MODE == accountFragment.MANAGE_ADDRESS) {
                 linearLayoutOptionContainer.setVisibility(View.GONE);
+                linearLayoutOptionContainer.getChildAt(0).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //edit address
+                        Intent intent = new Intent(itemView.getContext(), AddAddressAvtivity.class);
+                        intent.putExtra("INTENT", "update_address");
+                        intent.putExtra("index", position);
+                        itemView.getContext().startActivity(intent);
+                        Toast.makeText(itemView.getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                linearLayoutOptionContainer.getChildAt(1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //remove address
+                        Toast.makeText(itemView.getContext(), "remove", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 iconImg.setImageResource(R.drawable.ic_more_vertical);
                 iconImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    linearLayoutOptionContainer.setVisibility(View.VISIBLE);
-                        refreshItem(preSelectedposition,preSelectedposition);
-                    preSelectedposition=position;
+                        linearLayoutOptionContainer.setVisibility(View.VISIBLE);
+                        if (refesh) {
+                            refreshItem(preSelectedposition, preSelectedposition);
+                        } else {
+                            refesh = true;
+                        }
+                        preSelectedposition = position;
 
                     }
                 });
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        refreshItem(preSelectedposition,preSelectedposition);
-                        preSelectedposition=-1;
+                        refreshItem(preSelectedposition, preSelectedposition);
+                        preSelectedposition = -1;
                     }
                 });
             }

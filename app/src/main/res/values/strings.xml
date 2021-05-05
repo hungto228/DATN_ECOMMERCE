@@ -159,5 +159,7 @@
     <string name="remove_item">Remove item</string>
     <string name="coupon_applied">Coupons Applied</string>
     <string name="offers_applied">Offers Applied</string>
+    <string name="change_address">Change or Add New Address</string>
+    <string name="update">Update</string>
 
 </resources>
