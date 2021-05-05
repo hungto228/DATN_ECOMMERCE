@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,6 +62,7 @@ public class AddressActivity extends AppCompatActivity {
     private Window window;
 
     private int mode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +90,12 @@ public class AddressActivity extends AppCompatActivity {
         loadingDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.slider_background));
 
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mAddressSave.setText(String.valueOf(DBqueries.addressesModelList.size() + "save Adress"));
+            }
+        });
 
         ///// loading dialog
         //set previous
@@ -100,7 +107,7 @@ public class AddressActivity extends AppCompatActivity {
 
 
         //get intent deliveryActivity
-         mode = getIntent().getIntExtra("MODE", -1);
+        mode = getIntent().getIntExtra("MODE", -1);
         if (mode == deliveryActivity.SELECT_ADDRESS) {
             mDeliverHere.setVisibility(View.VISIBLE);
         } else {
@@ -126,7 +133,7 @@ public class AddressActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 finish();
                             } else {
-                                previousAddress=previousAddressIndex;
+                                previousAddress = previousAddressIndex;
                                 String error = task.getException().getMessage();
                                 Toast.makeText(AddressActivity.this, error, Toast.LENGTH_SHORT).show();
                             }
@@ -139,7 +146,7 @@ public class AddressActivity extends AppCompatActivity {
             }
         });
         //call addressesModelList from DBqueries
-        addressAdapter = new AddressAdapter(DBqueries.addressesModelList, mode);
+        addressAdapter = new AddressAdapter(DBqueries.addressesModelList, mode, loadingDialog);
         ((SimpleItemAnimator) recyclerViewAddress.getItemAnimator()).setSupportsChangeAnimations(false);
         recyclerViewAddress.setAdapter(addressAdapter);
         addressAdapter.notifyDataSetChanged();
@@ -177,7 +184,7 @@ public class AddressActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if(mode==deliveryActivity.SELECT_ADDRESS) {
+            if (mode == deliveryActivity.SELECT_ADDRESS) {
                 if (DBqueries.selectedAddress != previousAddress) {
                     DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
                     DBqueries.addressesModelList.get(previousAddress).setSelected(true);

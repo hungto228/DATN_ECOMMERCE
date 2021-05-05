@@ -82,8 +82,32 @@ public class AccountFragment extends Fragment {
         if (!DBqueries.profile.equals("")) {
             Glide.with(getActivity()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
         }
+     //  setAddress();
 
 
+        viewAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddressActivity.class);
+                //put extra cross addressActivity
+                intent.putExtra("MODE", MANAGE_ADDRESS);
+                startActivity(intent);
+            }
+        });
+        mSignOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                DBqueries.clearData();
+                Intent registerIntent = new Intent(getActivity(), RegiterActivity.class);
+                startActivity(registerIntent);
+                getActivity().finish();
+            }
+        });
+        return root;
+    }
+
+    private void setAddress() {
         if (DBqueries.addressesModelList.size() == 0) {
             mAddressTv.setText("Đỉa chỉ trống");
             mAddressFullNametv.setText("-");
@@ -110,27 +134,11 @@ public class AccountFragment extends Fragment {
             mAddresspincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
 
         }
+    }
 
-
-        viewAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddressActivity.class);
-                //put extra cross addressActivity
-                intent.putExtra("MODE", MANAGE_ADDRESS);
-                startActivity(intent);
-            }
-        });
-        mSignOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                DBqueries.clearData();
-                Intent registerIntent = new Intent(getActivity(), RegiterActivity.class);
-                startActivity(registerIntent);
-                getActivity().finish();
-            }
-        });
-        return root;
+    @Override
+    public void onStart() {
+        super.onStart();
+        setAddress();
     }
 }

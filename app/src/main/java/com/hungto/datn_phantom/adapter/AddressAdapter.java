@@ -1,5 +1,6 @@
 package com.hungto.datn_phantom.adapter;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.fragment.AccountFragment;
@@ -21,7 +26,9 @@ import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
 import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,11 +46,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     List<AddressModel> addressModelList;
     private int MODE;
     private boolean refesh = false;
+    private Dialog loadingDialog;
 
-    public AddressAdapter(List<AddressModel> addressModelList, int MODE) {
+    public AddressAdapter(List<AddressModel> addressModelList, int MODE, Dialog loadingDialog) {
         this.addressModelList = addressModelList;
         this.MODE = MODE;
         preSelectedposition = DBqueries.selectedAddress;
+        this.loadingDialog = loadingDialog;
     }
 
     @NonNull
@@ -138,6 +147,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                         intent.putExtra("INTENT", "update_address");
                         intent.putExtra("index", position);
                         itemView.getContext().startActivity(intent);
+                        refesh = false;
                         Toast.makeText(itemView.getContext(), "Edit", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -145,6 +155,64 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                     @Override
                     public void onClick(View v) {
                         //remove address
+                        loadingDialog.show();
+                        Map<String, Object> addressHashmap = new HashMap<>();
+                        int x = 0;
+                        int selected = 0;
+                        for (int i = 0; i < addressModelList.size(); i++) {
+                            if (i != position) {
+                                x++;
+                                addressHashmap.put("city_" + x, addressModelList.get(i).getCity());
+                                addressHashmap.put("locality_" + x, addressModelList.get(i).getLocality());
+                                addressHashmap.put("flat_no_" + x, addressModelList.get(i).getFlatNo());
+                                addressHashmap.put("pincode_" + x, addressModelList.get(i).getPincode());
+                                addressHashmap.put("landmark_" + x, addressModelList.get(i).getLandmark());
+                                addressHashmap.put("name_" + x, addressModelList.get(i).getName());
+                                addressHashmap.put("mobile_no_" + x, addressModelList.get(i).getMobileNo());
+                                addressHashmap.put("alternate_mobile_no_" + x, addressModelList.get(i).getAlternateMobileNo());
+                                addressHashmap.put("state_" + x, addressModelList.get(i).getState());
+                                if (addressModelList.get(position).isSelected()) {
+                                    if (position - 1 >= 0) {
+                                        if (x == position - 1) {
+                                            addressHashmap.put("selected_" + x, true);
+                                            selected = x;
+                                        }
+                                    } else {
+                                        if (x == 1) {
+                                            addressHashmap.put("selected_" + x, true);
+                                            selected = x;
+                                        }
+                                    }
+                                } else {
+                                    addressHashmap.put("selected_" + x, addressModelList.get(i).isSelected());
+                                }
+
+                            }
+                        }
+                        addressHashmap.put("list_size", x);
+
+                        int finalSelected = selected;
+                        FirebaseFirestore.getInstance().collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                                .collection("USER_DATA")
+                                .document("MY_ADDRESSES")
+                                .update(addressHashmap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    DBqueries.addressesModelList.remove(position);
+                                    if(finalSelected!=-1){
+                                        DBqueries.selectedAddress = finalSelected - 1;
+                                        DBqueries.addressesModelList.get(finalSelected - 1).setSelected(true);
+                                    }
+                                    notifyDataSetChanged();
+                                } else {
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(itemView.getContext(), error, Toast.LENGTH_SHORT).show();
+                                }
+                                loadingDialog.dismiss();
+                            }
+                        });
+                        refesh = false;
                         Toast.makeText(itemView.getContext(), "remove", Toast.LENGTH_SHORT).show();
                     }
                 });
