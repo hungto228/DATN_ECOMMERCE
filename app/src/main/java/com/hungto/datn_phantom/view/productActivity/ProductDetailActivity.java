@@ -191,7 +191,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         loadingDialogLong.setCancelable(false);
         loadingDialogLong.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
         loadingDialogLong.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        loadingDialogLong.show();
+//        loadingDialogLong.show();
         //loadingDialogLong
         //TODO:Coupon Dialog
 
@@ -683,6 +683,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
+                loadingDialogLong.dismiss();
             }
         });
 

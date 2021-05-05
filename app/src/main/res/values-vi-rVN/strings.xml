@@ -33,7 +33,7 @@
     <string name="menu_home">Email của tôi</string>
     <string name="menu_slideshow">Trình chiếu</string>
     <string name="menu_communicate">Giao tiếp</string>
-    <string name="menu_share">Chia sẻ</string>
+    <string name="menu_signout">Đăng Xuất</string>
     <string name="deal_of_day">Giao dịch trong ngày !</string>
     <string name="view_all">Xem tất cả!</string>
     <string name="check_price">"Kiểm tra giá sau khi đổi phiếu giảm giá "</string>
