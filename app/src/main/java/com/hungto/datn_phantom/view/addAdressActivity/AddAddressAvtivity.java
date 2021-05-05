@@ -170,12 +170,10 @@ public class AddAddressAvtivity extends AppCompatActivity {
                                             if (!updateAddress) {
                                                 addAddress.put("list_size", position + 1);
                                                 addAddress.put("selected_" + String.valueOf(position + 1), true);
+                                                if (DBqueries.addressesModelList.size() > 0) {
+                                                    addAddress.put("selected_" + (DBqueries.selectedAddress + 1), false);
+                                                }
                                             }
-
-//                                            if (DBqueries.addressesModelList.size() > 0) {
-//
-//                                                addAddress.put("selected_" + (DBqueries.selectedAddress + 1), false);
-//                                            }
                                             FirebaseFirestore.getInstance().collection("USERS").document(FirebaseAuth.getInstance().getUid())
                                                     .collection("USER_DATA")
                                                     .document("MY_ADDRESSES")
@@ -188,9 +186,9 @@ public class AddAddressAvtivity extends AppCompatActivity {
                                                                 DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
                                                             }
                                                             DBqueries.addressesModelList.add(new AddressModel(true, city.getText().toString(), locality.getText().toString(), flatNo.getText().toString(), pincode.getText().toString(), landmark.getText().toString(), name.getText().toString(), mobileNo.getText().toString(), alternateMobileNo.getText().toString(), selectedState));
+                                                            DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
                                                         } else {
                                                             DBqueries.addressesModelList.set(position, new AddressModel(true, city.getText().toString(), locality.getText().toString(), flatNo.getText().toString(), pincode.getText().toString(), landmark.getText().toString(), name.getText().toString(), mobileNo.getText().toString(), alternateMobileNo.getText().toString(), selectedState));
-                                                            DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
                                                         }
                                                         if (getIntent().getStringExtra("INTENT").equals("deliveryIntent")) {
                                                             Intent intent = new Intent(AddAddressAvtivity.this, DeliveryActivity.class);

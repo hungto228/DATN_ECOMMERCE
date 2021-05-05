@@ -93,7 +93,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
 
         private void setDataAdress(String username, String city, String userpincode, boolean selected, int position, String mobileNo, String alternateMobileNo, String flatNo, String locality, String state, String landMark) {
-            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
+            if (alternateMobileNo.equals("")) {
                 fullname.setText(username + "-" + mobileNo);
             } else {
                 fullname.setText(username + "-" + mobileNo + "Hoặc" + alternateMobileNo);

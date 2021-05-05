@@ -456,7 +456,7 @@ public class DBqueries {
                                     , task.getResult().getString("state_" + x)
                             ));
 
-                            if ((boolean) task.getResult().get("selected_" + x)) {
+                            if ( task.getResult().getBoolean("selected_" + x)) {
 
                                 selectedAddress = Integer.parseInt(String.valueOf(x - 1));
                             }
