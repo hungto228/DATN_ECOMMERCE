@@ -229,7 +229,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         okBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mProductQuality.setText(context.getResources().getString(R.string.sl) + quantityNo.getText());
+                                mProductQuality.setText(quantityNo.getText());
                                 quantityDialog.dismiss();
                             }
                         });

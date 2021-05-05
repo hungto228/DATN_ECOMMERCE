@@ -60,6 +60,7 @@ public class AddressActivity extends AppCompatActivity {
     DeliveryActivity deliveryActivity;
     private Window window;
 
+    private int mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +100,7 @@ public class AddressActivity extends AppCompatActivity {
 
 
         //get intent deliveryActivity
-        int mode = getIntent().getIntExtra("MODE", -1);
+         mode = getIntent().getIntExtra("MODE", -1);
         if (mode == deliveryActivity.SELECT_ADDRESS) {
             mDeliverHere.setVisibility(View.VISIBLE);
         } else {
@@ -176,10 +177,12 @@ public class AddressActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if (DBqueries.selectedAddress != previousAddress) {
-                DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
-                DBqueries.addressesModelList.get(previousAddress).setSelected(true);
-                DBqueries.selectedAddress = previousAddress;
+            if(mode==deliveryActivity.SELECT_ADDRESS) {
+                if (DBqueries.selectedAddress != previousAddress) {
+                    DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
+                    DBqueries.addressesModelList.get(previousAddress).setSelected(true);
+                    DBqueries.selectedAddress = previousAddress;
+                }
             }
             finish();
             return true;

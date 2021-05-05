@@ -52,7 +52,7 @@ import java.util.Map;
 public class DBqueries {
     public static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     public static FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    public static String fullName,email,profile;
+    public static String fullName, email, profile;
     public static List<CategoryModel> categoryModels = new ArrayList<>();
     public static List<List<HomePageModel>> lists = new ArrayList<>();
     public static List<String> loaddataCategoriesName = new ArrayList<>();
@@ -443,10 +443,18 @@ public class DBqueries {
                     } else {
 
                         for (long x = 1; x < (long) task.getResult().get("list_size") + 1; x++) {
-                            addressesModelList.add(new AddressModel(task.getResult().get("fullname_" + x).toString(),
-                                    task.getResult().get("address_" + x).toString(),
-                                    task.getResult().get("pincode_" + x).toString(),
-                                    (boolean) task.getResult().get("selected_" + x)));
+                            addressesModelList.add(new AddressModel(
+                                    task.getResult().getBoolean("selected_" + x)
+                                    , task.getResult().getString("city_" + x)
+                                    , task.getResult().getString("locality_" + x)
+                                    , task.getResult().getString("flat_no_" + x)
+                                    , task.getResult().getString("pincode_" + x)
+                                    , task.getResult().getString("landmark_" + x)
+                                    , task.getResult().getString("name_" + x)
+                                    , task.getResult().getString("mobile_no_" + x)
+                                    , task.getResult().getString("alternate_mobile_no_" + x)
+                                    , task.getResult().getString("state_" + x)
+                            ));
 
                             if ((boolean) task.getResult().get("selected_" + x)) {
 
@@ -485,7 +493,7 @@ public class DBqueries {
                                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
 
                                             if (documentSnapshot.get("type").toString().equals("Discount") && lastseenDate.before(documentSnapshot.getDate("validity"))) {
-                                                rewardModelList.add(new RewardModel(documentSnapshot.getId(),documentSnapshot.get("type").toString(),
+                                                rewardModelList.add(new RewardModel(documentSnapshot.getId(), documentSnapshot.get("type").toString(),
                                                         documentSnapshot.get("lower_limit").toString(),
                                                         documentSnapshot.get("upper_limit").toString(),
                                                         documentSnapshot.get("percentage").toString(),
@@ -493,7 +501,7 @@ public class DBqueries {
                                                         (Date) documentSnapshot.getTimestamp("validity").toDate(),
                                                         (boolean) documentSnapshot.get("alreadly_used")));
                                             } else if (documentSnapshot.get("type").toString().equals("Flatoff") && lastseenDate.before(documentSnapshot.getDate("validity"))) {
-                                                rewardModelList.add(new RewardModel(documentSnapshot.getId(),documentSnapshot.get("type").toString(),
+                                                rewardModelList.add(new RewardModel(documentSnapshot.getId(), documentSnapshot.get("type").toString(),
                                                         documentSnapshot.get("lower_limit").toString(),
                                                         documentSnapshot.get("upper_limit").toString(),
                                                         documentSnapshot.get("amount").toString(),
@@ -532,5 +540,6 @@ public class DBqueries {
         cartList.clear();
         cartItemModelList.clear();
         rewardModelList.clear();
+        addressesModelList.clear();
     }
 }

@@ -76,7 +76,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Change or Add New Address"
+        android:text="@string/change_address"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:visibility="gone"
