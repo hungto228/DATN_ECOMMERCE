@@ -84,32 +84,6 @@ public class AccountFragment extends Fragment {
         }
 
 
-        if (DBqueries.addressesModelList.size() == 0) {
-            mAddressTv.setText("Đỉa chỉ trống");
-            mAddressFullNametv.setText("-");
-            mAddresspincode.setText("-");
-        } else {
-            String name, mobileNo;
-            name = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
-            mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
-            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
-                mAddressFullNametv.setText(name + "-" + mobileNo);
-            } else {
-                mAddressFullNametv.setText(name + "-" + mobileNo + "Hoặc" + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
-            }
-            String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
-            String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
-            String landMark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
-            String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
-            String state = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
-            if (landMark.equals("")) {
-                mAddressTv.setText(flatNo + " " + locality + " " + city + " " + state);
-            } else {
-                mAddressTv.setText(flatNo + " " + locality + " " + landMark + " " + city + " " + state);
-            }
-            mAddresspincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
-
-        }
 
 
         viewAllBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,5 +106,40 @@ public class AccountFragment extends Fragment {
             }
         });
         return root;
+    }
+
+//    private void setAddress() {
+//        if (DBqueries.addressesModelList.size() == 0) {
+//            mAddressTv.setText("Đỉa chỉ trống");
+//            mAddressFullNametv.setText("-");
+//            mAddresspincode.setText("-");
+//        } else {
+//            String name, mobileNo;
+//            name = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
+//            mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
+//            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
+//                mAddressFullNametv.setText(name + "-" + mobileNo);
+//            } else {
+//                mAddressFullNametv.setText(name + "-" + mobileNo + "Hoặc" + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+//            }
+//            String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
+//            String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
+//            String landMark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
+//            String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+//            String state = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+//            if (landMark.equals("")) {
+//                mAddressTv.setText(flatNo + " " + locality + " " + city + " " + state);
+//            } else {
+//                mAddressTv.setText(flatNo + " " + locality + " " + landMark + " " + city + " " + state);
+//            }
+//            mAddresspincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
+//
+//        }
+//    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        setAddress();
     }
 }

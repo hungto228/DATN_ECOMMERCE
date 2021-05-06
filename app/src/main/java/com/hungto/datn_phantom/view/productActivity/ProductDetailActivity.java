@@ -678,11 +678,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                     if (DBqueries.addressesModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailActivity.this, loadingDialogLong);
                     } else {
-                        loadingDialogLong.dismiss();
+                       // loadingDialogLong.dismiss();
                         Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
                         startActivity(intent);
                     }
                 }
+                loadingDialogLong.dismiss();
             }
         });
 
