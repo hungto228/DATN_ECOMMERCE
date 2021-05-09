@@ -84,4 +84,10 @@
     <string name="offers_applied">Ưu đãi đã áp dụng.</string>
     <string name="change_address">"Thay đổi hoặc thêm địa chỉ mới "</string>
     <string name="update">Cập nhật</string>
+    <string name="change_photo">Thay ảnh.</string>
+    <string name="old_password">Mật khẩu cũ</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="confirm_pasword">Nhập lại mật khẩu mới</string>
+    <string name="enter_password">"Vui lòng nhập mật khẩu của bạn để thay đổi địa chỉ Email. "</string>
+    <string name="done">Xong.</string>
 </resources>
