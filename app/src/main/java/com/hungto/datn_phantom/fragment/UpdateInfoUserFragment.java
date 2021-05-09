@@ -23,26 +23,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.CollectionReference;
 import com.hungto.datn_phantom.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class UpdateInfoFragment extends Fragment {
+public class UpdateInfoUserFragment extends Fragment {
 
 
-    public UpdateInfoFragment() {
+    public UpdateInfoUserFragment() {
         // Required empty public constructor
     }
 
@@ -58,6 +51,7 @@ public class UpdateInfoFragment extends Fragment {
     MaterialEditText mFullNameEdt;
     @BindView(R.id.edt_email)
     MaterialEditText mEmailEdt;
+    Unbinder unbinder;
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -69,7 +63,8 @@ public class UpdateInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_update_info, container, false);
+        View root = inflater.inflate(R.layout.fragment_update_info_user, container, false);
+        unbinder= ButterKnife.bind(this,root);
         String name = getArguments().getString("Name");
         String email = getArguments().getString("Email");
         String photo = getArguments().getString("Photo");

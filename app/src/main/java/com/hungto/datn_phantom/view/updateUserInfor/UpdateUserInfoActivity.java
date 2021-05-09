@@ -1,28 +1,37 @@
 package com.hungto.datn_phantom.view.updateUserInfor;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.widget.FrameLayout;
-
 import com.google.android.material.tabs.TabLayout;
 import com.hungto.datn_phantom.R;
-import com.hungto.datn_phantom.fragment.ResetPassWordFragment;
-import com.hungto.datn_phantom.fragment.UpdateInfoFragment;
-import com.hungto.datn_phantom.fragment.UpdateUserInfo;
 
 import butterknife.BindView;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.hungto.datn_phantom.fragment.UpdateInfoUserFragment;
+import com.hungto.datn_phantom.fragment.UpdatePasswordFragment;
+
+import butterknife.ButterKnife;
 
 public class UpdateUserInfoActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    private Window window;
 
     @BindView(R.id.tablaout_update_user)
     TabLayout tabLayout;
     @BindView(R.id.frame_userInfo)
     FrameLayout frameLayout;
-    private UpdateInfoFragment updateInfoFragment;
-    private UpdateUserInfo updateUserInfo;
+
+    private UpdateInfoUserFragment updateInfoFragment;
+    private UpdatePasswordFragment updateUserInfo;
     private String name;
     private String email;
     private String photo;
@@ -32,9 +41,18 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_user_info);
 
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Update User");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         //updateInfor fragment
-        updateInfoFragment = new UpdateInfoFragment();
-        updateUserInfo = new UpdateUserInfo();
+        updateInfoFragment = new UpdateInfoUserFragment();
+        updateUserInfo = new UpdatePasswordFragment();
+
         //getintent accountfragment
         name = getIntent().getStringExtra("Name");
         email = getIntent().getStringExtra("Email");
@@ -62,7 +80,7 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
             }
         });
         tabLayout.getTabAt(0).select();
-        setFragment(updateInfoFragment,true);
+        setFragment(updateInfoFragment, true);
 
 
     }
@@ -78,5 +96,20 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
         }
         fragmentTransaction.replace(frameLayout.getId(), fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

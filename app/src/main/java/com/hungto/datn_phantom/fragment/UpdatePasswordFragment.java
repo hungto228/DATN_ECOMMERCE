@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -14,24 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.CollectionReference;
 import com.hungto.datn_phantom.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
-public class UpdateUserInfo extends Fragment {
+public class UpdatePasswordFragment extends Fragment {
 
 
     @BindView(R.id.edt_oldPassword)
@@ -42,10 +33,11 @@ public class UpdateUserInfo extends Fragment {
     MaterialEditText mConfirmPassordEdt;
     @BindView(R.id.btn_update)
     Button mUpdatebtn;
+    Unbinder unbinder;
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-    public UpdateUserInfo() {
+    public UpdatePasswordFragment() {
         // Required empty public constructor
     }
 
@@ -53,7 +45,8 @@ public class UpdateUserInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_update_user_info, container, false);
+        View root = inflater.inflate(R.layout.fragment_update_password, container, false);
+        unbinder= ButterKnife.bind(this,root);
         mOldPassWordEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

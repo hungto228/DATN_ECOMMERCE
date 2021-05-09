@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DATN_PHANTOM">
-        <activity android:name=".view.updateUserInfor.UpdateUserInfoActivity"></activity>
 
         <receiver
             android:name=".util.NetworkChangeReceiver"
@@ -26,6 +25,8 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".view.updateUserInfor.UpdateUserInfoActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".view.viewAllActivity.ViewAllActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
