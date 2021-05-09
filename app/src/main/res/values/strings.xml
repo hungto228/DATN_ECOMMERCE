@@ -167,5 +167,8 @@
     <string name="confirm_pasword">Confirm New Password</string>
     <string name="enter_password">Please enter your password to change the Email address.</string>
     <string name="done">Done</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="permission_granted">Permission granted</string>
+    <string name="image_notfound">Image not found!</string>
 
 </resources>

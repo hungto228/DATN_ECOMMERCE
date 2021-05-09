@@ -90,4 +90,7 @@
     <string name="confirm_pasword">Nhập lại mật khẩu mới</string>
     <string name="enter_password">"Vui lòng nhập mật khẩu của bạn để thay đổi địa chỉ Email. "</string>
     <string name="done">Xong.</string>
+    <string name="permission_denied">Quyền truy cập bị từ chối.</string>
+    <string name="permission_granted">Quyền truy cập được cho phép.</string>
+    <string name="image_notfound">Không tìm thấy hình ảnh !</string>
 </resources>
