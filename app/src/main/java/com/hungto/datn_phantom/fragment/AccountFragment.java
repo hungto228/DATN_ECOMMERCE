@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
@@ -25,6 +26,7 @@ import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
+import com.hungto.datn_phantom.view.updateUserInfor.UpdateUserInfoActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +53,8 @@ public class AccountFragment extends Fragment {
     @BindView(R.id.layout_container_fragment)
     LinearLayout layoutContainer;
     private Dialog loadingDialogLong;
-    //    FloatingActionButton faSetting;
+    @BindView(R.id.btn_settings)
+    FloatingActionButton faSetting;
     //my_address_layout
     @BindView(R.id.tv_address)
     TextView mAddressTv;
@@ -76,14 +79,11 @@ public class AccountFragment extends Fragment {
         //loadingDialogLong
 
 
-
         mNameTv.setText(DBqueries.fullName);
         mEmailTv.setText(DBqueries.email);
         if (!DBqueries.profile.equals("")) {
             Glide.with(getActivity()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
         }
-
-
 
 
         viewAllBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +105,18 @@ public class AccountFragment extends Fragment {
                 getActivity().finish();
             }
         });
+        faSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent updateUser=new Intent(getContext(), UpdateUserInfoActivity.class);
+                updateUser.putExtra("Name",mNameTv.getText());
+                updateUser.putExtra("Email",mEmailTv.getText());
+                updateUser.putExtra("Photo",DBqueries.profile);
+                startActivity(updateUser);
+
+            }
+        });
+
         return root;
     }
 
