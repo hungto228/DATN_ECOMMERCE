@@ -24,7 +24,6 @@
             android:layout_width="378dp"
             android:layout_height="104dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
             android:src="@drawable/foodytext"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnImg_back_arrow"></ImageView>
@@ -71,7 +70,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="170dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/btn_signIn"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +81,7 @@
             android:id="@+id/btn_signIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="145dp"
+            android:layout_marginTop="100dp"
             android:background="@color/colorBtnRed"
             android:enabled="false"
             android:text="@string/sign_in"
@@ -94,12 +93,13 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="95dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="170dp"
+
             android:layout_marginTop="24dp"
             android:text="Or"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_signIn" />
 
@@ -107,9 +107,9 @@
             android:id="@+id/tv_noAcount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
             android:text="@string/noHaveAccount"
             android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 

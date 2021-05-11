@@ -65,7 +65,7 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
                     setFragment(updateInfoFragment, true);
                 }
                 if (tab.getPosition() == 1) {
-                    setFragment(updateUserInfo, false);
+                    setFragment(updateUserInfo, true);
                 }
             }
 
@@ -92,7 +92,12 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
             bundle.putString("Name", name);
             bundle.putString("Email", email);
             bundle.putString("Photo", photo);
-            updateInfoFragment.setArguments(bundle);
+            fragment.setArguments(bundle);
+        }else {
+            Bundle bundle = new Bundle();
+            bundle.putString("Name", name);
+
+            fragment.setArguments(bundle);
         }
         fragmentTransaction.replace(frameLayout.getId(), fragment);
         fragmentTransaction.commit();

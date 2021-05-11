@@ -17,7 +17,7 @@
             android:id="@+id/btn_signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="60dp"
             android:gravity="center"
             android:background="@color/colorBtnRed"
             android:enabled="false"
@@ -36,7 +36,6 @@
             android:backgroundTint="#ffff"
             android:hint="@string/emailId"
             android:inputType="textEmailAddress"
-            android:padding="10dp"
             android:textColorHint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             tools:layout_editor_absoluteX="47dp"
@@ -50,7 +49,6 @@
             android:backgroundTint="@color/white"
             android:hint="@string/fullName"
             android:inputType="text"
-            android:padding="10dp"
             android:textColorHint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/edt_email"
             app:met_floatingLabel="normal"/>
@@ -63,7 +61,6 @@
             android:backgroundTint="@color/white"
             android:hint="@string/passWord2"
             android:inputType="textPassword"
-            android:padding="10dp"
             android:textColorHint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/edt_fullname" />
 
@@ -75,7 +72,6 @@
             android:backgroundTint="@color/white"
             android:hint="@string/confirmPassword"
             android:inputType="textPassword"
-            android:padding="10dp"
             android:textColorHint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
@@ -95,8 +91,6 @@
             android:id="@+id/imageView"
             android:layout_width="378dp"
             android:layout_height="104dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
             android:src="@drawable/foodytext"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnImg_back_arrow"></ImageView>
@@ -106,20 +100,20 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="180dp"
             android:layout_marginTop="16dp"
             android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edt_conflim" />
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="95dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="170dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Or"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_signUp" />
 
@@ -127,10 +121,10 @@
             android:id="@+id/tv_haveAcount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
             android:gravity="center"
             android:text="@string/haveAccount"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 

@@ -109,9 +109,9 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent updateUser=new Intent(getContext(), UpdateUserInfoActivity.class);
-                updateUser.putExtra("Name",mNameTv.getText());
-                updateUser.putExtra("Email",mEmailTv.getText());
-                updateUser.putExtra("Photo",DBqueries.profile);
+                updateUser.putExtra("Name",mNameTv.getText().toString());
+                updateUser.putExtra("Email",mEmailTv.getText().toString());
+                updateUser.putExtra("Photo",DBqueries.profile.toString());
                 startActivity(updateUser);
 
             }

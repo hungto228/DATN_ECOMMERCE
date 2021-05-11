@@ -37,6 +37,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.16'
