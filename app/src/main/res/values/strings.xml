@@ -170,5 +170,7 @@
     <string name="permission_denied">Permission denied</string>
     <string name="permission_granted">Permission granted</string>
     <string name="image_notfound">Image not found!</string>
+    <string name="search_product">Search for products</string>
+    <string name="product_notfound">Product not found !</string>
 
 </resources>

@@ -26,18 +26,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHolder> {
     public static final String TAG = "tagWishListAdapter";
     List<WishlistModel> wishlistModelList;
     private Boolean wishList;
     private int lastPosition = -1;
-//    Context context;
-//
-//    public WishListAdapter(Context context) {
-//        this.context = context;
-//    }
-
+    private boolean fromSearch;
     public WishListAdapter(List<WishlistModel> wishlistModelList, Boolean wishList) {
         this.wishlistModelList = wishlistModelList;
         this.wishList = wishList;
@@ -144,6 +143,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(fromSearch){
+                        ProductDetailActivity.fromSearch=true;
+                    }
                     Intent intent = new Intent(itemView.getContext(), ProductDetailActivity.class);
                     intent.putExtra("PRODUCT_ID",productId);
                     itemView.getContext().startActivity(intent);

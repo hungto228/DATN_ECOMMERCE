@@ -93,4 +93,6 @@
     <string name="permission_denied">Quyền truy cập bị từ chối.</string>
     <string name="permission_granted">Quyền truy cập được cho phép.</string>
     <string name="image_notfound">Không tìm thấy hình ảnh !</string>
+    <string name="search_product">Tìm kiếm sản phẩm.</string>
+    <string name="product_notfound">Không tìm thấy ản phẩm !</string>
 </resources>

@@ -167,6 +167,7 @@ public class UpdatePasswordFragment extends Fragment {
                                     mOldPassWordEdt.setText(null);
                                     mNewPassWordEdt.setText(null);
                                     mConfirmPassordEdt.setText(null);
+                                    getActivity().finish();
                                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.update), Toast.LENGTH_SHORT).show();
                                 } else {
                                     loadingdialog.dismiss();

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.adapter.CategoryAdapter;
 import com.hungto.datn_phantom.adapter.HomePageAdapter;
@@ -22,6 +24,7 @@ import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
 import com.hungto.datn_phantom.model.SliderModel;
+import com.hungto.datn_phantom.view.searchActivity.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +113,8 @@ homePageAdapter=new HomePageAdapter(lists.get(position));
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.main_search_icon) {
+            Intent search=new Intent(CategoryActivity.this, SearchActivity.class);
+            startActivity(search);
             Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == android.R.id.home) {

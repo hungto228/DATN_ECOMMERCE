@@ -1,5 +1,7 @@
 package com.hungto.datn_phantom.model;
 
+import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +17,7 @@ public class WishlistModel {
     private String mProductPrice;
     private String mCuttedPrice;
     private boolean COD;
+    private ArrayList<String>tags;
 
     public WishlistModel(String mProductId,String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, boolean COD) {
         this.mProductId=mProductId;

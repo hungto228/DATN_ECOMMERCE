@@ -43,6 +43,7 @@ import com.hungto.datn_phantom.fragment.SignInFragment;
 import com.hungto.datn_phantom.fragment.SignUpFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
 import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
+import com.hungto.datn_phantom.view.searchActivity.SearchActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -58,6 +59,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hungto.datn_phantom.connnect.DBqueries.currentUser;
+import static com.hungto.datn_phantom.connnect.DBqueries.profile;
 import static com.hungto.datn_phantom.view.regiterActivity.RegiterActivity.setSignUpFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -190,28 +192,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
-            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DBqueries.fullName = task.getResult().getString("fullname");
-                        DBqueries.email = task.getResult().getString("email");
-                        DBqueries.profile = task.getResult().getString("profile");
-                        mFullNameTv.setText(DBqueries.fullName);
-                        mEmailTv.setText(DBqueries.email);
-                        if(DBqueries.profile.equals("")){
-                         mAddIconimg.setVisibility(View.VISIBLE);
-                        }else {
-                            Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
-                        }
+            if(DBqueries.email==null) {
+                FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DBqueries.fullName = task.getResult().getString("fullname");
+                            DBqueries.email = task.getResult().getString("email");
+                            DBqueries.profile = task.getResult().getString("profile");
+                            mFullNameTv.setText(DBqueries.fullName);
+                            mEmailTv.setText(DBqueries.email);
+                            if (DBqueries.profile.equals("")) {
+                                mAddIconimg.setVisibility(View.VISIBLE);
+                            } else {
+                                Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
+                            }
 
-                    } else {
-                        String error = task.getException().getMessage();
-                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                        } else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                        }
                     }
+                });
+            }else {
+                mFullNameTv.setText(DBqueries.fullName);
+                mEmailTv.setText(DBqueries.email);
+                if (DBqueries.profile.equals("")) {
+                    mProfileImg.setImageResource(R.drawable.banner_slider);
+                    mAddIconimg.setVisibility(View.VISIBLE);
+                } else {
+                    Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
                 }
-            });
+            }
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
         }
         if (resetMainActivity) {
@@ -296,6 +309,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.main_search_icon) {
+            Intent search=new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(search);
             Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();
             //TODO:search
             return true;
@@ -378,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         finish();
 
                     }
+                    drawer.removeDrawerListener(this);
                 }
             });
 

@@ -108,10 +108,10 @@ public class AccountFragment extends Fragment {
         faSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent updateUser=new Intent(getContext(), UpdateUserInfoActivity.class);
-                updateUser.putExtra("Name",mNameTv.getText().toString());
-                updateUser.putExtra("Email",mEmailTv.getText().toString());
-                updateUser.putExtra("Photo",DBqueries.profile.toString());
+                Intent updateUser = new Intent(getContext(), UpdateUserInfoActivity.class);
+                updateUser.putExtra("Name", mNameTv.getText().toString());
+                updateUser.putExtra("Email", mEmailTv.getText().toString());
+                updateUser.putExtra("Photo", DBqueries.profile.toString());
                 startActivity(updateUser);
 
             }
@@ -152,6 +152,13 @@ public class AccountFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        mNameTv.setText(DBqueries.fullName);
+        mEmailTv.setText(DBqueries.email);
+        if (DBqueries.profile.equals("")) {
+            Glide.with(getContext()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(mProfileImg);
+        } else {
+            mProfileImg.setImageResource(R.drawable.banner_slider);
+        }
 //        setAddress();
     }
 }

@@ -50,6 +50,7 @@ import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.model.WishlistModel;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
+import com.hungto.datn_phantom.view.searchActivity.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +68,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static boolean running_wishlist_query = false;
     public static boolean running_rating_query = false;
     public static boolean running_cart_query = false;
+    public static boolean fromSearch = false;
     public Dialog signInDialog;
     public Dialog loadingDialogLong;
     private RegiterActivity regiterActivity;
@@ -87,7 +89,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_productPrice)
     TextView mProductPrice;
     private String productOriginalprice;
-//    private String productPriceValue;
+    //    private String productPriceValue;
     @BindView(R.id.tv_cutted_price)
     TextView mCuttedPrice;
     @BindView(R.id.cod_indicatorImg)
@@ -664,7 +666,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-                   // DeliveryActivity.cartItemModelList.clear();
+                    // DeliveryActivity.cartItemModelList.clear();
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID,
                             documentSnapshot.get("product_image_1").toString(),
@@ -678,7 +680,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     if (DBqueries.addressesModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailActivity.this, loadingDialogLong);
                     } else {
-                       // loadingDialogLong.dismiss();
+                        // loadingDialogLong.dismiss();
                         Intent intent = new Intent(ProductDetailActivity.this, DeliveryActivity.class);
                         startActivity(intent);
                     }
@@ -886,6 +888,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             finish();
             return true;
         } else if (id == R.id.main_search_icon) {
+            if (fromSearch) {
+                finish();
+            } else {
+                Intent search = new Intent(ProductDetailActivity.this, SearchActivity.class);
+                startActivity(search);
+            }
             return true;
         } else if (id == R.id.main_cart_icon) {
             if (currentUser == null) {
@@ -898,5 +906,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fromSearch = false;
     }
 }
