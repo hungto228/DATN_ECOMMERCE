@@ -26,6 +26,9 @@
         </receiver>
 
         <activity
+            android:name=".view.notificationActivity.NotificationActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
             android:name=".view.searchActivity.SearchActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity

@@ -31,6 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hungto.datn_phantom.connnect.DBqueries;
@@ -42,6 +43,7 @@ import com.hungto.datn_phantom.fragment.RewardFragment;
 import com.hungto.datn_phantom.fragment.SignInFragment;
 import com.hungto.datn_phantom.fragment.SignUpFragment;
 import com.hungto.datn_phantom.fragment.WithlistFragment;
+import com.hungto.datn_phantom.view.notificationActivity.NotificationActivity;
 import com.hungto.datn_phantom.view.regiterActivity.RegiterActivity;
 import com.hungto.datn_phantom.view.searchActivity.SearchActivity;
 
@@ -192,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
+            DBqueries.checkNotification(false);
             if(DBqueries.email==null) {
                 FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -236,6 +239,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         invalidateOptionsMenu();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DBqueries.checkNotification(true);
     }
 
     @Override
@@ -316,6 +325,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == R.id.main_notifi_icon) {
             //TODO:notification
+            Intent notification=new Intent(MainActivity.this, NotificationActivity.class);
+            startActivity(notification);
             Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.main_cart_icon) {

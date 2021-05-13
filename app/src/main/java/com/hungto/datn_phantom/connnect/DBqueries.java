@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -20,7 +22,10 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hungto.datn_phantom.R;
@@ -35,12 +40,14 @@ import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.model.CategoryModel;
 import com.hungto.datn_phantom.model.HomePageModel;
 import com.hungto.datn_phantom.model.HorizontalProductScrollModel;
+import com.hungto.datn_phantom.model.NotificationModel;
 import com.hungto.datn_phantom.model.RewardModel;
 import com.hungto.datn_phantom.model.SliderModel;
 import com.hungto.datn_phantom.model.WishlistModel;
 import com.hungto.datn_phantom.view.addAdressActivity.AddAddressAvtivity;
 import com.hungto.datn_phantom.view.addAdressActivity.AddressActivity;
 import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
+import com.hungto.datn_phantom.view.notificationActivity.NotificationActivity;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 
 import java.util.ArrayList;
@@ -65,6 +72,8 @@ public class DBqueries {
     public static int selectedAddress = -1;
     public static List<AddressModel> addressesModelList = new ArrayList<>();
     public static List<RewardModel> rewardModelList = new ArrayList<>();
+    public static List<NotificationModel> notificationModelList = new ArrayList<>();
+    private static ListenerRegistration registration;
 
     private static String productID;
 
@@ -456,7 +465,7 @@ public class DBqueries {
                                     , task.getResult().getString("state_" + x)
                             ));
 
-                            if ( task.getResult().getBoolean("selected_" + x)) {
+                            if (task.getResult().getBoolean("selected_" + x)) {
 
                                 selectedAddress = Integer.parseInt(String.valueOf(x - 1));
                             }
@@ -531,6 +540,34 @@ public class DBqueries {
 
     }
 
+    //TODO:notification
+    public static void checkNotification(boolean remove) {
+        if (remove) {
+            registration.remove();
+        } else {
+            registration = firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid())
+                    .collection("USER_DATA").document("MY_NOTIFICATIONS")
+                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                notificationModelList.clear();
+                                for (long i = 0; i < (long) documentSnapshot.get("list_size"); i++) {
+                                    notificationModelList.add(0,new NotificationModel(
+                                            documentSnapshot.get("Image_" + i).toString()
+                                            , documentSnapshot.get("Body_" + i).toString()
+                                            , documentSnapshot.getBoolean("Readed_" + i)));
+                                    Log.d("halo", documentSnapshot.get("Body_" + i).toString());
+                                }
+                                if (NotificationActivity.adapter != null) {
+                                    NotificationActivity.adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    });
+        }
+    }
+
     public static void clearData() {
         categoryModels.clear();
         lists.clear();
@@ -541,5 +578,6 @@ public class DBqueries {
         cartItemModelList.clear();
         rewardModelList.clear();
         addressesModelList.clear();
+        notificationModelList.clear();
     }
 }
