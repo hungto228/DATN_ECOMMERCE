@@ -541,7 +541,7 @@ public class DBqueries {
     }
 
     //TODO:notification
-    public static void checkNotification(boolean remove) {
+    public static void checkNotification(boolean remove,TextView notifiCount) {
         if (remove) {
             registration.remove();
         } else {
@@ -552,12 +552,28 @@ public class DBqueries {
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
                                 notificationModelList.clear();
+                                int unread=0;
                                 for (long i = 0; i < (long) documentSnapshot.get("list_size"); i++) {
                                     notificationModelList.add(0,new NotificationModel(
                                             documentSnapshot.get("Image_" + i).toString()
                                             , documentSnapshot.get("Body_" + i).toString()
                                             , documentSnapshot.getBoolean("Readed_" + i)));
-                                    Log.d("halo", documentSnapshot.get("Body_" + i).toString());
+                                    if(!documentSnapshot.getBoolean("Readed_" + i)){
+                                        unread++;
+                                        if(notifiCount != null){
+                                            if(unread>0) {
+                                                notifiCount.setVisibility(View.VISIBLE);
+                                                if (unread < 99) {
+                                                    notifiCount.setText(String.valueOf(unread));
+                                                } else {
+                                                    notifiCount.setText("99");
+                                                }
+                                            }else {
+                                                notifiCount.setVisibility(View.INVISIBLE);
+                                            }
+                                        }
+                                    }
+
                                 }
                                 if (NotificationActivity.adapter != null) {
                                     NotificationActivity.adapter.notifyDataSetChanged();
