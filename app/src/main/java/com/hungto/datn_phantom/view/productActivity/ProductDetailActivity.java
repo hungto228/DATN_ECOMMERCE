@@ -273,7 +273,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     mRewardBody.setText(documentSnapshot.get("free_coupen_body").toString());
                     if ((boolean) documentSnapshot.get("use_tab_layout") == true) {
                         productDetailtab.setVisibility(View.VISIBLE);
-                        productDetailOnly.setVisibility(View.VISIBLE);
+                        productDetailOnly.setVisibility(View.GONE);
                         //cast to productDescription
                         productDescription = documentSnapshot.get("product_description").toString();
 
@@ -288,7 +288,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             }
                         }
                     } else {
-                        productDetailtab.setVisibility(View.VISIBLE);
+                        productDetailtab.setVisibility(View.GONE);
                         productDetailOnly.setVisibility(View.VISIBLE);
                         productDescriptionBody.setText(documentSnapshot.get("product_description").toString());
 
@@ -391,7 +391,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                                             DBqueries.cartItemModelList.add(0, new CartItemModel(CartItemModel.CART_ITEM, productID,
                                                                     documentSnapshot.get("product_image_1").toString(),
                                                                     documentSnapshot.get("product_title").toString(),
-                                                                    (long) documentSnapshot.get("free_coupons"),
+                                                                    (long) documentSnapshot.get("free_coupens"),
                                                                     documentSnapshot.get("product_price").toString(),
                                                                     documentSnapshot.get("cutted_price").toString(), (long) 1, (long) 0, (long) 0
                                                                     , (boolean) documentSnapshot.get("in_stock")));

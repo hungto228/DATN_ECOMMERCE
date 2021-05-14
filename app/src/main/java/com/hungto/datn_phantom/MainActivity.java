@@ -96,15 +96,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppBarLayout.LayoutParams params;
     private int scrollFlags;
     //profile
-   // @BindView(R.id.img_user)
- private    CircleImageView mProfileImg;
-   // @BindView(R.id.tv_fullName)
+    // @BindView(R.id.img_user)
+    private CircleImageView mProfileImg;
+    // @BindView(R.id.tv_fullName)
     private TextView mFullNameTv;
-   // @BindView(R.id.tv_email)
-  private   TextView mEmailTv;
-   // @BindView(R.id.img_add)
-   private ImageView mAddIconimg;
-  // @BindView(R.id.btn_settings)
+    // @BindView(R.id.tv_email)
+    private TextView mEmailTv;
+    // @BindView(R.id.img_add)
+    private ImageView mAddIconimg;
+    // @BindView(R.id.btn_settings)
 
 
     public static DrawerLayout drawer;
@@ -125,10 +125,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
 
         scrollFlags = params.getScrollFlags();
-        mProfileImg=navigationView.getHeaderView(0).findViewById(R.id.img_user);
-        mFullNameTv=navigationView.getHeaderView(0).findViewById(R.id.tv_fullName);
-        mEmailTv=navigationView.getHeaderView(0).findViewById(R.id.tv_email);
-        mAddIconimg=navigationView.getHeaderView(0).findViewById(R.id.img_add);
+        mProfileImg = navigationView.getHeaderView(0).findViewById(R.id.img_user);
+        mFullNameTv = navigationView.getHeaderView(0).findViewById(R.id.tv_fullName);
+        mEmailTv = navigationView.getHeaderView(0).findViewById(R.id.tv_email);
+        mAddIconimg = navigationView.getHeaderView(0).findViewById(R.id.img_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    //TODO:onstart
     @Override
     protected void onStart() {
         super.onStart();
@@ -194,8 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
-            DBqueries.checkNotification(false);
-            if(DBqueries.email==null) {
+            if (DBqueries.email == null) {
                 FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
-            }else {
+            } else {
                 mFullNameTv.setText(DBqueries.fullName);
                 mEmailTv.setText(DBqueries.email);
                 if (DBqueries.profile.equals("")) {
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPause() {
         super.onPause();
-        DBqueries.checkNotification(true);
+        DBqueries.checkNotification(true,null);
     }
 
     @Override
@@ -271,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //TODO:onCreateOptionsMenu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (currentFragment == HOME_FRAGMENT) {
@@ -310,6 +311,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
 
+            MenuItem notificationItem = menu.findItem(R.id.main_notifi_icon);
+            notificationItem.setActionView(R.layout.badge_layout);
+            ImageView notifiactionIcon = notificationItem.getActionView().findViewById(R.id.badge_icon);
+            notifiactionIcon.setImageResource(R.drawable.ic_notifi_white);
+            TextView notifiCount = notificationItem.getActionView().findViewById(R.id.badge_count);
+            if(currentUser!=null){
+                DBqueries.checkNotification(false,notifiCount);
+            }
+            notificationItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationIntent=new Intent(MainActivity.this,NotificationActivity.class);
+                    startActivity(notificationIntent);
+                }
+            });
+
         }
         return true;
     }
@@ -318,14 +335,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.main_search_icon) {
-            Intent search=new Intent(MainActivity.this, SearchActivity.class);
+            Intent search = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(search);
             Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();
             //TODO:search
             return true;
         } else if (id == R.id.main_notifi_icon) {
             //TODO:notification
-            Intent notification=new Intent(MainActivity.this, NotificationActivity.class);
+            Intent notification = new Intent(MainActivity.this, NotificationActivity.class);
             startActivity(notification);
             Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
             return true;
@@ -351,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-
+    //TODO:gotoFragment
     private void gotoFragment(String title, Fragment fragment, int fragmentNo) {
         actionBarLogo.setVisibility(View.GONE);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -368,6 +385,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     MenuItem menuItem;
 
+    //TODO:onNavigationItemSelected
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -417,6 +435,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    //TODO: setFragment
     private void setFragment(Fragment fragment, int fragmentNo) {
 
         if (fragmentNo != currentFragment) {

@@ -51,7 +51,7 @@ public class CartFragment extends Fragment {
     Button mCartContinueBtn;
     public static CartAdapter cartAdapter;
     private Dialog loadingDialogLong;
-    List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
+  //  List<CartItemModel> cartItemModelList = new ArrayList<CartItemModel>();
     @BindView(R.id.tv_total_cart_amount)
     TextView totalAmount;
 
@@ -75,16 +75,16 @@ public class CartFragment extends Fragment {
         recyclerViewCartItem.setLayoutManager(linearLayoutManager);
 
 
-        if (DBqueries.cartItemModelList.size() == 0) {
-            DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(), loadingDialogLong, true, new TextView(getContext()),totalAmount);
-        } else {
-            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size() - 1).getType() == CartItemModel.TOTAL_AMOUNT) {
-                LinearLayout parent = (LinearLayout) totalAmount.getParent().getParent();
-                parent.setVisibility(View.VISIBLE);
-            }
-            loadingDialogLong.dismiss();
-        }
+//        if (DBqueries.cartItemModelList.size() == 0) {
+//            DBqueries.cartList.clear();
+//            DBqueries.loadCartList(getContext(), loadingDialogLong, true, new TextView(getContext()),totalAmount);
+//        } else {
+//            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size() - 1).getType() == CartItemModel.TOTAL_AMOUNT) {
+//                LinearLayout parent = (LinearLayout) totalAmount.getParent().getParent();
+//                parent.setVisibility(View.VISIBLE);
+//            }
+//            loadingDialogLong.dismiss();
+//        }
 
         cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount, true);
         recyclerViewCartItem.setAdapter(cartAdapter);
