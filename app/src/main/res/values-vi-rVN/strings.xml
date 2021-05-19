@@ -109,4 +109,5 @@
     <string name="enter_otp">Nhập OTP</string>
     <string name="verify_code">"Mã xác nhận đã được gửi tới điện thoại. "</string>
     <string name="max_quantity">Số lượng tối đa .</string>
+    <string name="not_available">Xin lỗi, số lượng yêu cầu không có sẵn .</string>
 </resources>

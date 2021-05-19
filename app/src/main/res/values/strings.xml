@@ -186,5 +186,6 @@
     <string name="enter_otp">Enter Otp</string>
     <string name="verify_code">Verification code has been sent to the phone.</string>
     <string name="max_quantity">Max quantity</string>
+    <string name="not_available">Sorry, Required amount of quantity is not available</string>
 
 </resources>

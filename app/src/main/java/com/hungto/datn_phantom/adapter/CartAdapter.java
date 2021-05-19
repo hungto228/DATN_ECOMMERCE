@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.hungto.datn_phantom.MainActivity;
 import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
@@ -237,10 +238,14 @@ public class CartAdapter extends RecyclerView.Adapter {
                                 if (!TextUtils.isEmpty(quantityNo.getText())) {
                                     if (Long.valueOf((quantityNo.getText().toString())) <= maxQuantity
                                             && Long.valueOf(quantityNo.getText().toString()) != 0) {
-                                        if (DeliveryActivity.fromCart) {
-                                            DBqueries.cartItemModelList.get(position).setProductQuantity(Long.valueOf(quantityNo.getText().toString()));
-                                        } else {
+                                        if (itemView.getContext() instanceof MainActivity) {
                                             DeliveryActivity.cartItemModelList.get(position).setProductQuantity(Long.valueOf(quantityNo.getText().toString()));
+                                        } else {
+                                            if (DeliveryActivity.fromCart) {
+                                                DBqueries.cartItemModelList.get(position).setProductQuantity(Long.valueOf(quantityNo.getText().toString()));
+                                            } else {
+                                                DeliveryActivity.cartItemModelList.get(position).setProductQuantity(Long.valueOf(quantityNo.getText().toString()));
+                                            }
                                         }
                                         mProductQuality.setText(quantityNo.getText());
                                     } else {

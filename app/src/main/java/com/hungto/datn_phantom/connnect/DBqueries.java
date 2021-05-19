@@ -353,7 +353,8 @@ public class DBqueries {
                                                 (long) task.getResult().get("offers_applied")
                                                 , (long) 0
                                                 , (boolean) task.getResult().get("in_stock")
-                                                , (long) task.getResult().get("max_quantity")));
+                                                , (long) task.getResult().get("max_quantity")
+                                                , (long) task.getResult().get("stock_quantity")));
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                                             LinearLayout parent = (LinearLayout) totalCartAmount.getParent().getParent();

@@ -1,5 +1,8 @@
 package com.hungto.datn_phantom.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,13 +23,15 @@ public class CartItemModel {
     private String mCuttedPrice;
     private Long productQuantity;
     private Long maxQuantity;
+    private Long stockQuantity;
     private Long offersApplied;
     private Long couponsApplied;
     private boolean inStock;
     private String selectedCoupenId;
+    private List<String> qtyIDs;
 
     public CartItemModel(int type, String productId, String productImage, String mProductTitle, Long freeCoupons, String mProductPrice, String mCuttedPrice,
-                         Long productQuantity, Long offersApplied, Long couponsApplied, boolean inStock,Long maxQuantity) {
+                         Long productQuantity, Long offersApplied, Long couponsApplied, boolean inStock, Long maxQuantity, Long stockQuantity) {
         this.type = type;
         this.productId = productId;
         this.productImage = productImage;
@@ -38,7 +43,9 @@ public class CartItemModel {
         this.offersApplied = offersApplied;
         this.couponsApplied = couponsApplied;
         this.inStock = inStock;
-        this.maxQuantity=maxQuantity;
+        this.maxQuantity = maxQuantity;
+        this.stockQuantity = stockQuantity;
+        qtyIDs = new ArrayList<>();
     }
 
     //cart total
