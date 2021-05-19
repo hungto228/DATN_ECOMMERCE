@@ -17,10 +17,11 @@ public class WishlistModel {
     private String mProductPrice;
     private String mCuttedPrice;
     private boolean COD;
-    private ArrayList<String>tags;
+    private boolean inStock;
+    private ArrayList<String> tags;
 
-    public WishlistModel(String mProductId,String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, boolean COD) {
-        this.mProductId=mProductId;
+    public WishlistModel(String mProductId, String mProductImage, String mProductTitle, long freeCoupons, String mRating, long totalRatings, String mProductPrice, String mCuttedPrice, boolean COD, boolean inStock) {
+        this.mProductId = mProductId;
         this.mProductImage = mProductImage;
         this.mProductTitle = mProductTitle;
         this.freeCoupons = freeCoupons;
@@ -29,5 +30,6 @@ public class WishlistModel {
         this.mProductPrice = mProductPrice;
         this.mCuttedPrice = mCuttedPrice;
         this.COD = COD;
+        this.inStock = inStock;
     }
 }

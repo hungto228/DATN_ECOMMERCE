@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -68,6 +69,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static boolean running_wishlist_query = false;
     public static boolean running_rating_query = false;
     public static boolean running_cart_query = false;
+    public static Activity productDetailActivity;
     public static boolean fromSearch = false;
     public Dialog signInDialog;
     public Dialog loadingDialogLong;
@@ -394,7 +396,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                                                                     (long) documentSnapshot.get("free_coupens"),
                                                                     documentSnapshot.get("product_price").toString(),
                                                                     documentSnapshot.get("cutted_price").toString(), (long) 1, (long) 0, (long) 0
-                                                                    , (boolean) documentSnapshot.get("in_stock")));
+                                                                    , (boolean) documentSnapshot.get("in_stock")
+                                                                    , (long) documentSnapshot.get("max_quantity")));
                                                         }
                                                         ALREADY_ADDED_TO_CART = true;
                                                         DBqueries.cartList.add(productID);
@@ -474,7 +477,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                                                                 , (long) documentSnapshot.get("total_ratings")
                                                                 , documentSnapshot.get("product_price").toString()
                                                                 , documentSnapshot.get("cutted_price").toString()
-                                                                , (boolean) documentSnapshot.get("COD")));
+                                                                , (boolean) documentSnapshot.get("COD")
+                                                                , (boolean) documentSnapshot.get("in_stock")));
                                                     }
                                                     ALREALY_ADD_TO_WITHLIST = true;
                                                     mAddToWithList.setSupportImageTintList(getResources().getColorStateList(R.color.colorBtnRed));
@@ -662,11 +666,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         mBuyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingDialogLong.show();
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-                    // DeliveryActivity.cartItemModelList.clear();
+                    loadingDialogLong.show();
+                    productDetailActivity = ProductDetailActivity.this;
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID,
                             documentSnapshot.get("product_image_1").toString(),
@@ -674,7 +678,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                             (long) documentSnapshot.get("free_coupens"),
                             documentSnapshot.get("product_price").toString(),
                             documentSnapshot.get("cutted_price").toString(), (long) 1, (long) 0, (long) 0
-                            , (boolean) documentSnapshot.get("in_stock")));
+                            , (boolean) documentSnapshot.get("in_stock")
+                            , (long) documentSnapshot.get("max_quantity")));
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
 
                     if (DBqueries.addressesModelList.size() == 0) {
@@ -885,6 +890,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            // productDetailActivity=null;
             finish();
             return true;
         } else if (id == R.id.main_search_icon) {
@@ -910,6 +916,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        //productDetailActivity=null;
         super.onDestroy();
         fromSearch = false;
     }

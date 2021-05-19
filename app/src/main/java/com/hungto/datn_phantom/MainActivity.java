@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPause() {
         super.onPause();
-        DBqueries.checkNotification(true,null);
+        DBqueries.checkNotification(true, null);
     }
 
     @Override
@@ -316,13 +316,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ImageView notifiactionIcon = notificationItem.getActionView().findViewById(R.id.badge_icon);
             notifiactionIcon.setImageResource(R.drawable.ic_notifi_white);
             TextView notifiCount = notificationItem.getActionView().findViewById(R.id.badge_count);
-            if(currentUser!=null){
-                DBqueries.checkNotification(false,notifiCount);
+            if (currentUser != null) {
+                DBqueries.checkNotification(false, notifiCount);
             }
             notificationItem.getActionView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent notificationIntent=new Intent(MainActivity.this,NotificationActivity.class);
+                    Intent notificationIntent = new Intent(MainActivity.this, NotificationActivity.class);
                     startActivity(notificationIntent);
                 }
             });

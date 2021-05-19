@@ -95,4 +95,18 @@
     <string name="image_notfound">Không tìm thấy hình ảnh !</string>
     <string name="search_product">Tìm kiếm sản phẩm.</string>
     <string name="product_notfound">Không tìm thấy ản phẩm !</string>
+    <string name="payment_menthod">Phương thức thanh toán</string>
+    <string name="cash_on_delivery">Thanh toán khi nhận hàng</string>
+    <string name="online_payment">Thanh toán online.</string>
+    <string name="thank_you">Cám ơn</string>
+    <string name="order_confirmed">Đơn đặt hàng của bạn đã được xác nhận</string>
+    <string name="order_confirm_message">Bạn sẽ sớm nhận được email và thông báo xác nhận đơn hàng của mình .</string>
+    <string name="expected_delivery">Dự kiến giao hàng từ 4-6 ngày .</string>
+    <string name="total_amount">Tổng cộng.</string>
+    <string name="shipping_detail">"CHI TIẾT VẬN CHUYỂN "</string>
+    <string name="verify">Xác minh.</string>
+    <string name="wait_verify">"Vui lòng đợi, có thể mất tới 60-120 giây để nhận được SMS xác minh. "</string>
+    <string name="enter_otp">Nhập OTP</string>
+    <string name="verify_code">"Mã xác nhận đã được gửi tới điện thoại. "</string>
+    <string name="max_quantity">Số lượng tối đa .</string>
 </resources>

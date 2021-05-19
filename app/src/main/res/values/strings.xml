@@ -172,5 +172,19 @@
     <string name="image_notfound">Image not found!</string>
     <string name="search_product">Search for products</string>
     <string name="product_notfound">Product not found !</string>
+    <string name="payment_menthod">Payment Method</string>
+    <string name="cash_on_delivery">Cash on delivery</string>
+    <string name="online_payment">Online Payment</string>
+    <string name="thank_you">Thank You</string>
+    <string name="order_confirmed">Your order has been confirmed</string>
+    <string name="order_confirm_message">You will shortly receive your order confirmation message and email</string>
+    <string name="expected_delivery">Expected delivery between 4-6 days</string>
+    <string name="total_amount">Total amount</string>
+    <string name="shipping_detail">SHIPPING DETAILS</string>
+    <string name="verify">Verify</string>
+    <string name="wait_verify">Please wait, it can take upto 60-120s to receive the verification SMS.</string>
+    <string name="enter_otp">Enter Otp</string>
+    <string name="verify_code">Verification code has been sent to the phone.</string>
+    <string name="max_quantity">Max quantity</string>
 
 </resources>

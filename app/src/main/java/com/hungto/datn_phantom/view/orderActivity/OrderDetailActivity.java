@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private ImageView actionBarLogo;
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Order details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBarLogo.setVisibility(View.INVISIBLE);
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override

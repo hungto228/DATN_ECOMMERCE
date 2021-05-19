@@ -51,6 +51,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //metarial editext
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'com.android.volley:volley:1.2.0'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'

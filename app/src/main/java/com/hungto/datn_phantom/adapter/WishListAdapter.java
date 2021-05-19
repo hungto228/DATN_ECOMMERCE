@@ -3,12 +3,14 @@ package com.hungto.datn_phantom.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
     private Boolean wishList;
     private int lastPosition = -1;
     private boolean fromSearch;
+
     public WishListAdapter(List<WishlistModel> wishlistModelList, Boolean wishList) {
         this.wishlistModelList = wishlistModelList;
         this.wishList = wishList;
@@ -61,8 +64,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
         String productPrice = wishlistModelList.get(position).getMProductPrice();
         String cuttedPrice = wishlistModelList.get(position).getMCuttedPrice();
         boolean cod = wishlistModelList.get(position).isCOD();
+        boolean inStock = wishlistModelList.get(position).isInStock();
 
-        holder.setDataWithlist(productId,resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod, position);
+        holder.setDataWithlist(productId, resource, title, freeCoupon, rating, totalRating, productPrice, cuttedPrice, cod, position, inStock);
     }
 
     @Override
@@ -100,10 +104,10 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        private void setDataWithlist(String productId,String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod, int index) {
+        private void setDataWithlist(String productId, String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean cod, int index, boolean inStock) {
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(productImage);
             mProductTitle.setText(title);
-            if (freeCouponsNo != 0) {
+            if (freeCouponsNo != 0 && inStock) {
                 couponIconImage.setVisibility(View.VISIBLE);
                 if (freeCouponsNo == 1) {
                     mFreeCoupons.setText("free " + freeCouponsNo + " Coupons");
@@ -115,13 +119,30 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
                 couponIconImage.setVisibility(View.GONE);
                 mFreeCoupons.setVisibility(View.GONE);
             }
-            mRating.setText(averageRate);
-            mTotalRatings.setText("(" + totalRatingsNo + ")" + "Đánh giá");
-            mProductPrice.setText(price + "VNĐ" + "/-");
-            mCuttedPrice.setText(cuttedPriceValue + "VNĐ" + "/-");
-            if (cod) {
-                mPaymentMethod.setVisibility(View.VISIBLE);
+            LinearLayout linearLayout= (LinearLayout) mRating.getParent();
+            if (inStock) {
+                mRating.setVisibility(View.VISIBLE);
+                mTotalRatings.setVisibility(View.VISIBLE);
+                mProductPrice.setTextColor(Color.parseColor("#000000"));
+                mCuttedPrice.setVisibility(View.VISIBLE);
+
+                mRating.setText(averageRate);
+                mTotalRatings.setText("(" + totalRatingsNo + ")" + "Đánh giá");
+                mProductPrice.setText(price + "VNĐ" + "/-");
+                mCuttedPrice.setText(cuttedPriceValue + "VNĐ" + "/-");
+                if (cod) {
+                    mPaymentMethod.setVisibility(View.VISIBLE);
+                } else {
+                    mPaymentMethod.setVisibility(View.INVISIBLE);
+                }
+                linearLayout.setVisibility(View.VISIBLE);
             } else {
+                linearLayout.setVisibility(View.INVISIBLE);
+                mRating.setVisibility(View.INVISIBLE);
+                mTotalRatings.setVisibility(View.INVISIBLE);
+                mProductPrice.setText(itemView.getContext().getResources().getString(R.string.out_of_stock));
+                mProductPrice.setTextColor(itemView.getContext().getResources().getColor(R.color.colorBtnRed));
+                mCuttedPrice.setVisibility(View.INVISIBLE);
                 mPaymentMethod.setVisibility(View.INVISIBLE);
             }
 
@@ -133,9 +154,10 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             mDeleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!ProductDetailActivity.running_wishlist_query){
-                    ProductDetailActivity.running_wishlist_query=true;
-                    DBqueries.removeFromWishlist(index, itemView.getContext());}
+                    if (!ProductDetailActivity.running_wishlist_query) {
+                        ProductDetailActivity.running_wishlist_query = true;
+                        DBqueries.removeFromWishlist(index, itemView.getContext());
+                    }
                     Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -143,11 +165,11 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(fromSearch){
-                        ProductDetailActivity.fromSearch=true;
+                    if (fromSearch) {
+                        ProductDetailActivity.fromSearch = true;
                     }
                     Intent intent = new Intent(itemView.getContext(), ProductDetailActivity.class);
-                    intent.putExtra("PRODUCT_ID",productId);
+                    intent.putExtra("PRODUCT_ID", productId);
                     itemView.getContext().startActivity(intent);
                     //       Toast.makeText(itemView.getContext(), "item view", Toast.LENGTH_SHORT).show();
                 }

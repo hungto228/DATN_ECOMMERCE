@@ -142,7 +142,8 @@ public class DBqueries {
                                                 , (long) documentSnapshot.get("total_ratings_" + x)
                                                 , documentSnapshot.get("product_price_" + x).toString()
                                                 , documentSnapshot.get("cutted_price_" + x).toString()
-                                                , (boolean) documentSnapshot.get("COD_" + x)));
+                                                , (boolean) documentSnapshot.get("COD_" + x)
+                                                , (boolean) documentSnapshot.get("in_stock_" + x)));
                                     }
                                     lists.get(index).add(new HomePageModel(2, documentSnapshot.get("layout_title").toString()
                                             , documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList, viewAllProductList));
@@ -213,7 +214,8 @@ public class DBqueries {
                                                 , (long) task.getResult().get("total_ratings")
                                                 , task.getResult().get("product_price").toString()
                                                 , task.getResult().get("cutted_price").toString()
-                                                , (boolean) task.getResult().get("COD")));
+                                                , (boolean) task.getResult().get("COD")
+                                                , (boolean) task.getResult().get("in_stock_")));
                                         WithlistFragment.wishListAdapter.notifyDataSetChanged();
                                     } else {
                                         String error = task.getException().getMessage();
@@ -350,7 +352,8 @@ public class DBqueries {
                                                 task.getResult().get("cutted_price").toString(), (long) 1,
                                                 (long) task.getResult().get("offers_applied")
                                                 , (long) 0
-                                                , (boolean) task.getResult().get("in_stock")));
+                                                , (boolean) task.getResult().get("in_stock")
+                                                , (long) task.getResult().get("max_quantity")));
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                                             LinearLayout parent = (LinearLayout) totalCartAmount.getParent().getParent();
@@ -541,7 +544,7 @@ public class DBqueries {
     }
 
     //TODO:notification
-    public static void checkNotification(boolean remove,TextView notifiCount) {
+    public static void checkNotification(boolean remove, TextView notifiCount) {
         if (remove) {
             registration.remove();
         } else {
@@ -552,23 +555,23 @@ public class DBqueries {
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
                                 notificationModelList.clear();
-                                int unread=0;
+                                int unread = 0;
                                 for (long i = 0; i < (long) documentSnapshot.get("list_size"); i++) {
-                                    notificationModelList.add(0,new NotificationModel(
+                                    notificationModelList.add(0, new NotificationModel(
                                             documentSnapshot.get("Image_" + i).toString()
                                             , documentSnapshot.get("Body_" + i).toString()
                                             , documentSnapshot.getBoolean("Readed_" + i)));
-                                    if(!documentSnapshot.getBoolean("Readed_" + i)){
+                                    if (!documentSnapshot.getBoolean("Readed_" + i)) {
                                         unread++;
-                                        if(notifiCount != null){
-                                            if(unread>0) {
+                                        if (notifiCount != null) {
+                                            if (unread > 0) {
                                                 notifiCount.setVisibility(View.VISIBLE);
                                                 if (unread < 99) {
                                                     notifiCount.setText(String.valueOf(unread));
                                                 } else {
                                                     notifiCount.setText("99");
                                                 }
-                                            }else {
+                                            } else {
                                                 notifiCount.setVisibility(View.INVISIBLE);
                                             }
                                         }
@@ -593,6 +596,8 @@ public class DBqueries {
         cartList.clear();
         cartItemModelList.clear();
         rewardModelList.clear();
+        myRatedIds.clear();
+        myRating.clear();
         addressesModelList.clear();
         notificationModelList.clear();
     }

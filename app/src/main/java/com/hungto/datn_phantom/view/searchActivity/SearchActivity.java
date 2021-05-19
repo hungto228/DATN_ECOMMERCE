@@ -90,7 +90,8 @@ public class SearchActivity extends AppCompatActivity {
                                             , (long) documentSnapshot.get("total_ratings")
                                             , documentSnapshot.get("product_price").toString()
                                             , documentSnapshot.get("cutted_price").toString()
-                                            , (boolean) documentSnapshot.get("COD"));
+                                            , (boolean) documentSnapshot.get("COD")
+                                            , (boolean) documentSnapshot.get("in_stock"));
                                     wishlistModel.setTags((ArrayList<String>) documentSnapshot.get("tags"));
                                     if (!ids.contains(wishlistModel.getMProductId())) {
                                         wishlistModelList.add(wishlistModel);
@@ -161,14 +162,14 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    filterResults.values=filteredList;
-                    filterResults.count=filteredList.size();
+                    filterResults.values = filteredList;
+                    filterResults.count = filteredList.size();
                     return filterResults;
                 }
 
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    if(results.count>0){
+                    if (results.count > 0) {
                         setWishlistModelList((List<WishlistModel>) results.values);
                     }
                     notifyDataSetChanged();
@@ -179,8 +180,8 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id=item.getItemId();
-        if(id==android.R.id.home){
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
             finish();
             return true;
         }

@@ -28,6 +28,7 @@ import com.hungto.datn_phantom.R;
 import com.hungto.datn_phantom.connnect.DBqueries;
 import com.hungto.datn_phantom.model.CartItemModel;
 import com.hungto.datn_phantom.model.RewardModel;
+import com.hungto.datn_phantom.view.delivery.DeliveryActivity;
 import com.hungto.datn_phantom.view.productActivity.ProductDetailActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -96,7 +97,9 @@ public class CartAdapter extends RecyclerView.Adapter {
                 String cuttedprice = cartItemModelList.get(position).getMCuttedPrice();
                 Long offersApplied = cartItemModelList.get(position).getOffersApplied();
                 boolean inStock = cartItemModelList.get(position).isInStock();
-                cartItemViewHolder.setItemDetail(productId, resource, title, freeCoupenNo, productPrice, cuttedprice, offersApplied, position, inStock);
+                Long productQuantity = cartItemModelList.get(position).getProductQuantity();
+                Long maxQuantity = cartItemModelList.get(position).getMaxQuantity();
+                cartItemViewHolder.setItemDetail(productId, resource, title, freeCoupenNo, productPrice, cuttedprice, offersApplied, position, inStock, String.valueOf(productQuantity), maxQuantity);
                 break;
             case CartItemModel.TOTAL_AMOUNT:
                 CartTotalAmountViewHolder cartTotalAmountViewHolder = (CartTotalAmountViewHolder) holder;
@@ -185,7 +188,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
-        private void setItemDetail(String productId, String resource, String title, Long freeCoupenNo, String productPrice, String cuttedprice, Long offersAppliedNo, int position, boolean inStock) {
+        private void setItemDetail(String productId, String resource, String title, Long freeCoupenNo, String productPrice, String cuttedprice, Long offersAppliedNo, int position, boolean inStock, String quantity, Long maxQuantity) {
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.banner_slider)).into(productImage);
             mProductTitle.setText(title);
 
@@ -208,6 +211,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 mProductPrice.setTextColor(Color.parseColor("#000000"));
                 mCuttedPrice.setText(cuttedprice + "/-");
                 coupenRedemptionLayout.setVisibility(View.VISIBLE);
+                mProductQuality.setText(quantity);
                 //product quality
                 mProductQuality.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -219,6 +223,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         final MaterialEditText quantityNo = quantityDialog.findViewById(R.id.edt_quantiy);
                         Button cancelBtn = quantityDialog.findViewById(R.id.btn_cancel);
                         Button okBtn = quantityDialog.findViewById(R.id.btn_ok);
+                        quantityNo.setHint(String.valueOf(maxQuantity));
                         cancelBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -229,7 +234,19 @@ public class CartAdapter extends RecyclerView.Adapter {
                         okBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mProductQuality.setText(quantityNo.getText());
+                                if (!TextUtils.isEmpty(quantityNo.getText())) {
+                                    if (Long.valueOf((quantityNo.getText().toString())) <= maxQuantity
+                                            && Long.valueOf(quantityNo.getText().toString()) != 0) {
+                                        if (DeliveryActivity.fromCart) {
+                                            DBqueries.cartItemModelList.get(position).setProductQuantity(Long.valueOf(quantityNo.getText().toString()));
+                                        } else {
+                                            DeliveryActivity.cartItemModelList.get(position).setProductQuantity(Long.valueOf(quantityNo.getText().toString()));
+                                        }
+                                        mProductQuality.setText(quantityNo.getText());
+                                    } else {
+                                        Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.max_quantity) + maxQuantity.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                                 quantityDialog.dismiss();
                             }
                         });
@@ -239,7 +256,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 if (offersAppliedNo > 0) {
                     mOfferApplies.setVisibility(View.VISIBLE);
                     String offerDiscounted = String.valueOf(Long.valueOf(cuttedprice) - Long.valueOf(productPrice));
-                    mOfferApplies.setText("Offers applieds"+offerDiscounted);
+                    mOfferApplies.setText("Offers applieds" + offerDiscounted);
                 } else {
                     mOfferApplies.setVisibility(View.INVISIBLE);
                 }
@@ -330,7 +347,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                             rewardModel.setAlreadyUsed(true);
                         }
                     }
-                    mProductPrice.setText(productPrice+"-");
+                    mProductPrice.setText(productPrice + "-");
                     couponTitle.setText("coupen");
                     couponExpiryDate.setText("validity");
                     couponTBody.setText(itemView.getResources().getString(R.string.tap_icon));

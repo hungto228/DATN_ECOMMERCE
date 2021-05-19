@@ -201,7 +201,7 @@ public class HomeFragment extends Fragment {
 //        lists.clear();
 //        loadedCategoriesNames.clear();
 
-        //   DBqueries.clearData();
+        DBqueries.clearData();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
 
