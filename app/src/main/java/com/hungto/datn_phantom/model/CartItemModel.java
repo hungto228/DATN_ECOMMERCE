@@ -29,6 +29,7 @@ public class CartItemModel {
     private boolean inStock;
     private String selectedCoupenId;
     private List<String> qtyIDs;
+    private boolean qtyError;
 
     public CartItemModel(int type, String productId, String productImage, String mProductTitle, Long freeCoupons, String mProductPrice, String mCuttedPrice,
                          Long productQuantity, Long offersApplied, Long couponsApplied, boolean inStock, Long maxQuantity, Long stockQuantity) {
@@ -46,6 +47,7 @@ public class CartItemModel {
         this.maxQuantity = maxQuantity;
         this.stockQuantity = stockQuantity;
         qtyIDs = new ArrayList<>();
+        qtyError=false;
     }
 
     //cart total

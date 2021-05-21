@@ -26,6 +26,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hungto.datn_phantom.R;
@@ -206,17 +207,42 @@ public class DBqueries {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()) {
+                                        final DocumentSnapshot documentSnapshot=task.getResult();
+                                        firebaseFirestore.collection("PRODUCTS").document(productId).collection("QUANTITY").orderBy("time", Query.Direction.ASCENDING).get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            if(task.getResult().getDocuments().size()< (long)documentSnapshot.get("stock_quantity")){
+                                                                wishlistModelList.add(new WishlistModel(productId, documentSnapshot.get("product_image_1").toString()
+                                                                        , documentSnapshot.get("product_title").toString()
+                                                                        , (long) documentSnapshot.get("free_coupens")
+                                                                        , documentSnapshot.get("average_rating").toString()
+                                                                        , (long) documentSnapshot.get("total_ratings")
+                                                                        ,documentSnapshot.get("product_price").toString()
+                                                                        ,documentSnapshot.get("cutted_price").toString()
+                                                                        , (boolean)documentSnapshot.get("COD")
+                                                                        , true));
+                                                            }else {
+                                                                wishlistModelList.add(new WishlistModel(productId, documentSnapshot.get("product_image_1").toString()
+                                                                        , documentSnapshot.get("product_title").toString()
+                                                                        , (long) documentSnapshot.get("free_coupens")
+                                                                        , documentSnapshot.get("average_rating").toString()
+                                                                        , (long) documentSnapshot.get("total_ratings")
+                                                                        ,documentSnapshot.get("product_price").toString()
+                                                                        ,documentSnapshot.get("cutted_price").toString()
+                                                                        , (boolean)documentSnapshot.get("COD")
+                                                                        , false));
+                                                            }
+                                                            WithlistFragment.wishListAdapter.notifyDataSetChanged();
+                                                        } else {
+                                                            String error = task.getException().getMessage();
+                                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
 
-                                        wishlistModelList.add(new WishlistModel(productId, task.getResult().get("product_image_1").toString()
-                                                , task.getResult().get("product_title").toString()
-                                                , (long) task.getResult().get("free_coupens")
-                                                , task.getResult().get("average_rating").toString()
-                                                , (long) task.getResult().get("total_ratings")
-                                                , task.getResult().get("product_price").toString()
-                                                , task.getResult().get("cutted_price").toString()
-                                                , (boolean) task.getResult().get("COD")
-                                                , (boolean) task.getResult().get("in_stock_")));
-                                        WithlistFragment.wishListAdapter.notifyDataSetChanged();
+
                                     } else {
                                         String error = task.getException().getMessage();
                                         Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
@@ -343,18 +369,47 @@ public class DBqueries {
                                         if (cartList.size() >= 2) {
                                             index = cartList.size() - 2;
                                         }
-                                        cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productId,
-                                                task.getResult().get("product_image_1").toString(),
-                                                task.getResult().get("product_title").toString(),
-                                                //free_coupons change
-                                                (long) task.getResult().get("free_coupens"),
-                                                task.getResult().get("product_price").toString(),
-                                                task.getResult().get("cutted_price").toString(), (long) 1,
-                                                (long) task.getResult().get("offers_applied")
-                                                , (long) 0
-                                                , (boolean) task.getResult().get("in_stock")
-                                                , (long) task.getResult().get("max_quantity")
-                                                , (long) task.getResult().get("stock_quantity")));
+
+                                        final DocumentSnapshot documentSnapshot=task.getResult();
+                                        firebaseFirestore.collection("PRODUCTS").document(productId).collection("QUANTITY").orderBy("time", Query.Direction.ASCENDING).get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            if(task.getResult().getDocuments().size()< (long)documentSnapshot.get("stock_quantity")){
+                                                                cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productId,
+                                                                        documentSnapshot.get("product_image_1").toString(),
+                                                                        documentSnapshot.get("product_title").toString(),
+                                                                        //free_coupons change
+                                                                        (long) documentSnapshot.get("free_coupens"),
+                                                                        documentSnapshot.get("product_price").toString(),
+                                                                        documentSnapshot.get("cutted_price").toString(), (long) 1,
+                                                                        (long) documentSnapshot.get("offers_applied")
+                                                                        , (long) 0
+                                                                        , true
+                                                                        , (long) documentSnapshot.get("max_quantity")
+                                                                        , (long)documentSnapshot.get("stock_quantity")));
+                                                            }else {
+                                                                cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productId,
+                                                                        documentSnapshot.get("product_image_1").toString(),
+                                                                        documentSnapshot.get("product_title").toString(),
+                                                                        //free_coupons change
+                                                                        (long) documentSnapshot.get("free_coupens"),
+                                                                        documentSnapshot.get("product_price").toString(),
+                                                                        documentSnapshot.get("cutted_price").toString(), (long) 1,
+                                                                        (long) documentSnapshot.get("offers_applied")
+                                                                        , (long) 0
+                                                                        , false
+                                                                        , (long) documentSnapshot.get("max_quantity")
+                                                                        , (long)documentSnapshot.get("stock_quantity")));
+                                                            }
+                                                            CartFragment.cartAdapter.notifyDataSetChanged();
+                                                        } else {
+                                                            String error = task.getException().getMessage();
+                                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                                             LinearLayout parent = (LinearLayout) totalCartAmount.getParent().getParent();
